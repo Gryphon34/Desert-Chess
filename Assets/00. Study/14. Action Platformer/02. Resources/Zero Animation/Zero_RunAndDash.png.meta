@@ -1,0 +1,548 @@
+fileFormatVersion: 2
+guid: 119a879df4025fc40b3128757a36f588
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3788037079484779178
+    second: Zero_RunAndDash_0
+  - first:
+      213: 1752579972502510054
+    second: Zero_RunAndDash_1
+  - first:
+      213: 8667521902934850085
+    second: Zero_RunAndDash_2
+  - first:
+      213: 609762601000581981
+    second: Zero_RunAndDash_3
+  - first:
+      213: -8110644958798389656
+    second: Zero_RunAndDash_4
+  - first:
+      213: -7497005230990803293
+    second: Zero_RunAndDash_5
+  - first:
+      213: 6737738907702518448
+    second: Zero_RunAndDash_6
+  - first:
+      213: -3070477722922114408
+    second: Zero_RunAndDash_7
+  - first:
+      213: -2612265117114791912
+    second: Zero_RunAndDash_8
+  - first:
+      213: 1651375007234367357
+    second: Zero_RunAndDash_9
+  - first:
+      213: 9196673232391873362
+    second: Zero_RunAndDash_10
+  - first:
+      213: -402863145996548189
+    second: Zero_RunAndDash_11
+  - first:
+      213: -5412399043991708234
+    second: Zero_RunAndDash_12
+  - first:
+      213: -6669250596718336085
+    second: Zero_RunAndDash_13
+  - first:
+      213: -8293337344697199344
+    second: Zero_RunAndDash_14
+  - first:
+      213: 2429171999520029165
+    second: Zero_RunAndDash_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Zero_RunAndDash_0
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 45
+        width: 120
+        height: 152
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6553d4998503e6bc0800000000000000
+      internalID: -3788037079484779178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_1
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 45
+        width: 124
+        height: 152
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e9d97d033a625810800000000000000
+      internalID: 1752579972502510054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_2
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 45
+        width: 148
+        height: 156
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52a795b8f39394870800000000000000
+      internalID: 8667521902934850085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_3
+      rect:
+        serializedVersion: 2
+        x: 664
+        y: 45
+        width: 156
+        height: 148
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5b35fddadf467800800000000000000
+      internalID: 609762601000581981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_4
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 45
+        width: 128
+        height: 148
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86e528bc163317f80800000000000000
+      internalID: -8110644958798389656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_5
+      rect:
+        serializedVersion: 2
+        x: 1099
+        y: 45
+        width: 96
+        height: 144
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ae3c87967945f790800000000000000
+      internalID: -7497005230990803293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_6
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 45
+        width: 112
+        height: 148
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b2efe6a6d1418d50800000000000000
+      internalID: 6737738907702518448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_7
+      rect:
+        serializedVersion: 2
+        x: 1460
+        y: 45
+        width: 136
+        height: 152
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8922a7277c87365d0800000000000000
+      internalID: -3070477722922114408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_8
+      rect:
+        serializedVersion: 2
+        x: 1672
+        y: 45
+        width: 136
+        height: 152
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8188a3367be5fbbd0800000000000000
+      internalID: -2612265117114791912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_9
+      rect:
+        serializedVersion: 2
+        x: 1876
+        y: 45
+        width: 152
+        height: 148
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7f9929d1dcdae610800000000000000
+      internalID: 1651375007234367357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_10
+      rect:
+        serializedVersion: 2
+        x: 2084
+        y: 45
+        width: 136
+        height: 148
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 253af0c249521af70800000000000000
+      internalID: 9196673232391873362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_11
+      rect:
+        serializedVersion: 2
+        x: 2296
+        y: 53
+        width: 152
+        height: 112
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a787c96a1eb86af0800000000000000
+      internalID: -402863145996548189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_12
+      rect:
+        serializedVersion: 2
+        x: 2520
+        y: 53
+        width: 152
+        height: 112
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bdd530eebb43e4b0800000000000000
+      internalID: -5412399043991708234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_13
+      rect:
+        serializedVersion: 2
+        x: 2728
+        y: 53
+        width: 152
+        height: 112
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba7aa80eaef0273a0800000000000000
+      internalID: -6669250596718336085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_14
+      rect:
+        serializedVersion: 2
+        x: 2948
+        y: 53
+        width: 152
+        height: 112
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01597deff9528ec80800000000000000
+      internalID: -8293337344697199344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_RunAndDash_15
+      rect:
+        serializedVersion: 2
+        x: 3188
+        y: 45
+        width: 132
+        height: 148
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de977b1301726b120800000000000000
+      internalID: 2429171999520029165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e38a43f2ab7571b4a9ea3262ef3a194f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":1,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Zero_RunAndDash_0: -3788037079484779178
+      Zero_RunAndDash_1: 1752579972502510054
+      Zero_RunAndDash_10: 9196673232391873362
+      Zero_RunAndDash_11: -402863145996548189
+      Zero_RunAndDash_12: -5412399043991708234
+      Zero_RunAndDash_13: -6669250596718336085
+      Zero_RunAndDash_14: -8293337344697199344
+      Zero_RunAndDash_15: 2429171999520029165
+      Zero_RunAndDash_2: 8667521902934850085
+      Zero_RunAndDash_3: 609762601000581981
+      Zero_RunAndDash_4: -8110644958798389656
+      Zero_RunAndDash_5: -7497005230990803293
+      Zero_RunAndDash_6: 6737738907702518448
+      Zero_RunAndDash_7: -3070477722922114408
+      Zero_RunAndDash_8: -2612265117114791912
+      Zero_RunAndDash_9: 1651375007234367357
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

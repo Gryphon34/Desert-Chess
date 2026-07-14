@@ -1,0 +1,1258 @@
+fileFormatVersion: 2
+guid: 47998ace38dc287409f8455a6a37fd2f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 460416375745060635
+    second: Zero_Attack_0
+  - first:
+      213: 8376217070776209934
+    second: Zero_Attack_1
+  - first:
+      213: 2150062312299182654
+    second: Zero_Attack_2
+  - first:
+      213: -4273079399015217281
+    second: Zero_Attack_3
+  - first:
+      213: -3893303091911633705
+    second: Zero_Attack_4
+  - first:
+      213: -4790622857159214006
+    second: Zero_Attack_5
+  - first:
+      213: -6673138455142026769
+    second: Zero_Attack_6
+  - first:
+      213: -9215701334117614583
+    second: Zero_Attack_7
+  - first:
+      213: 6636562039221635164
+    second: Zero_Attack_8
+  - first:
+      213: -8259797744341312628
+    second: Zero_Attack_9
+  - first:
+      213: 3885262343828061142
+    second: Zero_Attack_10
+  - first:
+      213: -8907739210350089973
+    second: Zero_Attack_11
+  - first:
+      213: 1021404715962979023
+    second: Zero_Attack_12
+  - first:
+      213: -1040485330725786643
+    second: Zero_Attack_13
+  - first:
+      213: -8822750435425804209
+    second: Zero_Attack_14
+  - first:
+      213: -7207002091653361990
+    second: Zero_Attack_15
+  - first:
+      213: 2406236057153584925
+    second: Zero_Attack_16
+  - first:
+      213: 6465148964969499419
+    second: Zero_Attack_17
+  - first:
+      213: -2155684271303162932
+    second: Zero_Attack_18
+  - first:
+      213: 3756426015894374971
+    second: Zero_Attack_19
+  - first:
+      213: 7712046997567031054
+    second: Zero_Attack_20
+  - first:
+      213: 4845090212450208010
+    second: Zero_Attack_21
+  - first:
+      213: 2943157113190738014
+    second: Zero_Attack_22
+  - first:
+      213: 5181601489146736953
+    second: Zero_Attack_23
+  - first:
+      213: 2615395142242695621
+    second: Zero_Attack_24
+  - first:
+      213: 1504735601199131478
+    second: Zero_Attack_25
+  - first:
+      213: -5277539606017806606
+    second: Zero_Attack_26
+  - first:
+      213: 3740656971968487845
+    second: Zero_Attack_27
+  - first:
+      213: 7664837275586864118
+    second: Zero_Attack_28
+  - first:
+      213: 7479444191233667894
+    second: Zero_Attack_29
+  - first:
+      213: 2470874216046686377
+    second: Zero_Attack_30
+  - first:
+      213: 3690417317226493426
+    second: Zero_Attack_31
+  - first:
+      213: 5229132859610547801
+    second: Zero_Attack_32
+  - first:
+      213: 7420996711447631924
+    second: Zero_Attack_33
+  - first:
+      213: -305499960749184837
+    second: Zero_Attack_34
+  - first:
+      213: 6774021918502473644
+    second: Zero_Attack_35
+  - first:
+      213: -6393127755282009171
+    second: Zero_Attack_36
+  - first:
+      213: -624146707376949081
+    second: Zero_Attack_37
+  - first:
+      213: -2116421839141358545
+    second: Zero_Attack_38
+  - first:
+      213: 2303985206741709197
+    second: Zero_Attack_39
+  - first:
+      213: 7185800123937709944
+    second: Zero_Attack_40
+  - first:
+      213: 6303280012552275892
+    second: Zero_Attack_41
+  - first:
+      213: 1739901849996718727
+    second: Zero_Attack_42
+  - first:
+      213: -7941202264198434970
+    second: Zero_Attack_43
+  - first:
+      213: 5955535982483889640
+    second: Zero_Attack_44
+  - first:
+      213: -3419614055788362444
+    second: Zero_Attack_45
+  - first:
+      213: -82720326355956940
+    second: Zero_Attack_46
+  - first:
+      213: 987526950587896606
+    second: Zero_Attack_47
+  - first:
+      213: -1715234444584217377
+    second: Zero_Attack_48
+  - first:
+      213: 7770475205887701426
+    second: Zero_Attack_49
+  - first:
+      213: 5142580864069914077
+    second: Zero_Attack_50
+  - first:
+      213: 8750804733757746262
+    second: Zero_Attack_51
+  - first:
+      213: -6728161847299736908
+    second: Zero_Attack_52
+  - first:
+      213: -6776910881687811966
+    second: Zero_Attack_53
+  - first:
+      213: -5751395297228299119
+    second: Zero_Attack_54
+  - first:
+      213: -4112003024756462018
+    second: Zero_Attack_55
+  - first:
+      213: -4602979393967484507
+    second: Zero_Attack_56
+  - first:
+      213: 381461765613848407
+    second: Zero_Attack_57
+  - first:
+      213: 4025443522250398235
+    second: Zero_Attack_58
+  - first:
+      213: 3362191916125858028
+    second: Zero_Attack_59
+  - first:
+      213: -6860787781650819168
+    second: Zero_Attack_60
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Zero_Attack1_0
+      rect:
+        serializedVersion: 2
+        x: 2072
+        y: 728
+        width: 300
+        height: 192
+      alignment: 9
+      pivot: {x: 0.12798339, y: 0.073067345}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e02dd29fb0d4e3470800000000000000
+      internalID: 8376217070776209934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack0_1
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 740
+        width: 288
+        height: 168
+      alignment: 9
+      pivot: {x: 0.09131813, y: 0.012229919}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3a3c81184e86dd10800000000000000
+      internalID: 2150062312299182654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack0_2
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 740
+        width: 216
+        height: 168
+      alignment: 9
+      pivot: {x: 0.12080609, y: 0.013052078}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7788a42de8f2b4c0800000000000000
+      internalID: -4273079399015217281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack0_3
+      rect:
+        serializedVersion: 2
+        x: 916
+        y: 741
+        width: 172
+        height: 168
+      alignment: 9
+      pivot: {x: 0.15238313, y: 0.007703872}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d45dab277538f9c0800000000000000
+      internalID: -3893303091911633705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack0_4
+      rect:
+        serializedVersion: 2
+        x: 1160
+        y: 740
+        width: 172
+        height: 168
+      alignment: 9
+      pivot: {x: 0.15194987, y: 0.0111120315}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4c782aa4e9448db0800000000000000
+      internalID: -4790622857159214006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack0_5
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 740
+        width: 176
+        height: 168
+      alignment: 9
+      pivot: {x: 0.17143874, y: 0.011749994}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe1b24c4eef3463a0800000000000000
+      internalID: -6673138455142026769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack0_0
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 740
+        width: 120
+        height: 156
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c58c5ad330ec91c50800000000000000
+      internalID: 6636562039221635164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack0_6
+      rect:
+        serializedVersion: 2
+        x: 1668
+        y: 740
+        width: 144
+        height: 169
+      alignment: 9
+      pivot: {x: 0.15250652, y: 0.012596717}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dbb21744893be530800000000000000
+      internalID: 3885262343828061142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack0_07
+      rect:
+        serializedVersion: 2
+        x: 1868
+        y: 740
+        width: 148
+        height: 176
+      alignment: 9
+      pivot: {x: 0.20173603, y: 0.012465737}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc2d1e27d22cc2e00800000000000000
+      internalID: 1021404715962979023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack1_1
+      rect:
+        serializedVersion: 2
+        x: 2460
+        y: 728
+        width: 256
+        height: 148
+      alignment: 9
+      pivot: {x: 0.0071611404, y: 0.095181026}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: deba51cba147f81f0800000000000000
+      internalID: -1040485330725786643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack1_2
+      rect:
+        serializedVersion: 2
+        x: 2800
+        y: 728
+        width: 176
+        height: 148
+      alignment: 9
+      pivot: {x: 0.012753573, y: 0.094295606}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f40a582593b4f8580800000000000000
+      internalID: -8822750435425804209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack1_3
+      rect:
+        serializedVersion: 2
+        x: 3060
+        y: 728
+        width: 136
+        height: 144
+      alignment: 9
+      pivot: {x: 0.014783074, y: 0.09463077}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abe018f28c59bfb90800000000000000
+      internalID: -7207002091653361990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack1_4
+      rect:
+        serializedVersion: 2
+        x: 3276
+        y: 728
+        width: 136
+        height: 144
+      alignment: 9
+      pivot: {x: 0.014242733, y: 0.09638977}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1f3068f1faa46120800000000000000
+      internalID: 2406236057153584925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_0
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 408
+        width: 124
+        height: 148
+      alignment: 9
+      pivot: {x: 0.017688137, y: 0.06562743}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc3041993987512e0800000000000000
+      internalID: -2155684271303162932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_1
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 416
+        width: 148
+        height: 160
+      alignment: 9
+      pivot: {x: 0.20569529, y: 0.011575699}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3a8b6e1f81812430800000000000000
+      internalID: 3756426015894374971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_2
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 416
+        width: 152
+        height: 164
+      alignment: 9
+      pivot: {x: 0.223785, y: 0.01107267}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e07c91552e1b60b60800000000000000
+      internalID: 7712046997567031054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_3
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 416
+        width: 156
+        height: 168
+      alignment: 9
+      pivot: {x: 0.2438515, y: 0.010694777}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0901d9b0e73d3340800000000000000
+      internalID: 4845090212450208010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_4
+      rect:
+        serializedVersion: 2
+        x: 948
+        y: 416
+        width: 320
+        height: 236
+      alignment: 9
+      pivot: {x: 0.14910965, y: 0.015728967}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e58e5e90dc138d820800000000000000
+      internalID: 2943157113190738014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_5
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 408
+        width: 320
+        height: 236
+      alignment: 9
+      pivot: {x: 0.1463398, y: 0.015106072}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 931f930e91fb8e740800000000000000
+      internalID: 5181601489146736953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_6
+      rect:
+        serializedVersion: 2
+        x: 1680
+        y: 408
+        width: 276
+        height: 236
+      alignment: 9
+      pivot: {x: 0.010149085, y: 0.014662404}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c978a06600cb4420800000000000000
+      internalID: 2615395142242695621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_7
+      rect:
+        serializedVersion: 2
+        x: 2016
+        y: 408
+        width: 248
+        height: 128
+      alignment: 9
+      pivot: {x: 0.01223115, y: 0.02369833}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65bab5e8e05e1e410800000000000000
+      internalID: 1504735601199131478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_8
+      rect:
+        serializedVersion: 2
+        x: 2316
+        y: 409
+        width: 192
+        height: 128
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fee04f90b962c6b0800000000000000
+      internalID: -5277539606017806606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_9
+      rect:
+        serializedVersion: 2
+        x: 2596
+        y: 408
+        width: 192
+        height: 128
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a125c872bb79e330800000000000000
+      internalID: 3740656971968487845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_10
+      rect:
+        serializedVersion: 2
+        x: 2896
+        y: 408
+        width: 192
+        height: 128
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63377d73dd25cc760800000000000000
+      internalID: 7479444191233667894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_11
+      rect:
+        serializedVersion: 2
+        x: 3184
+        y: 408
+        width: 148
+        height: 148
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f53c325ffef63330800000000000000
+      internalID: 3690417317226493426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack2_12
+      rect:
+        serializedVersion: 2
+        x: 3416
+        y: 408
+        width: 120
+        height: 152
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 956c86471ac919840800000000000000
+      internalID: 5229132859610547801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack3_0
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 164
+        width: 92
+        height: 168
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cafcc096b09220e50800000000000000
+      internalID: 6774021918502473644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack3_1
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 148
+        width: 236
+        height: 200
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da3b9b6cd2c0747a0800000000000000
+      internalID: -6393127755282009171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack3_2
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 148
+        width: 208
+        height: 172
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a8311360e59657f0800000000000000
+      internalID: -624146707376949081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack3_3
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 148
+        width: 204
+        height: 156
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f24b913fc85f0a2e0800000000000000
+      internalID: -2116421839141358545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack3_4
+      rect:
+        serializedVersion: 2
+        x: 1208
+        y: 136
+        width: 160
+        height: 156
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d813897a65669ff10800000000000000
+      internalID: 2303985206741709197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack3_5
+      rect:
+        serializedVersion: 2
+        x: 1430
+        y: 132
+        width: 152
+        height: 152
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87fd346042719b360800000000000000
+      internalID: 7185800123937709944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack3_6
+      rect:
+        serializedVersion: 2
+        x: 1644
+        y: 140
+        width: 120
+        height: 140
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b78ff376cfb97750800000000000000
+      internalID: 6303280012552275892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack_42
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 140
+        width: 116
+        height: 168
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7827911a38f552810800000000000000
+      internalID: 1739901849996718727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack_43
+      rect:
+        serializedVersion: 2
+        x: 2092
+        y: 132
+        width: 248
+        height: 176
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66face07d9e2bc190800000000000000
+      internalID: -7941202264198434970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack_44
+      rect:
+        serializedVersion: 2
+        x: 2408
+        y: 132
+        width: 244
+        height: 168
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ed520b1c6056a250800000000000000
+      internalID: 5955535982483889640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack_45
+      rect:
+        serializedVersion: 2
+        x: 2680
+        y: 124
+        width: 232
+        height: 168
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4354dc752271b80d0800000000000000
+      internalID: -3419614055788362444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack_46
+      rect:
+        serializedVersion: 2
+        x: 3004
+        y: 124
+        width: 160
+        height: 168
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43b49db2d4e1adef0800000000000000
+      internalID: -82720326355956940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack_47
+      rect:
+        serializedVersion: 2
+        x: 3228
+        y: 124
+        width: 156
+        height: 168
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e139ae7878664bd00800000000000000
+      internalID: 987526950587896606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Attack_48
+      rect:
+        serializedVersion: 2
+        x: 3436
+        y: 124
+        width: 156
+        height: 168
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd41b004c534238e0800000000000000
+      internalID: -1715234444584217377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 16ddffd222e57814bbcbac52a3638273
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":1,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      - key: SpriteEditor.SliceOnImport
+        value: False
+    nameFileIdTable:
+      Zero_Attack0_0: 6636562039221635164
+      Zero_Attack0_07: 1021404715962979023
+      Zero_Attack0_1: 2150062312299182654
+      Zero_Attack0_2: -4273079399015217281
+      Zero_Attack0_3: -3893303091911633705
+      Zero_Attack0_4: -4790622857159214006
+      Zero_Attack0_5: -6673138455142026769
+      Zero_Attack0_6: 3885262343828061142
+      Zero_Attack1_0: 8376217070776209934
+      Zero_Attack1_1: -1040485330725786643
+      Zero_Attack1_2: -8822750435425804209
+      Zero_Attack1_3: -7207002091653361990
+      Zero_Attack1_4: 2406236057153584925
+      Zero_Attack2_0: -2155684271303162932
+      Zero_Attack2_1: 3756426015894374971
+      Zero_Attack2_10: 7479444191233667894
+      Zero_Attack2_11: 3690417317226493426
+      Zero_Attack2_12: 5229132859610547801
+      Zero_Attack2_2: 7712046997567031054
+      Zero_Attack2_3: 4845090212450208010
+      Zero_Attack2_4: 2943157113190738014
+      Zero_Attack2_5: 5181601489146736953
+      Zero_Attack2_6: 2615395142242695621
+      Zero_Attack2_7: 1504735601199131478
+      Zero_Attack2_8: -5277539606017806606
+      Zero_Attack2_9: 3740656971968487845
+      Zero_Attack3_0: 6774021918502473644
+      Zero_Attack3_1: -6393127755282009171
+      Zero_Attack3_2: -624146707376949081
+      Zero_Attack3_3: -2116421839141358545
+      Zero_Attack3_4: 2303985206741709197
+      Zero_Attack3_5: 7185800123937709944
+      Zero_Attack3_6: 6303280012552275892
+      Zero_Attack_0: 460416375745060635
+      Zero_Attack_11: -8907739210350089973
+      Zero_Attack_17: 6465148964969499419
+      Zero_Attack_28: 7664837275586864118
+      Zero_Attack_30: 2470874216046686377
+      Zero_Attack_33: 7420996711447631924
+      Zero_Attack_34: -305499960749184837
+      Zero_Attack_42: 1739901849996718727
+      Zero_Attack_43: -7941202264198434970
+      Zero_Attack_44: 5955535982483889640
+      Zero_Attack_45: -3419614055788362444
+      Zero_Attack_46: -82720326355956940
+      Zero_Attack_47: 987526950587896606
+      Zero_Attack_48: -1715234444584217377
+      Zero_Attack_49: 7770475205887701426
+      Zero_Attack_50: 5142580864069914077
+      Zero_Attack_51: 8750804733757746262
+      Zero_Attack_52: -6728161847299736908
+      Zero_Attack_53: -6776910881687811966
+      Zero_Attack_54: -5751395297228299119
+      Zero_Attack_55: -4112003024756462018
+      Zero_Attack_56: -4602979393967484507
+      Zero_Attack_57: 381461765613848407
+      Zero_Attack_58: 4025443522250398235
+      Zero_Attack_59: 3362191916125858028
+      Zero_Attack_60: -6860787781650819168
+      Zero_Attack_7: -9215701334117614583
+      Zero_Attack_9: -8259797744341312628
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,1058 @@
+fileFormatVersion: 2
+guid: e4aaa450277f06a4bbb902719389d399
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -297645160803030026
+    second: Zero_Fire_0
+  - first:
+      213: 6725576795514786423
+    second: Zero_Fire_1
+  - first:
+      213: 3069360945197681813
+    second: Zero_Fire_2
+  - first:
+      213: -9094439892436733586
+    second: Zero_Fire_3
+  - first:
+      213: 1653568811623920554
+    second: Zero_Fire_4
+  - first:
+      213: -7792690884710464789
+    second: Zero_Fire_5
+  - first:
+      213: -1594497722306089050
+    second: Zero_Fire_6
+  - first:
+      213: -6158834771672972319
+    second: Zero_Fire_7
+  - first:
+      213: -65123690280902094
+    second: Zero_Fire_8
+  - first:
+      213: -8584666063757301024
+    second: Zero_Fire_9
+  - first:
+      213: 4605838128158220499
+    second: Zero_Fire_10
+  - first:
+      213: 3989050307909958803
+    second: Zero_Fire_11
+  - first:
+      213: -8460738299056472912
+    second: Zero_Fire_12
+  - first:
+      213: -3207766702295005970
+    second: Zero_Fire_13
+  - first:
+      213: -8219761588312313777
+    second: Zero_Fire_14
+  - first:
+      213: -7460147099068762605
+    second: Zero_Fire_15
+  - first:
+      213: 7790084987029438695
+    second: Zero_Fire_16
+  - first:
+      213: 115414601465034682
+    second: Zero_Fire_17
+  - first:
+      213: -8167964213106648321
+    second: Zero_Fire_18
+  - first:
+      213: 8707914473133037226
+    second: Zero_Fire_19
+  - first:
+      213: 1604896231859236422
+    second: Zero_Fire_20
+  - first:
+      213: 4132216480329450334
+    second: Zero_Fire_21
+  - first:
+      213: -2262855426407360089
+    second: Zero_Fire_22
+  - first:
+      213: -1492781033441152811
+    second: Zero_Fire_23
+  - first:
+      213: -8933629421116335981
+    second: Zero_Fire_24
+  - first:
+      213: 5991468381017013787
+    second: Zero_Fire_25
+  - first:
+      213: 8184985122760793031
+    second: Zero_Fire_26
+  - first:
+      213: 5698219268839907194
+    second: Zero_Fire_27
+  - first:
+      213: -3526353455362326252
+    second: Zero_Fire_28
+  - first:
+      213: 7414005504922100242
+    second: Zero_Fire_29
+  - first:
+      213: -934907805640139921
+    second: Zero_Fire_30
+  - first:
+      213: -644784693416056553
+    second: Zero_Fire_31
+  - first:
+      213: -771228917332284527
+    second: Zero_Fire_32
+  - first:
+      213: -1752098607738164640
+    second: Zero_Fire_33
+  - first:
+      213: 6416753271652655625
+    second: Zero_Fire_34
+  - first:
+      213: 4706812819069801852
+    second: Zero_Fire_35
+  - first:
+      213: 1562012435051438749
+    second: Zero_Fire_36
+  - first:
+      213: 4746185676368200270
+    second: Zero_Fire_37
+  - first:
+      213: 7227332344636553147
+    second: Zero_Fire_38
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Zero_Fire_0
+      rect:
+        serializedVersion: 2
+        x: 1716
+        y: 232
+        width: 8
+        height: 8
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fba831ad4d8edbf0800000000000000
+      internalID: -297645160803030026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_1
+      rect:
+        serializedVersion: 2
+        x: 1748
+        y: 232
+        width: 8
+        height: 8
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 772d44e367c065d50800000000000000
+      internalID: 6725576795514786423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_2
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 236
+        width: 8
+        height: 8
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59c07f9748f889a20800000000000000
+      internalID: 3069360945197681813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_3
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 236
+        width: 8
+        height: 8
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e61ba2c2a1f0ac180800000000000000
+      internalID: -9094439892436733586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_4
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 76
+        width: 136
+        height: 156
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa3328cb218a2f610800000000000000
+      internalID: 1653568811623920554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_5
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 76
+        width: 220
+        height: 152
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be288648deccad390800000000000000
+      internalID: -7792690884710464789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_6
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 76
+        width: 352
+        height: 152
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6afa6c205c43fd9e0800000000000000
+      internalID: -1594497722306089050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_7
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 80
+        width: 348
+        height: 152
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e3cb14f76c678aa0800000000000000
+      internalID: -6158834771672972319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_8
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 80
+        width: 296
+        height: 161
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23228564952a81ff0800000000000000
+      internalID: -65123690280902094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_9
+      rect:
+        serializedVersion: 2
+        x: 1884
+        y: 80
+        width: 325
+        height: 165
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ea2562d2b32dd880800000000000000
+      internalID: -8584666063757301024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_10
+      rect:
+        serializedVersion: 2
+        x: 2120
+        y: 216
+        width: 4
+        height: 16
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d022d1ff593bef30800000000000000
+      internalID: 4605838128158220499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_11
+      rect:
+        serializedVersion: 2
+        x: 2284
+        y: 80
+        width: 220
+        height: 152
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39cb222ce14fb5730800000000000000
+      internalID: 3989050307909958803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_12
+      rect:
+        serializedVersion: 2
+        x: 2620
+        y: 80
+        width: 208
+        height: 152
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bc323b085b659a80800000000000000
+      internalID: -8460738299056472912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_13
+      rect:
+        serializedVersion: 2
+        x: 2948
+        y: 80
+        width: 192
+        height: 152
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee441630e29bb73d0800000000000000
+      internalID: -3207766702295005970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_14
+      rect:
+        serializedVersion: 2
+        x: 3236
+        y: 80
+        width: 120
+        height: 152
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f407e36b26a8ded80800000000000000
+      internalID: -8219761588312313777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_15
+      rect:
+        serializedVersion: 2
+        x: 2124
+        y: 192
+        width: 4
+        height: 20
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31678db2dbb387890800000000000000
+      internalID: -7460147099068762605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_16
+      rect:
+        serializedVersion: 2
+        x: 2124
+        y: 180
+        width: 4
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e04ef5a501fb1c60800000000000000
+      internalID: 7790084987029438695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_17
+      rect:
+        serializedVersion: 2
+        x: 1820
+        y: 152
+        width: 8
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab77732f7f80a9100800000000000000
+      internalID: 115414601465034682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_18
+      rect:
+        serializedVersion: 2
+        x: 1836
+        y: 152
+        width: 4
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffadcabe2df85ae80800000000000000
+      internalID: -8167964213106648321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_19
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 152
+        width: 8
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa6d399a31ab8d870800000000000000
+      internalID: 8707914473133037226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_20
+      rect:
+        serializedVersion: 2
+        x: 2204
+        y: 152
+        width: 4
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64e2559ae9cb54610800000000000000
+      internalID: 1604896231859236422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_23
+      rect:
+        serializedVersion: 2
+        x: 2124
+        y: 124
+        width: 4
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d0bc462f83984be0800000000000000
+      internalID: -1492781033441152811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_24
+      rect:
+        serializedVersion: 2
+        x: 2124
+        y: 96
+        width: 4
+        height: 16
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 398d167bf5f550480800000000000000
+      internalID: -8933629421116335981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_27
+      rect:
+        serializedVersion: 2
+        x: 2076
+        y: 76
+        width: 4
+        height: 16
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7f1d7b0c34241f40800000000000000
+      internalID: 5698219268839907194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_28
+      rect:
+        serializedVersion: 2
+        x: 2088
+        y: 76
+        width: 4
+        height: 16
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41148ac3730ef0fc0800000000000000
+      internalID: -3526353455362326252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_29
+      rect:
+        serializedVersion: 2
+        x: 2108
+        y: 76
+        width: 4
+        height: 16
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2122ca3c9b6d3e660800000000000000
+      internalID: 7414005504922100242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_30
+      rect:
+        serializedVersion: 2
+        x: 2120
+        y: 76
+        width: 4
+        height: 16
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6b541bdd4a8603f0800000000000000
+      internalID: -934907805640139921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_31
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 64
+        width: 8
+        height: 8
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 719a350dcb34d07f0800000000000000
+      internalID: -644784693416056553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_32
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 64
+        width: 8
+        height: 8
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19b66e5c26b0c45f0800000000000000
+      internalID: -771228917332284527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_33
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 0
+        width: 4
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06a6f4a699b4fa7e0800000000000000
+      internalID: -1752098607738164640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_34
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 0
+        width: 4
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 902ae286a13ec0950800000000000000
+      internalID: 6416753271652655625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_35
+      rect:
+        serializedVersion: 2
+        x: 2580
+        y: 0
+        width: 8
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7519e83255f15140800000000000000
+      internalID: 4706812819069801852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_36
+      rect:
+        serializedVersion: 2
+        x: 2956
+        y: 0
+        width: 8
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d92ebf5a8026da510800000000000000
+      internalID: 1562012435051438749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_37
+      rect:
+        serializedVersion: 2
+        x: 3272
+        y: 0
+        width: 8
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4249fde9b6ddd140800000000000000
+      internalID: 4746185676368200270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zero_Fire_38
+      rect:
+        serializedVersion: 2
+        x: 3544
+        y: 0
+        width: 8
+        height: 4
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb7b0c3b974ac4460800000000000000
+      internalID: 7227332344636553147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 8134ffde7ddfc094d922fcdc6923ea5f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":1,"spriteAlignment":6,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Zero_Fire_0: -297645160803030026
+      Zero_Fire_1: 6725576795514786423
+      Zero_Fire_10: 4605838128158220499
+      Zero_Fire_11: 3989050307909958803
+      Zero_Fire_12: -8460738299056472912
+      Zero_Fire_13: -3207766702295005970
+      Zero_Fire_14: -8219761588312313777
+      Zero_Fire_15: -7460147099068762605
+      Zero_Fire_16: 7790084987029438695
+      Zero_Fire_17: 115414601465034682
+      Zero_Fire_18: -8167964213106648321
+      Zero_Fire_19: 8707914473133037226
+      Zero_Fire_2: 3069360945197681813
+      Zero_Fire_20: 1604896231859236422
+      Zero_Fire_21: 4132216480329450334
+      Zero_Fire_22: -2262855426407360089
+      Zero_Fire_23: -1492781033441152811
+      Zero_Fire_24: -8933629421116335981
+      Zero_Fire_25: 5991468381017013787
+      Zero_Fire_26: 8184985122760793031
+      Zero_Fire_27: 5698219268839907194
+      Zero_Fire_28: -3526353455362326252
+      Zero_Fire_29: 7414005504922100242
+      Zero_Fire_3: -9094439892436733586
+      Zero_Fire_30: -934907805640139921
+      Zero_Fire_31: -644784693416056553
+      Zero_Fire_32: -771228917332284527
+      Zero_Fire_33: -1752098607738164640
+      Zero_Fire_34: 6416753271652655625
+      Zero_Fire_35: 4706812819069801852
+      Zero_Fire_36: 1562012435051438749
+      Zero_Fire_37: 4746185676368200270
+      Zero_Fire_38: 7227332344636553147
+      Zero_Fire_4: 1653568811623920554
+      Zero_Fire_5: -7792690884710464789
+      Zero_Fire_6: -1594497722306089050
+      Zero_Fire_7: -6158834771672972319
+      Zero_Fire_8: -65123690280902094
+      Zero_Fire_9: -8584666063757301024
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

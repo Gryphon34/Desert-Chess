@@ -1,0 +1,30 @@
+{
+    "PixelsPerUnit": 16,
+    "CustomLevelPrefab": {
+        "instanceID": 0
+    },
+    "IntGridValueColorsVisible": false,
+    "UseCompositeCollider": true,
+    "GeometryType": 0,
+    "CreateBackgroundColor": true,
+    "CreateLevelBoundsTrigger": false,
+    "UseParallax": true,
+    "ScaleEntities": true,
+    "IntGridValues": [
+        {
+            "_key": "Ground_1",
+            "_asset": {
+                "fileID": 11400000,
+                "guid": "4e2b244f0f270504c89dee018bf88677",
+                "type": 2
+            }
+        },
+        {
+            "_key": "Ground_2",
+            "_asset": {
+                "instanceID": 0
+            }
+        }
+    ],
+    "Entities": []
+}
