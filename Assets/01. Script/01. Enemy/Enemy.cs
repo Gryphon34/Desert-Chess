@@ -18,6 +18,10 @@ namespace Study_ActionPlatformer
         protected Material instanceMaterial { get; set; }
 
         [field: SerializeField] public BaseStat Stat { get; private set; }
+        [SerializeField] private AttackInfo droppedWeaponInfo;
+        public AttackInfo DroppedWeaponInfo => droppedWeaponInfo;
+
+        public override BaseStat BaseStat => Stat;
         protected EnemyController EnemyController { get; private set; }
 
         protected virtual void Awake()
@@ -32,6 +36,7 @@ namespace Study_ActionPlatformer
             // PS : 모든 개체가 공유하는 원본이 필요하면, sharedMaterial을 사용합니다.
 
             EnemyController = GetComponent<EnemyController>();
+            Stat ??= new BaseStat();
             Stat.ResetToFull();
         }
 
@@ -40,9 +45,12 @@ namespace Study_ActionPlatformer
 
         }
 
-        protected virtual void OnDestory()
+        protected virtual void OnDestroy()
         {
-            if (instanceMaterial != null) Destroy(instanceMaterial);
+            if (instanceMaterial != null)
+            {
+                Destroy(instanceMaterial);
+            }
         }
 
         public override void TakeDamage(int damage)

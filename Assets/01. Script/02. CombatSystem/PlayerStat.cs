@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class PlayerStat : MonoBehaviour
+namespace Study_ActionPlatformer
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class PlayerStat : BaseStat
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
