@@ -32,7 +32,7 @@ namespace Study_ActionPlatformer
 
         private Animator Animator { get; set; }
         private Enemy Enemy { get; set; }
-
+        private RoundManager roundManager;
 
         private Vector3 originalScale;
 
@@ -211,6 +211,11 @@ namespace Study_ActionPlatformer
             }
         }
 
+        public void SetRoundManager(RoundManager manager)
+        {
+            roundManager = manager;
+        }
+
         protected void Move(Vector3 goalPosition)
         {
             Animator.SetBool(IS_MOVE, true);
@@ -267,6 +272,15 @@ namespace Study_ActionPlatformer
 
         public void Dead()
         {
+            Enemy enemy = GetComponent<Enemy>();
+            if (Player.LocalPlayer != null && enemy != null)
+            {
+                // 규칙: 빈 슬롯이 있으면 자동 흡수, 없으면 플레이어의 선택을 기다린다.
+                Player.LocalPlayer.HandleMonsterDrop(enemy.DroppedWeaponInfo);
+            }
+
+            roundManager?.NotifyEnemyDefeated(this);
+
             // Enemy가 죽게 되면 죽음 이펙트를 생성하고, 스스로를 삭제합니다.
             GameObject effect = Instantiate(deadEffect,
                 transform.position + deadEffectOffset, Quaternion.identity);

@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +13,18 @@ namespace Study_ActionPlatformer
 
     public class HitBox : MonoBehaviour
     {
+        // 이 히트박스가 "무기용"인지 "마법용"인지 표시합니다.
+        // Player의 두 Sync 함수가 이 값을 보고 자기 몫의 히트박스만 갱신합니다.
+        // (근접 무기 히트박스와 마법 히트박스가 같은 부모 밑에 같이 있을 경우
+        //  서로의 AttackInfo를 덮어쓰지 않도록 하기 위함입니다)
+        [field: SerializeField] public AttackSlotCategory Category { get; private set; } = AttackSlotCategory.Weapon;
+
         [field: SerializeField] public AttackInfo AttackInfo { get; private set; }
+
+        public void SetAttackInfo(AttackInfo info)
+        {
+            AttackInfo = info;
+        }
 
         // 이 히트박스의 주인. 부모 계층에서 찾아 보관한다
         private CombatEntity Owner { get; set; }
@@ -63,6 +73,19 @@ namespace Study_ActionPlatformer
             // 미리 준비해놓고
             CombatEntity sender = Owner;
             CombatEntity receiver = hurtBox.Owner;
+
+            if (Owner is Player player)
+            {
+                if (AttackInfo.Category == AttackSlotCategory.Weapon)
+                {
+                    player.TryConsumeActiveWeaponUse();
+                }
+                else if (AttackInfo.Category == AttackSlotCategory.Magic)
+                {
+                    player.TryConsumeActiveMagicUse();
+                }
+            }
+
             int damage = AttackInfo.RollDamage();
 
             // 담아주고

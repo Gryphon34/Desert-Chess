@@ -71,18 +71,33 @@ namespace Study_ActionPlatformer
             StateDic.Add(Animator.StringToHash(ANIM_TAG_MOVEMENT), defaultState);
             StateDic.Add(Animator.StringToHash(ANIM_TAG_ATTACK), new AttackState(this));
             StateDic.Add(Animator.StringToHash(ANIM_TAG_ATTACK_END), new AttackEndState(this));
+            StateDic.Add(Animator.StringToHash(ANIM_TAG_FIRE), new FireState(this));
             StateDic.Add(Animator.StringToHash(ANIM_TAG_JUMP), new JumpState(this));
 
         }
 
         private void Update()
         {
+            UpdateSlotInput();
             UpdateAnimState();
 
             // 아래는 판정에 의한 애니메이션 재생용도라서
             // Update()에서 호출함
             UpdateJumpInput();
             UpdateGroundedAnimation();
+        }
+
+        private void UpdateSlotInput()
+        {
+            Player player = Player.LocalPlayer;
+            if (player == null) return;
+
+            if (SimpleInput.GetKeyDown(Key.Alpha1)) player.SelectWeaponSlot(0);
+            else if (SimpleInput.GetKeyDown(Key.Alpha2)) player.SelectWeaponSlot(1);
+            else if (SimpleInput.GetKeyDown(Key.Alpha3)) player.SelectWeaponSlot(2);
+            else if (SimpleInput.GetKeyDown(Key.Alpha4)) player.SelectMagicSlot(0);
+            else if (SimpleInput.GetKeyDown(Key.Alpha5)) player.SelectMagicSlot(1);
+            else if (SimpleInput.GetKeyDown(Key.Alpha6)) player.SelectMagicSlot(2);
         }
 
         private void UpdateAnimState()
@@ -146,7 +161,11 @@ namespace Study_ActionPlatformer
 
             if (SimpleInput.GetKeyDown(Key.X))
             {
-                Animator.SetBool(IS_FIRE, true);
+                Player player = Player.LocalPlayer;
+                if (player != null && player.TryFireActiveMagic())
+                {
+                    Animator.SetBool(IS_FIRE, true);
+                }
             }
         }
 

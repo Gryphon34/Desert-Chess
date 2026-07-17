@@ -2,6 +2,12 @@ using UnityEngine;
 
 namespace Study_ActionPlatformer
 {
+    public enum AttackSlotCategory
+    {
+        Weapon,
+        Magic,
+    }
+
     public enum AttackKey
     {
         None = 0,
@@ -9,14 +15,19 @@ namespace Study_ActionPlatformer
         Combo2,
         Combo3,
         JumbAttack,
+        Magic1,
+        Magic2,
+        Magic3,
     }
 
     [System.Serializable]
     public struct AttackInfo
     {
+        public AttackSlotCategory Category;
         public AttackKey Key;
         public int MinDamage;
         public int MaxDamage;
+        public int RemainingUses;
         public AnimationCurve damageCurve;
 
         // 구조체(Struct)도 메서드를 가질 수 있다.
