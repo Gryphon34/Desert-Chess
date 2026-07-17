@@ -50,7 +50,7 @@ namespace Study_ActionPlatformer
         [SerializeField] private Hand rightHand;
 
         [SerializeField] private float castingTime = 5.0f;
-        [SerializeField] private int damage = 10;
+        [SerializeField] private int skillIndex = 2;
 
         private Vector3 leftHandOrigin;
         private Vector3 rightHandOrigin;
@@ -64,6 +64,9 @@ namespace Study_ActionPlatformer
 
         protected override void OnEnable()
         {
+            AttackInfo skill = Boss.GetMonsterSkill(skillIndex);
+            int damage = skill.RollDamage();
+
             // 패턴이 활성화되면, Hand의 상태를 바꿔줍니다
             leftHand.SetAttack(damage);
             rightHand.SetAttack(damage);

@@ -12,10 +12,21 @@ namespace Study_ActionPlatformer
         private BossController BossController { get; set; }
         [SerializeField] private float PartsDamageMultiplier = 0.8f;
 
+        [SerializeField] private AttackInfo[] monsterSkillLibrary = new AttackInfo[3];
+        public AttackInfo[] MonsterSkillLibrary => monsterSkillLibrary;
+
         protected override void Awake()
         {
             base.Awake();
             BossController = GetComponent<BossController>();
+        }
+
+        public AttackInfo GetMonsterSkill(int index)
+        {
+            if (monsterSkillLibrary == null || index < 0 || index >= monsterSkillLibrary.Length)
+                return default;
+
+            return monsterSkillLibrary[index];
         }
 
         public override void TakeHeal(int heal)
