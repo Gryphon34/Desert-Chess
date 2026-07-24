@@ -768,17 +768,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7efd0afcd141a643a417aa1573adb54, type: 3}
---- !u!114 &1008476829 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1897378851809494722, guid: e7efd0afcd141a643a417aa1573adb54, type: 3}
-  m_PrefabInstance: {fileID: 1008476828}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd2e379747c5e5c45a2e01bb158b21ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.MeleeEnemy
 --- !u!1 &1172939975
 GameObject:
   m_ObjectHideFlags: 0
@@ -1348,17 +1337,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d62d39584d68d64e89d697ab0afe6d5, type: 3}
---- !u!114 &1909605055 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7856362977245749103, guid: 1d62d39584d68d64e89d697ab0afe6d5, type: 3}
-  m_PrefabInstance: {fileID: 1909605054}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd2e379747c5e5c45a2e01bb158b21ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.MeleeEnemy
 --- !u!1 &1920140071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1411,9 +1389,7 @@ MonoBehaviour:
   - {fileID: 970930399}
   - {fileID: 1347285319}
   enemyPrefabs:
-  - {fileID: 1909605055}
   - {fileID: 2090548723}
-  - {fileID: 1008476829}
   bossPrefab: {fileID: 0}
 --- !u!1001 &2090548722
 PrefabInstance:
