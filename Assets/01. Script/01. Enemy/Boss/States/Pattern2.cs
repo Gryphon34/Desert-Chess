@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Diagnostics;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Study_ActionPlatformer
