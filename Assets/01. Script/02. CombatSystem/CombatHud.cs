@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Study_ActionPlatformer
 {
@@ -62,6 +62,24 @@ namespace Study_ActionPlatformer
 
             subscribedToPlayer = false;
             subscribedToReward = false;
+
+            // 팝업이 떠 있는 동안 이 오브젝트가 꺼지면(씬 전환, 비활성화 등)
+            // timeScale이 0인 채로 남아 게임 전체가 멈춰버립니다.
+            // 팝업을 띄운 쪽이 끝까지 책임지고 원복합니다.
+            ClosePopups();
+        }
+
+        /// <summary>열려 있던 팝업을 닫고 시간을 되돌립니다.</summary>
+        private void ClosePopups()
+        {
+            bool hadPopup = (pendingAbsorption != null) || (pendingRewardRound >= 0);
+
+            pendingAbsorption = null;
+            pendingRewardRound = -1;
+
+            // 다른 곳에서 의도적으로 멈춰둔 경우까지 되살리지 않도록,
+            // 내가 멈춘 경우에만 원복합니다.
+            if (hadPopup) Time.timeScale = 1f;
         }
 
         private void OnAbsorptionChoiceRequested(AttackInfo dropped)
@@ -110,10 +128,7 @@ namespace Study_ActionPlatformer
             GUILayout.Label("무기:", GUILayout.Width(40));
             for (int i = 0; i < player.WeaponSlotCount; ++i)
             {
-                AttackInfo info = player.GetWeaponSlot(i);
-                string label = info.Key == AttackKey.None
-                    ? "[빈 슬롯]"
-                    : $"[{info.Key} x{info.RemainingUses}]";
+                string label = DescribeSlot(player.GetWeaponSlot(i));
                 if (i == player.ActiveWeaponSlot) label = "▶" + label;
                 GUILayout.Label(label, GUILayout.Width(110));
             }
@@ -123,16 +138,25 @@ namespace Study_ActionPlatformer
             GUILayout.Label("마법:", GUILayout.Width(40));
             for (int i = 0; i < player.MagicSlotCount; ++i)
             {
-                AttackInfo info = player.GetMagicSlot(i);
-                string label = info.Key == AttackKey.None
-                    ? "[빈 슬롯]"
-                    : $"[{info.Key} x{info.RemainingUses}]";
+                string label = DescribeSlot(player.GetMagicSlot(i));
                 if (i == player.ActiveMagicSlot) label = "▶" + label;
                 GUILayout.Label(label, GUILayout.Width(110));
             }
             GUILayout.EndHorizontal();
 
             GUILayout.EndArea();
+        }
+
+        // 슬롯 한 칸을 문자열로 표현합니다. 주먹처럼 횟수 제한이 없는 무기는 ∞로 표시합니다.
+        private static string DescribeSlot(AttackInfo info)
+        {
+            if (info.IsEmpty) return "[빈 슬롯]";
+
+            string uses = (info.RemainingUses == Player.UNLIMITED_USES)
+                ? "∞"
+                : info.RemainingUses.ToString();
+
+            return $"[{info.Id} x{uses}]";
         }
 
         private void DrawAbsorptionPopup()
@@ -152,14 +176,14 @@ namespace Study_ActionPlatformer
             Rect area = new Rect(Screen.width / 2 - 160, Screen.height / 2 - 120, 320, 260);
             GUILayout.BeginArea(area, GUI.skin.box);
 
-            GUILayout.Label($"슬롯이 가득 찼습니다.\n{dropped.Key}({categoryLabel})을(를) 흡수할까요?");
+            GUILayout.Label($"슬롯이 가득 찼습니다.\n{dropped.Id}({categoryLabel})을(를) 흡수할까요?");
 
             int slotCount = isMagic ? player.MagicSlotCount : player.WeaponSlotCount;
             for (int i = 0; i < slotCount; ++i)
             {
                 AttackInfo current = isMagic ? player.GetMagicSlot(i) : player.GetWeaponSlot(i);
 
-                if (GUILayout.Button($"{i + 1}번 슬롯 교체 (현재: {current.Key})"))
+                if (GUILayout.Button($"{i + 1}번 슬롯 교체 (현재: {current.Id})"))
                 {
                     player.ConfirmAbsorption(i);
                     pendingAbsorption = null;
@@ -205,9 +229,9 @@ namespace Study_ActionPlatformer
                 for (int i = 0; i < player.WeaponSlotCount; ++i)
                 {
                     AttackInfo info = player.GetWeaponSlot(i);
-                    if (info.Key == AttackKey.None) continue;
+                    if (info.IsEmpty) continue;
 
-                    if (GUILayout.Button($"무기 {i + 1}번({info.Key}) 강화"))
+                    if (GUILayout.Button($"무기 {i + 1}번({info.Id}) 강화"))
                     {
                         rewardManager.ChooseEnhance(true, i);
                         pendingRewardRound = -1;
@@ -218,9 +242,9 @@ namespace Study_ActionPlatformer
                 for (int i = 0; i < player.MagicSlotCount; ++i)
                 {
                     AttackInfo info = player.GetMagicSlot(i);
-                    if (info.Key == AttackKey.None) continue;
+                    if (info.IsEmpty) continue;
 
-                    if (GUILayout.Button($"마법 {i + 1}번({info.Key}) 강화"))
+                    if (GUILayout.Button($"마법 {i + 1}번({info.Id}) 강화"))
                     {
                         rewardManager.ChooseEnhance(false, i);
                         pendingRewardRound = -1;
