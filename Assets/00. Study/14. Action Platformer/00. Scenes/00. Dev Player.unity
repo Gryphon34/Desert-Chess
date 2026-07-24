@@ -313,7 +313,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2069002999149861758, guid: 829fbcc2306a954419953e62058ef823, type: 3}
   m_PrefabInstance: {fileID: 3595333909981046825}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2105925242}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15be54e8e4e07bd4399994d0af7d9c87, type: 3}
@@ -1363,32 +1363,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1 &2105925242 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 685469564077216021, guid: 829fbcc2306a954419953e62058ef823, type: 3}
-  m_PrefabInstance: {fileID: 3595333909981046825}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2105925246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2105925242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bd46b1e88969f849a1ab22e93d1f177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Study.Utilities.CharacterController2D
-  speed: 2
-  gravity: -9.81
-  jumpPower: 8
-  maxJumpCount: 2
-  groundCheckDistance: 0.5
-  skinWidth: 0.02
-  collisionLayer:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!1001 &3595333909981046825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1446,10 +1420,7 @@ PrefabInstance:
     - {fileID: 2837046315128078395, guid: 829fbcc2306a954419953e62058ef823, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 685469564077216021, guid: 829fbcc2306a954419953e62058ef823, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2105925246}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 829fbcc2306a954419953e62058ef823, type: 3}
 --- !u!1001 &7092646340846166284
 PrefabInstance:
@@ -1511,6 +1482,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4894559659652715733, guid: cba4f400f8272c44d9dc33eb834a9332, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 1679512750092176530, guid: cba4f400f8272c44d9dc33eb834a9332, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
