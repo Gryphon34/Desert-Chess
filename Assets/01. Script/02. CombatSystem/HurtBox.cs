@@ -30,7 +30,13 @@ namespace Study_ActionPlatformer
 
         private void OnDestroy()
         {
-            CombatSystem.Instance.RemoveHurtBox(col2D);
+            // 플레이 종료(또는 씬 언로드) 시 오브젝트 파괴 순서는 보장되지 않습니다.
+            // 정리 시점에는 Instance 대신 InstanceOrNull을 씁니다.
+            // (Instance는 종료 중에 null을 돌려주거나, 없으면 새로 만들어버립니다)
+            CombatSystem combat = CombatSystem.InstanceOrNull;
+            if (combat == null) return;
+
+            combat.RemoveHurtBox(col2D);
         }
     }
 }

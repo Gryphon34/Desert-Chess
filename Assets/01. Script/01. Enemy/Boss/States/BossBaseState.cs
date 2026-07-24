@@ -5,9 +5,11 @@ namespace Study_ActionPlatformer
     public abstract class BossBaseState : MonoBehaviour
     {
         protected BossController BossController { get; set; }
+        protected Boss Boss { get; set; }
         public virtual void Initialize(BossController controller)
         {
             BossController = controller;
+            Boss = controller.GetComponent<Boss>();
         }
 
         // abstract로 선언해서 자식 상태 클래스들이 반드시 구현하도록 강제한다.

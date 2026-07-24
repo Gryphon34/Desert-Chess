@@ -18,12 +18,20 @@ namespace Study_ActionPlatformer
         protected Material instanceMaterial { get; set; }
 
         [field: SerializeField] public BaseStat Stat { get; private set; }
+        [SerializeField] private AttackInfo droppedWeaponInfo;
+        public AttackInfo DroppedWeaponInfo => droppedWeaponInfo;
+
+        public override BaseStat BaseStat => Stat;
         protected EnemyController EnemyController { get; private set; }
+
+        // 기획서 6-1 : 몬스터 체력 최대 60 (보스는 Boss에서 300으로 재정의)
+        // 인스펙터에 값이 채워져 있으면 그 값이 우선하고, 비어 있을 때만 이 값이 쓰입니다.
+        protected virtual int DefaultMaxHp => 60;
 
         protected virtual void Awake()
         {
             SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            instanceMaterial = SpriteRenderer.material;
+            if (SpriteRenderer != null) instanceMaterial = SpriteRenderer.material;
             // !주의
             // : renderer.material에 접근하는 순간 머티리얼 "복사본"이 생성됩니다.
             //  덕분에 개체마다 따로 피격효과를 줄 수 있지만, 이 복사본은 엔진이
@@ -32,7 +40,20 @@ namespace Study_ActionPlatformer
             // PS : 모든 개체가 공유하는 원본이 필요하면, sharedMaterial을 사용합니다.
 
             EnemyController = GetComponent<EnemyController>();
+            Stat ??= new BaseStat();
+            Stat.EnsureMaxHp(DefaultMaxHp);
             Stat.ResetToFull();
+
+            EnsureDroppedWeapon();
+        }
+
+        // 기획서 4 : "라운드별 몬스터 능력 = 랜덤"
+        // 프리팹에 흡수 대상 무기가 지정되지 않았다면(Key == None) 무기 도감에서
+        // 무작위로 하나 뽑아 채웁니다. 지정돼 있으면 그대로 존중합니다.
+        protected virtual void EnsureDroppedWeapon()
+        {
+            if (droppedWeaponInfo.Key != AttackKey.None) return;
+            droppedWeaponInfo = WeaponLibrary.CreateRandom();
         }
 
         protected virtual void Start()
@@ -40,9 +61,12 @@ namespace Study_ActionPlatformer
 
         }
 
-        protected virtual void OnDestory()
+        protected virtual void OnDestroy()
         {
-            if (instanceMaterial != null) Destroy(instanceMaterial);
+            if (instanceMaterial != null)
+            {
+                Destroy(instanceMaterial);
+            }
         }
 
         public override void TakeDamage(int damage)

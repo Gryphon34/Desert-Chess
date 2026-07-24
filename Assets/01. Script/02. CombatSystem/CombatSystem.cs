@@ -60,7 +60,8 @@ namespace Study_ActionPlatformer
 
         private void HandleDamageEvent(CombatEntity sender, CombatEntity receiver, CombatEvent @event)
         {
-            receiver.TakeDamage(@event.Amount);
+            int finalDamage = receiver.CalculateFinalDamage(@event.Amount);
+            receiver.TakeDamage(finalDamage);
 
             for (int i = 0; i < observerList.Count; ++i)
                 observerList[i].OnDamageTaken(sender, receiver, @event);
@@ -68,6 +69,11 @@ namespace Study_ActionPlatformer
 
         private void HandleHealEvent(CombatEntity sender, CombatEntity receiver, CombatEvent @event)
         {
+            // 예전에는 이 줄이 없어서 "힐 이벤트를 보내면 팝업만 뜨고 체력은 그대로"였습니다.
+            // 데미지 쪽(HandleDamageEvent)과 대칭을 맞춰야, 나중에 힐 스킬이나 회복 아이템을
+            // 추가할 때 CombatSystem을 거치는 것만으로 정상 동작합니다.
+            receiver.TakeHeal(@event.Amount);
+
             for (int i = 0; i < observerList.Count; ++i)
                 observerList[i].OnHealTaken(sender, receiver, @event);
         }

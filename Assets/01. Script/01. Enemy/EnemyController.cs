@@ -1,6 +1,7 @@
 using Study.Utilities;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Study_ActionPlatformer
 {
@@ -28,11 +29,42 @@ namespace Study_ActionPlatformer
 
 
 
-        [field: SerializeField] public Transform Target;
+        // 인스펙터에서 직접 지정할 수도 있고(테스트 씬), 비워두면 런타임에 자동으로
+        // 플레이어를 찾습니다(RoundManager가 스폰하는 경우).
+        //
+        // FormerlySerializedAs : 예전 필드명이 "Target"이었기 때문에 붙였습니다.
+        // 이게 없으면 이미 씬에 저장돼 있던 Target 연결이 전부 끊깁니다.
+        [FormerlySerializedAs("Target")]
+        [SerializeField] private Transform target;
+
+        /// <summary>
+        /// 추격/공격 대상입니다.
+        ///
+        /// 왜 프로퍼티인가:
+        /// 몬스터는 라운드 중에 Instantiate되기 때문에, 씬에 미리 존재하는 플레이어를
+        /// 인스펙터로 연결해 둘 수가 없습니다. 그렇다고 Awake에서 한 번만 찾으면
+        /// 스크립트 실행 순서에 따라 Player.LocalPlayer가 아직 null일 수 있습니다.
+        /// 그래서 "필요할 때마다, 없으면 그때 찾는다"로 처리합니다.
+        ///
+        /// 파괴된 오브젝트는 유니티에서 == null이 true가 되므로,
+        /// 플레이어가 죽거나 교체되어도 다음 접근에서 자동으로 다시 찾습니다.
+        /// </summary>
+        public Transform Target
+        {
+            get
+            {
+                if (target == null && Player.LocalPlayer != null)
+                    target = Player.LocalPlayer.transform;
+
+                return target;
+            }
+            set => target = value;
+        }
 
         private Animator Animator { get; set; }
-        private Enemy Enemy { get; set; }
-
+        // 파생 컨트롤러(RangeController 등)도 "누가 때리는지"를 알아야 하므로 protected입니다.
+        protected Enemy Enemy { get; private set; }
+        private RoundManager roundManager;
 
         private Vector3 originalScale;
 
@@ -49,7 +81,9 @@ namespace Study_ActionPlatformer
             pointA = transform.position;
             pointA.y = transform.position.y;
 
-            pointB = patrolPoint.position;
+            // 순찰 지점이 지정되지 않았다면 제자리를 순찰 지점으로 삼습니다.
+            // (프리팹 세팅 누락 하나로 Awake에서 예외가 나면 그 몬스터는 통째로 죽은 오브젝트가 됩니다)
+            pointB = (patrolPoint != null) ? patrolPoint.position : transform.position;
             pointB.y = transform.position.y;
 
             goalPoint = pointB;
@@ -211,6 +245,11 @@ namespace Study_ActionPlatformer
             }
         }
 
+        public void SetRoundManager(RoundManager manager)
+        {
+            roundManager = manager;
+        }
+
         protected void Move(Vector3 goalPosition)
         {
             Animator.SetBool(IS_MOVE, true);
@@ -235,9 +274,44 @@ namespace Study_ActionPlatformer
             return moveDirection;
         }
 
+        [Header("공격력")]
+        [SerializeField] private int attackMinDamage = 4;
+        [SerializeField] private int attackMaxDamage = 7;
+
+        /// <summary>이번 공격의 데미지를 뽑습니다. (Range.Range의 int 버전은 max가 배타적이라 +1)</summary>
+        protected int RollAttackDamage()
+        {
+            return Random.Range(attackMinDamage, attackMaxDamage + 1);
+        }
+
+        /// <summary>
+        /// 근접 몬스터의 타격 처리입니다.
+        ///
+        /// 왜 HitBox를 안 쓰는가:
+        /// HitBox/HurtBox 방식은 애니메이션 프레임에 맞춰 콜라이더를 켜고 꺼야 해서
+        /// 프리팹 세팅이 필요합니다. 이 FSM은 이미 ATTACK_HIT_DELAY로 "지금이 타격
+        /// 프레임"임을 알고 있으므로, 그 순간 사거리를 다시 확인해서 CombatSystem으로
+        /// 데미지를 직접 보냅니다. 판정의 최종 경로(CombatSystem.To)는 동일하므로
+        /// 데미지 팝업 같은 옵저버들도 그대로 동작합니다.
+        /// </summary>
         protected virtual void ProcessAttack()
         {
+            if (Target == null) return;
 
+            // 선딜(ATTACK_HIT_DELAY) 사이에 플레이어가 빠져나갔다면 헛스윙 처리합니다.
+            Vector3 adjustTargetPosition = Target.position;
+            adjustTargetPosition.y = transform.position.y;
+            if (transform.IsInRange(adjustTargetPosition, attackRange) == false) return;
+
+            CombatEntity receiver = Target.GetComponentInParent<CombatEntity>();
+            if (receiver == null || Enemy == null) return;
+
+            CombatEvent @event;
+            @event.EventType = CombatEventType.DamageEvent;
+            @event.Amount = RollAttackDamage();
+            @event.Position = receiver.transform.position;
+
+            CombatSystem.Instance.To(Enemy, receiver, @event);
         }
 
         // 내 Transform과 Target의 Transform의 y값을 비교하여
@@ -267,13 +341,28 @@ namespace Study_ActionPlatformer
 
         public void Dead()
         {
-            // Enemy가 죽게 되면 죽음 이펙트를 생성하고, 스스로를 삭제합니다.
-            GameObject effect = Instantiate(deadEffect,
-                transform.position + deadEffectOffset, Quaternion.identity);
+            Enemy enemy = GetComponent<Enemy>();
+            if (Player.LocalPlayer != null && enemy != null)
+            {
+                // 규칙: 빈 슬롯이 있으면 자동 흡수, 없으면 플레이어의 선택을 기다린다.
+                Player.LocalPlayer.HandleMonsterDrop(enemy.DroppedWeaponInfo);
+            }
 
-            // 이펙트는 일정시간이 지난뒤에 자동으로 삭제 됩니다.
-            // 여기서는 Destroy(삭제할 대상, 지연시간); 함수를 사용합니다.
-            Destroy(effect, deadEffectLifeTime); // effect를 deadEffectLifeTime시간 이후에 삭제한다.
+            roundManager?.NotifyEnemyDefeated(this);
+
+            // Enemy가 죽게 되면 죽음 이펙트를 생성하고, 스스로를 삭제합니다.
+            // deadEffect가 비어 있으면 Instantiate가 예외를 던지고, 그러면 아래의
+            // Destroy(gameObject)가 실행되지 않아 "죽었는데 사라지지 않는 시체"가
+            // 남습니다. 연출은 없어도 되지만 삭제는 반드시 되어야 하므로 분리합니다.
+            if (deadEffect != null)
+            {
+                GameObject effect = Instantiate(deadEffect,
+                    transform.position + deadEffectOffset, Quaternion.identity);
+
+                // 이펙트는 일정시간이 지난뒤에 자동으로 삭제 됩니다.
+                // 여기서는 Destroy(삭제할 대상, 지연시간); 함수를 사용합니다.
+                Destroy(effect, deadEffectLifeTime); // effect를 deadEffectLifeTime시간 이후에 삭제한다.
+            }
 
             Destroy(gameObject);
         }

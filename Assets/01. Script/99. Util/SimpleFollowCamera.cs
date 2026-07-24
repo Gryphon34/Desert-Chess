@@ -21,11 +21,25 @@ namespace Study.Utilities
         private Camera Cam { get; set; }
         private States State { get; set; }
 
+        // 시작할 때 Target이 지정돼 있으면 바로 추적을 시작할지 여부입니다.
+        //
+        // 왜 필요한가:
+        // States의 기본값은 0번인 Stopped이고, Stopped는 매 프레임 Target을 null로
+        // 지웁니다. 즉 누군가 ChangeState(Following)를 호출해주지 않으면 이 카메라는
+        // 영원히 움직이지 않습니다. 지금까지는 테스트용 SimpleFollowCameraTester(F3)가
+        // 그 역할을 했는데, 실제 게임 씬에는 그게 없어서 카메라가 멈춰 있었습니다.
+        [SerializeField] private bool followOnStart = true;
+
         private void Start()
         {
             // 현재 Scene의 MainCamera(Tag)를 가져옵니다.
             // ps : MainCamera Tag가 달려있는 녀석을 가져옵니다.
             Cam = Camera.main;
+
+            if (followOnStart && Target != null)
+            {
+                ChangeState(States.Following);
+            }
         }
 
         private void Update()

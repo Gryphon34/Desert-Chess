@@ -83,11 +83,13 @@ MonoBehaviour:
   traceRange: 5
   attackRange: 1
   baseUpdateTerm: 0.1
+  target: {fileID: 0}
+  patrolPoint: {fileID: 8042212038379310490}
+  attackMinDamage: 4
+  attackMaxDamage: 7
   deadEffect: {fileID: 0}
   deadEffectOffset: {x: 0, y: 0, z: 0}
   deadEffectLifeTime: 0.5
-  Target: {fileID: 0}
-  patrolPoint: {fileID: 8042212038379310490}
 --- !u!114 &7856362977245749103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,6 +103,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.MeleeEnemy
   <HeadUpPivot>k__BackingField: {fileID: 6750702683079233977}
+  hitEffectDuration: 0.2
+  <Stat>k__BackingField:
+    <MaxHp>k__BackingField: 0
+  droppedWeaponInfo:
+    Id: 0
+    Category: 0
+    Key: 0
+    MinDamage: 0
+    MaxDamage: 0
+    RemainingUses: 0
+    damageCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!1 &8551996341689564545
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,7 +163,6 @@ GameObject:
   - component: {fileID: 2887465613136664694}
   - component: {fileID: 4889018742728694462}
   - component: {fileID: 2215829382867421009}
-  - component: {fileID: 3395243619367000172}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -308,19 +325,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.HurtBox
   <Owner>k__BackingField: {fileID: 7856362977245749103}
---- !u!114 &3395243619367000172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8775114376859217356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee158225ee1e59f4791627785501d950, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: AllIn1SpriteShaderAssembly::AllIn1SpriteShader.AllIn1Shader
-  currentShaderType: 0
-  normalStrength: 5
-  normalSmoothing: 1
-  computingNormal: 0

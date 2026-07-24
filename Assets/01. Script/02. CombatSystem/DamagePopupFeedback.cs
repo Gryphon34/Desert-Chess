@@ -24,7 +24,14 @@ public class DamagePopupFeedback : MonoBehaviour, ICombatObserver
 
     private void OnDisable()
     {
-        CombatSystem.Instance.UnSubscribe(this);
+        // 정리 시점에는 Instance를 쓰면 안 됩니다.
+        // 종료가 시작되면(OnApplicationQuit) 인스턴스가 살아있어도 Instance가 null을
+        // 돌려주고, 반대로 인스턴스가 없으면 새로 만들어버리기 때문입니다.
+        // InstanceOrNull은 있는 것만 돌려주고 아무것도 만들지 않습니다.
+        CombatSystem combat = CombatSystem.InstanceOrNull;
+        if (combat == null) return;
+
+        combat.UnSubscribe(this);
     }
 
     public void OnDamageTaken(CombatEntity sender, CombatEntity receiver, CombatEvent @event)

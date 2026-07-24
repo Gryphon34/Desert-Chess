@@ -12,10 +12,68 @@ namespace Study_ActionPlatformer
         private BossController BossController { get; set; }
         [SerializeField] private float PartsDamageMultiplier = 0.8f;
 
+        // 기획서 6-2 : "보스 스킬 = 몬스터의 모든 스킬들 보유"
+        // 각 패턴(Pattern0/1/2)이 skillIndex로 이 배열을 참조해 데미지를 뽑습니다.
+        [SerializeField] private AttackInfo[] monsterSkillLibrary = new AttackInfo[3];
+        public AttackInfo[] MonsterSkillLibrary => monsterSkillLibrary;
+
+        // 보스 패턴은 몬스터와 같은 스킬을 쓰지만 위력은 더 높아야 하므로 배율을 둡니다.
+        // 밸런싱은 이 값 하나로 조절하세요.
+        [SerializeField] private float bossSkillPowerMultiplier = 2.0f;
+
+        // 기획서 6-2 : 보스 체력 최대 300
+        protected override int DefaultMaxHp => 300;
+
         protected override void Awake()
         {
             base.Awake();
             BossController = GetComponent<BossController>();
+
+            EnsureMonsterSkillLibrary();
+        }
+
+        /// <summary>
+        /// 스킬 도감을 채웁니다.
+        ///
+        /// 이 배열은 지금까지 한 번도 채워진 적이 없어서 전 항목이 default(AttackInfo)
+        /// 였습니다. 그 값은 MinDamage/MaxDamage가 0이라 패턴이 아무리 명중해도
+        /// 데미지가 0이었습니다. 인스펙터에서 지정한 스킬은 그대로 존중하고,
+        /// 비어 있는 칸만 무기 도감에서 뽑아 채웁니다.
+        /// </summary>
+        private void EnsureMonsterSkillLibrary()
+        {
+            if (monsterSkillLibrary == null || monsterSkillLibrary.Length == 0)
+                monsterSkillLibrary = new AttackInfo[3];
+
+            for (int i = 0; i < monsterSkillLibrary.Length; ++i)
+            {
+                if (monsterSkillLibrary[i].IsEmpty == false) continue;
+                monsterSkillLibrary[i] = WeaponLibrary.CreateRandom();
+            }
+        }
+
+        /// <summary>
+        /// 패턴이 사용할 스킬을 돌려줍니다.
+        /// 잘못된 인덱스를 받아도 default(= 0 데미지)를 돌려주지 않고, 0번 스킬로
+        /// 대체한 뒤 경고를 남깁니다. "조용히 0 데미지"가 가장 찾기 어려운 버그입니다.
+        /// </summary>
+        public AttackInfo GetMonsterSkill(int index)
+        {
+            if (monsterSkillLibrary == null || monsterSkillLibrary.Length == 0)
+                return WeaponLibrary.CreateFist();
+
+            if (index < 0 || index >= monsterSkillLibrary.Length)
+            {
+                Debug.LogWarning($"{name} : 잘못된 보스 스킬 인덱스({index})입니다. 0번으로 대체합니다.");
+                index = 0;
+            }
+
+            AttackInfo skill = monsterSkillLibrary[index];
+
+            // 위력 배율은 "표의 원본 데이터"가 아니라 "보스가 쓸 때의 값"에만 적용합니다.
+            skill.MinDamage = Mathf.RoundToInt(skill.MinDamage * bossSkillPowerMultiplier);
+            skill.MaxDamage = Mathf.RoundToInt(skill.MaxDamage * bossSkillPowerMultiplier);
+            return skill;
         }
 
         public override void TakeHeal(int heal)

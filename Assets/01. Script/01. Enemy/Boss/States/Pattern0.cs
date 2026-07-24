@@ -15,7 +15,7 @@ namespace Study_ActionPlatformer
     {
         [SerializeField] private float catingTime = 3.0f;
         [SerializeField] private BossBullet headBeam;
-        [SerializeField] private int headBeamDamage = 10;
+        [SerializeField] private int skillIndex = 0;
 
         private ComponentPool<BossBullet> bulletPool;
 
@@ -38,6 +38,7 @@ namespace Study_ActionPlatformer
 
         private IEnumerator Coroutine()
         {
+            AttackInfo skill = Boss.GetMonsterSkill(skillIndex);
             headBeam.gameObject.SetActive(true);
             yield return new WaitForSeconds(2.0f);
 
@@ -52,7 +53,7 @@ namespace Study_ActionPlatformer
                 Vector3 direction = target.position - headBeam.transform.position;
                 BossBullet bullet = bulletPool.Get();
                 bullet.transform.up = direction;
-                bullet.Set(headBeamDamage);
+                bullet.Set(skill.RollDamage());
                 bullet.Fire();
 
                 yield return new WaitForSeconds(0.5f);

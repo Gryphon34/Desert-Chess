@@ -1,16 +1,28 @@
 using UnityEngine;
 
-public class FireState : MonoBehaviour
+namespace Study_ActionPlatformer
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class FireState : PlayerAnimStateBase
     {
-        
-    }
+        public FireState(PlayerController owner) : base(owner)
+        {
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override void Enter()
+        {
+            Owner.StopMovement();
+        }
+
+        public override void UpdateState(AnimatorStateInfo stateInfo)
+        {
+            if (stateInfo.normalizedTime < INPUT_RESET_TIME)
+            {
+                Animator.SetBool(PlayerController.IS_FIRE, false);
+            }
+        }
+
+        public override void Exit()
+        {
+        }
     }
 }

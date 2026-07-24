@@ -23,7 +23,11 @@ public class HealPopupFeedback : MonoBehaviour, ICombatObserver
 
     private void OnDisable()
     {
-        CombatSystem.Instance.UnSubscribe(this);
+        // 정리 시점에는 Instance를 쓰면 안 됩니다. (DamagePopupFeedback의 주석 참고)
+        CombatSystem combat = CombatSystem.InstanceOrNull;
+        if (combat == null) return;
+
+        combat.UnSubscribe(this);
     }
 
     public void OnDamageTaken(CombatEntity sender, CombatEntity receiver, CombatEvent @event)

@@ -13,6 +13,7 @@ namespace Study_ActionPlatformer
         private Dictionary<Type, BossBaseState> StateDic { get; set; } = new();
         private BossBaseState CurrentState { get; set; }
         private SpriteRenderer[] allSpriteRenderer;
+        private RoundManager roundManager;
 
         private void Awake()
         {
@@ -54,6 +55,11 @@ namespace Study_ActionPlatformer
             CurrentState.gameObject.SetActive(true);
         }
 
+        public void SetRoundManager(RoundManager manager)
+        {
+            roundManager = manager;
+        }
+
         public void ChangeAlpha(float alphaValue)
         {
             for (int i = 0; i < allSpriteRenderer.Length; ++i)
@@ -70,6 +76,7 @@ namespace Study_ActionPlatformer
         public void Dead()
         {
             ChangeState(typeof(DeadState));
+            roundManager?.NotifyBossDefeated();
         }
     }
 }

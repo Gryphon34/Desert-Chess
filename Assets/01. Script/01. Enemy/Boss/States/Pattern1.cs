@@ -16,11 +16,12 @@ namespace Study_ActionPlatformer
         [SerializeField] private BossBullet sword;
         [SerializeField] private float castingTime;
         [SerializeField] private Vector3 distanceToTarget; // 타겟과 상대적인 거리를 저장하는 변수
-        [SerializeField] private int swordDamage = 10;
+        [SerializeField] private int skillIndex = 1;
 
         protected override void OnEnable()
         {
-            sword.Set(swordDamage);
+            AttackInfo skill = Boss.GetMonsterSkill(skillIndex);
+            sword.Set(skill.RollDamage());
             StartCoroutine(Coroutine());
         }
 

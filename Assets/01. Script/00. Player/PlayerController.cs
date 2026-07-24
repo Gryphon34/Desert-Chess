@@ -71,18 +71,35 @@ namespace Study_ActionPlatformer
             StateDic.Add(Animator.StringToHash(ANIM_TAG_MOVEMENT), defaultState);
             StateDic.Add(Animator.StringToHash(ANIM_TAG_ATTACK), new AttackState(this));
             StateDic.Add(Animator.StringToHash(ANIM_TAG_ATTACK_END), new AttackEndState(this));
+            StateDic.Add(Animator.StringToHash(ANIM_TAG_FIRE), new FireState(this));
             StateDic.Add(Animator.StringToHash(ANIM_TAG_JUMP), new JumpState(this));
 
         }
 
         private void Update()
         {
+            UpdateSlotInput();
             UpdateAnimState();
 
             // 아래는 판정에 의한 애니메이션 재생용도라서
             // Update()에서 호출함
             UpdateJumpInput();
             UpdateGroundedAnimation();
+        }
+
+        private void UpdateSlotInput()
+        {
+            Player player = Player.LocalPlayer;
+            if (player == null) return;
+
+            // New Input System의 Key 열거형은 숫자열 키를 Digit1~Digit0으로 정의합니다.
+            // (레거시 KeyCode의 Alpha1이 아닙니다)
+            if (SimpleInput.GetKeyDown(Key.Digit1)) player.SelectWeaponSlot(0);
+            else if (SimpleInput.GetKeyDown(Key.Digit2)) player.SelectWeaponSlot(1);
+            else if (SimpleInput.GetKeyDown(Key.Digit3)) player.SelectWeaponSlot(2);
+            else if (SimpleInput.GetKeyDown(Key.Digit4)) player.SelectMagicSlot(0);
+            else if (SimpleInput.GetKeyDown(Key.Digit5)) player.SelectMagicSlot(1);
+            else if (SimpleInput.GetKeyDown(Key.Digit6)) player.SelectMagicSlot(2);
         }
 
         private void UpdateAnimState()
@@ -141,13 +158,35 @@ namespace Study_ActionPlatformer
 
             if (SimpleInput.GetKeyDown(Key.Z))
             {
-                Animator.SetBool(IS_ATTACK, true);
+                BeginWeaponAttack();
             }
 
             if (SimpleInput.GetKeyDown(Key.X))
             {
-                Animator.SetBool(IS_FIRE, true);
+                // 마법은 여기서 딱 한 번만 차감됩니다.
+                // (예전에는 여기서 한 번, 명중 시 HitBox에서 또 한 번 차감돼서
+                //  5회짜리 마법이 실제로는 2~3회 만에 사라졌습니다)
+                Player player = Player.LocalPlayer;
+                if (player != null && player.TryFireActiveMagic())
+                {
+                    Animator.SetBool(IS_FIRE, true);
+                }
             }
+        }
+
+        /// <summary>
+        /// 무기 공격을 시작합니다. [기획서 9번] 사용 횟수는 "공격을 시도한 순간"
+        /// 1회 차감됩니다. 명중 여부나 맞은 적의 수와는 무관합니다.
+        ///
+        /// 횟수가 다 떨어진 경우 TryConsumeActiveWeaponUse()가 슬롯을 주먹으로
+        /// 되돌리고 false를 반환합니다. 이때도 공격 자체는 나가야 하므로
+        /// (주먹으로 때리는 것) 반환값과 무관하게 애니메이션을 재생합니다.
+        /// 이 함수는 첫 타와 콤보 입력 양쪽에서 호출되므로 여기 하나만 고치면 됩니다.
+        /// </summary>
+        public void BeginWeaponAttack()
+        {
+            Player.LocalPlayer?.TryConsumeActiveWeaponUse();
+            Animator.SetBool(IS_ATTACK, true);
         }
 
         public void StopMovement()
