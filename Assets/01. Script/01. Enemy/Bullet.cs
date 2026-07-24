@@ -5,28 +5,59 @@ namespace Study_ActionPlatformer
     public class Bullet : MonoBehaviour
     {
         [field: SerializeField] public float Speed { get; private set; }
+        [SerializeField] private float lifeTime = 5.0f;
+
         private Vector3 foward = Vector3.right;
 
-        // Update is called once per frame
+        // 이 총알을 쏜 주체와 위력. RangeController가 발사할 때 넣어줍니다.
+        private CombatEntity owner;
+        private int damage = 4;
+
+        private void Start()
+        {
+            // 아무것도 맞히지 못한 총알이 씬에 영원히 남지 않도록 수명을 줍니다.
+            Destroy(gameObject, lifeTime);
+        }
+
         private void Update()
         {
-
             transform.Translate(foward * Speed * Time.deltaTime);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject == Player.LocalPlayer.gameObject)
+            // 이전 코드는 Player.LocalPlayer.gameObject를 null 체크 없이 참조해서
+            // 플레이어가 없는 씬에서는 예외가 났고, 맞아도 데미지가 없었습니다.
+            CombatEntity receiver = other.GetComponentInParent<CombatEntity>();
+            if (receiver == null) return;
+
+            // 쏜 본인이나 같은 편(몬스터)에게는 맞지 않습니다.
+            if (receiver == owner) return;
+            if (owner is Enemy && receiver is Enemy) return;
+
+            if (owner != null)
             {
-                Destroy(gameObject);
+                CombatEvent @event;
+                @event.EventType = CombatEventType.DamageEvent;
+                @event.Amount = damage;
+                @event.Position = other.ClosestPoint(transform.position);
+
+                CombatSystem.Instance.To(owner, receiver, @event);
             }
+
+            Destroy(gameObject);
         }
 
         public void Set(Vector3 direction)
         {
             foward = direction;
         }
+
+        /// <summary>발사 주체와 위력을 설정합니다.</summary>
+        public void SetShooter(CombatEntity shooter, int bulletDamage)
+        {
+            owner = shooter;
+            damage = bulletDamage;
+        }
     }
-
 }
-
