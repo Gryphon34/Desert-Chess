@@ -174,15 +174,13 @@ namespace Study_ActionPlatformer
             }
         }
 
-        /// <summary>
-        /// 무기 공격을 시작합니다. [기획서 9번] 사용 횟수는 "공격을 시도한 순간"
+        /// 무기 공격을 시작
         /// 1회 차감됩니다. 명중 여부나 맞은 적의 수와는 무관합니다.
         ///
         /// 횟수가 다 떨어진 경우 TryConsumeActiveWeaponUse()가 슬롯을 주먹으로
         /// 되돌리고 false를 반환합니다. 이때도 공격 자체는 나가야 하므로
         /// (주먹으로 때리는 것) 반환값과 무관하게 애니메이션을 재생합니다.
         /// 이 함수는 첫 타와 콤보 입력 양쪽에서 호출되므로 여기 하나만 고치면 됩니다.
-        /// </summary>
         public void BeginWeaponAttack()
         {
             Player.LocalPlayer?.TryConsumeActiveWeaponUse();
@@ -206,10 +204,7 @@ namespace Study_ActionPlatformer
         }
 
 
-
-        /// <summary>
         /// CharacterController2D의 접지 상태를 애니메이터로 옮겨주는 함수
-        /// </summary>
         private void UpdateGroundedAnimation()
         {
             bool isGrounded = Controller2D.IsGrounded;

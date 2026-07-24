@@ -2,20 +2,6 @@
 
 namespace Study_ActionPlatformer
 {
-    /// <summary>
-    /// 임시(placeholder) UI 입니다.
-    /// Canvas/이미지 에셋 없이 legacy OnGUI만으로 동작해서, 씬에 빈 GameObject
-    /// 하나 만들어 이 스크립트만 붙이면 바로 테스트할 수 있습니다.
-    ///
-    /// 담당 범위 (기획서 8, MVP "기본 UI" 항목):
-    /// - 체력바
-    /// - 무기/마법 슬롯 상태 표시
-    /// - 몬스터 흡수 선택 팝업 (Player.AbsorptionChoiceRequested)
-    /// - 라운드 보상 선택 팝업 (RewardManager.RewardChoiceRequested)
-    ///
-    /// 나중에 실제 그래픽 UI(Canvas + Image + TMP 등)로 교체될 때까지의
-    /// 최소 기능 버전이므로, 디자인이 잡히면 이 스크립트는 걷어내면 됩니다.
-    /// </summary>
     public class CombatHud : MonoBehaviour
     {
         [SerializeField] private RewardManager rewardManager;

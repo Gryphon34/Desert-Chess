@@ -26,8 +26,6 @@ namespace Study_ActionPlatformer
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            // 이전 코드는 Player.LocalPlayer.gameObject를 null 체크 없이 참조해서
-            // 플레이어가 없는 씬에서는 예외가 났고, 맞아도 데미지가 없었습니다.
             CombatEntity receiver = other.GetComponentInParent<CombatEntity>();
             if (receiver == null) return;
 
@@ -53,7 +51,6 @@ namespace Study_ActionPlatformer
             foward = direction;
         }
 
-        /// <summary>발사 주체와 위력을 설정합니다.</summary>
         public void SetShooter(CombatEntity shooter, int bulletDamage)
         {
             owner = shooter;

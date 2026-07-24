@@ -8,9 +8,6 @@ namespace Study_ActionPlatformer
         Magic,
     }
 
-    // 기획서 5-2, 5-3의 무기/마법 이름입니다.
-    // 열거형 값을 나중에 재배치하면 프리팹에 저장된 숫자가 다른 무기를 가리키게 되므로
-    // 새 무기는 항상 "뒤에" 추가하세요.
     public enum WeaponId
     {
         None = 0,
@@ -50,7 +47,7 @@ namespace Study_ActionPlatformer
     [System.Serializable]
     public struct AttackInfo
     {
-        // 어떤 무기인지(기획서 5-3의 이름). UI 표시와 시너지 계산의 기준이 됩니다.
+        // 어떤 무기인지, UI 표시와 시너지 계산의 기준이 됩니다.
         public WeaponId Id;
         public AttackSlotCategory Category;
         public AttackKey Key;
@@ -67,7 +64,7 @@ namespace Study_ActionPlatformer
         // "이 데이터를 어떻게 해석(데미지 계산 공식)하는가?"에 대한 내용은
         // 데이터 곁에 두는것이 응집도가 좋습니다. 
         // 기능이 많아지만 분리(확장함수)하는게 좋지만,
-        // 몇개 없으면 struct 내부에다가 구현해놓고 사용하는거 ㄱㅊ
+        // 몇개 없으면 struct 내부에다가 구현해놓고 사용
 
         public int RollDamage()
         {

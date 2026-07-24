@@ -37,18 +37,6 @@ namespace Study_ActionPlatformer
         [FormerlySerializedAs("Target")]
         [SerializeField] private Transform target;
 
-        /// <summary>
-        /// 추격/공격 대상입니다.
-        ///
-        /// 왜 프로퍼티인가:
-        /// 몬스터는 라운드 중에 Instantiate되기 때문에, 씬에 미리 존재하는 플레이어를
-        /// 인스펙터로 연결해 둘 수가 없습니다. 그렇다고 Awake에서 한 번만 찾으면
-        /// 스크립트 실행 순서에 따라 Player.LocalPlayer가 아직 null일 수 있습니다.
-        /// 그래서 "필요할 때마다, 없으면 그때 찾는다"로 처리합니다.
-        ///
-        /// 파괴된 오브젝트는 유니티에서 == null이 true가 되므로,
-        /// 플레이어가 죽거나 교체되어도 다음 접근에서 자동으로 다시 찾습니다.
-        /// </summary>
         public Transform Target
         {
             get
@@ -258,11 +246,6 @@ namespace Study_ActionPlatformer
             transform.Translate(new Vector3(moveDirection, 0, 0) * (moveSpeed * Time.deltaTime));
         }
 
-        /// <summary>
-        /// 캐릭터의 방향을 업데이트하고, x축으로 전방 방향(-1, 1 부호)을 반환합니다
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <returns></returns>
         protected float UpdateDirection(Vector3 goalPosition)
         {
             float dirToGoal = goalPosition.x - transform.position.x;
@@ -284,16 +267,6 @@ namespace Study_ActionPlatformer
             return Random.Range(attackMinDamage, attackMaxDamage + 1);
         }
 
-        /// <summary>
-        /// 근접 몬스터의 타격 처리입니다.
-        ///
-        /// 왜 HitBox를 안 쓰는가:
-        /// HitBox/HurtBox 방식은 애니메이션 프레임에 맞춰 콜라이더를 켜고 꺼야 해서
-        /// 프리팹 세팅이 필요합니다. 이 FSM은 이미 ATTACK_HIT_DELAY로 "지금이 타격
-        /// 프레임"임을 알고 있으므로, 그 순간 사거리를 다시 확인해서 CombatSystem으로
-        /// 데미지를 직접 보냅니다. 판정의 최종 경로(CombatSystem.To)는 동일하므로
-        /// 데미지 팝업 같은 옵저버들도 그대로 동작합니다.
-        /// </summary>
         protected virtual void ProcessAttack()
         {
             if (Target == null) return;

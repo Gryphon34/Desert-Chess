@@ -11,21 +11,6 @@ namespace Jay
 
         public static bool IsInitialized => isInitialized && instance != null;
 
-        /// <summary>
-        /// 이미 만들어져 있는 인스턴스만 반환합니다. 없으면 null이며, 새로 만들지 않습니다.
-        ///
-        /// 언제 쓰나:
-        /// OnDisable / OnDestroy 같은 "정리" 시점에서 씁니다. 그 시점에 Instance를
-        /// 쓰면 두 가지 문제가 있습니다.
-        ///  1) OnApplicationQuit이 먼저 불리면 applicationIsQuitting이 true가 되어
-        ///     인스턴스가 멀쩡히 살아있는데도 Instance가 null을 돌려줍니다.
-        ///     (IsInitialized는 여전히 true라서 그것만으로는 막을 수 없습니다)
-        ///  2) 반대로 인스턴스가 없으면 Instance는 GameObject를 새로 만들어버립니다.
-        ///     종료 중에 오브젝트를 새로 만드는 건 명백한 부작용입니다.
-        ///
-        /// 이 프로퍼티는 둘 다 하지 않습니다. 파괴된 오브젝트는 유니티의 == 연산자가
-        /// null로 취급하므로 호출부에서 (obj != null)로 확인하면 됩니다.
-        /// </summary>
         public static T InstanceOrNull => instance;
 
 
@@ -94,19 +79,13 @@ namespace Jay
             }
         }
 
-        /// <summary>
         /// 싱글톤 초기화 시점에서 호출됨 (오버라이드 가능)
-        /// </summary>
         protected virtual void OnInitialize() { }
 
-        /// <summary>
         /// 싱글톤 제거 시점에서 호출됨 (오버라이드 가능)
-        /// </summary>
         protected virtual void OnDispose() { }
 
-        /// <summary>
         /// 현재 인스턴스를 강제로 제거하고 다시 초기화 가능 상태로 되돌림. 다시 싱글톤 호출해야함 (어떤 문제있는지 잘 모름)
-        /// </summary>
         public static void ResetInstance()
         {
             if (instance != null)

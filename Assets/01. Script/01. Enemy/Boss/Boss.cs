@@ -12,7 +12,6 @@ namespace Study_ActionPlatformer
         private BossController BossController { get; set; }
         [SerializeField] private float PartsDamageMultiplier = 0.8f;
 
-        // 기획서 6-2 : "보스 스킬 = 몬스터의 모든 스킬들 보유"
         // 각 패턴(Pattern0/1/2)이 skillIndex로 이 배열을 참조해 데미지를 뽑습니다.
         [SerializeField] private AttackInfo[] monsterSkillLibrary = new AttackInfo[3];
         public AttackInfo[] MonsterSkillLibrary => monsterSkillLibrary;
@@ -21,7 +20,6 @@ namespace Study_ActionPlatformer
         // 밸런싱은 이 값 하나로 조절하세요.
         [SerializeField] private float bossSkillPowerMultiplier = 2.0f;
 
-        // 기획서 6-2 : 보스 체력 최대 300
         protected override int DefaultMaxHp => 300;
 
         protected override void Awake()
@@ -32,14 +30,6 @@ namespace Study_ActionPlatformer
             EnsureMonsterSkillLibrary();
         }
 
-        /// <summary>
-        /// 스킬 도감을 채웁니다.
-        ///
-        /// 이 배열은 지금까지 한 번도 채워진 적이 없어서 전 항목이 default(AttackInfo)
-        /// 였습니다. 그 값은 MinDamage/MaxDamage가 0이라 패턴이 아무리 명중해도
-        /// 데미지가 0이었습니다. 인스펙터에서 지정한 스킬은 그대로 존중하고,
-        /// 비어 있는 칸만 무기 도감에서 뽑아 채웁니다.
-        /// </summary>
         private void EnsureMonsterSkillLibrary()
         {
             if (monsterSkillLibrary == null || monsterSkillLibrary.Length == 0)
@@ -52,11 +42,6 @@ namespace Study_ActionPlatformer
             }
         }
 
-        /// <summary>
-        /// 패턴이 사용할 스킬을 돌려줍니다.
-        /// 잘못된 인덱스를 받아도 default(= 0 데미지)를 돌려주지 않고, 0번 스킬로
-        /// 대체한 뒤 경고를 남깁니다. "조용히 0 데미지"가 가장 찾기 어려운 버그입니다.
-        /// </summary>
         public AttackInfo GetMonsterSkill(int index)
         {
             if (monsterSkillLibrary == null || monsterSkillLibrary.Length == 0)

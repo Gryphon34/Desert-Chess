@@ -12,7 +12,7 @@ namespace Study_ActionPlatformer
     public class Player : CombatEntity
     {
         // 주먹처럼 "사라지면 안 되는" 기본 무기를 표시하는 값입니다.
-        // 기획서 9번의 5회 제한은 흡수해서 얻은 무기/마법에만 적용됩니다.
+        // 5회 제한은 흡수해서 얻은 무기/마법에만 적용됩니다.
         public const int UNLIMITED_USES = -1;
 
         public static Player LocalPlayer { get; set; }

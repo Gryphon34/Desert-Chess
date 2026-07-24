@@ -36,7 +36,7 @@ namespace Study_ActionPlatformer
                 Debug.LogWarning($"{name} : 부모 계층에서 CombatEntity를 찾지 못했습니다. 데미지가 전달되지 않습니다.");
         }
 
-        // Bullet 객체를 초기화 합니다.
+        // Bullet 객체를 초기화
         public void Set(int bulletDamage)
         {
             damage = bulletDamage;

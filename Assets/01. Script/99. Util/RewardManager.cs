@@ -10,8 +10,7 @@ namespace Study_ActionPlatformer
         [SerializeField] private int enhanceDamageBoost = 1;
         [SerializeField] private int enhanceUsesBoost = 3;
 
-        // 기획서 8번 : 라운드 클리어 후 "보상 선택지"가 등장합니다.
-        // 자동으로 지급하지 않고, 이 이벤트를 UI가 구독해서 선택창을 띄웁니다.
+        // 라운드 클리어 후 "보상 선택지"가 등장합니다.
         public event Action<int> RewardChoiceRequested;
 
         // 플레이어가 보상을 실제로 고른 뒤에 발행됩니다.
@@ -21,7 +20,7 @@ namespace Study_ActionPlatformer
 
         private int pendingRoundIndex = -1;
 
-        /// <summary>보상 선택이 진행 중인지 여부.</summary>
+        /// 보상 선택이 진행 중인지 여부.
         public bool HasPendingChoice => pendingRoundIndex >= 0;
 
         // 선택이 끝났을 때 공통으로 거치는 마무리 지점입니다.
@@ -33,10 +32,8 @@ namespace Study_ActionPlatformer
             RewardResolved?.Invoke();
         }
 
-        /// <summary>
         /// 라운드 클리어 시 호출됩니다. 즉시 보상을 주지 않고 선택을 요청합니다.
         /// 실제 지급은 ChooseHeal() 또는 ChooseEnhance()가 호출될 때 이뤄집니다.
-        /// </summary>
         public void GrantRoundReward(int roundIndex)
         {
             pendingRoundIndex = roundIndex;
@@ -63,9 +60,7 @@ namespace Study_ActionPlatformer
             Player.LocalPlayer.TakeHeal(bossRewardHp);
         }
 
-        /// <summary>
-        /// 보상 방향 1 : 피 회복. UI에서 플레이어가 선택했을 때 호출합니다.
-        /// </summary>
+        /// 보상 방향 1 : 피 회복.
         public void ChooseHeal()
         {
             if (pendingRoundIndex < 0) return;
@@ -79,9 +74,7 @@ namespace Study_ActionPlatformer
             ResolveChoice();
         }
 
-        /// <summary>
-        /// 보상 방향 2 : 능력 강화. 지정한 슬롯의 데미지 범위와 사용 횟수를 늘립니다.
-        /// </summary>
+        /// 보상 방향 2 : 능력 강화. 
         public void ChooseEnhance(bool isWeaponSlot, int slotIndex)
         {
             if (pendingRoundIndex < 0) return;
