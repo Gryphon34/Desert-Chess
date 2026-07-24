@@ -11,7 +11,9 @@ namespace Study_ActionPlatformer
 
     public class Player : CombatEntity
     {
-        private const int DEFAULT_SLOT_USES = 5;
+        // 주먹처럼 "사라지면 안 되는" 기본 무기를 표시하는 값입니다.
+        // 기획서 9번의 5회 제한은 흡수해서 얻은 무기/마법에만 적용됩니다.
+        public const int UNLIMITED_USES = -1;
 
         public static Player LocalPlayer { get; set; }
 
@@ -36,12 +38,19 @@ namespace Study_ActionPlatformer
 
         private HitBox[] HitBoxes { get; set; }
 
-        public AttackInfo attackInfo;
+        // 현재 사용 중인 무기 데이터의 캐시입니다. weaponSlots[ActiveWeaponSlot]에서
+        // 파생되는 값이므로 인스펙터에서 따로 채우면 안 됩니다.
+        // (예전에는 public 직렬화 필드라 프리팹에 450~800 같은 값이 남아 있었는데,
+        //  Awake에서 어차피 덮어써서 쓰이지 않는 죽은 데이터였습니다)
+        private AttackInfo attackInfo;
+
+        public AttackInfo CurrentAttackInfo => attackInfo;
 
         private void Awake()
         {
             LocalPlayer = this;
             Stat ??= new PlayerStat();
+            Stat.EnsureMaxHp(PlayerStat.DEFAULT_MAX_HP);
             Stat.ResetToFull();
 
             InitializeSlotDefaults();
@@ -53,6 +62,21 @@ namespace Study_ActionPlatformer
             }
 
             SyncActiveWeaponInfoToHitBoxes();
+
+            // 마법 히트박스도 시작 시 한 번 동기화해 둡니다.
+            // 시작 시엔 마법 슬롯이 비어 있어서 당장은 티가 안 나지만, 이걸 빼두면
+            // 무기/마법 초기화가 비대칭이 되어 나중에 "마법만 첫 발이 이상하다" 같은
+            // 추적하기 어려운 버그의 씨앗이 됩니다.
+            SyncActiveMagicInfoToHitBoxes();
+        }
+
+        private void OnDestroy()
+        {
+            // 정적 참조를 그대로 두면 파괴된 플레이어를 가리키는 값이 남습니다.
+            // 에디터에서 "Enter Play Mode Options"로 도메인 리로드를 꺼두면 이 값이
+            // 다음 실행까지 살아남아, 몬스터들이 존재하지 않는 플레이어를 쫓는
+            // 기묘한 버그가 생깁니다. 자기 자신일 때만 비웁니다.
+            if (LocalPlayer == this) LocalPlayer = null;
         }
 
         public void SelectWeaponSlot(int slotIndex)
@@ -69,6 +93,10 @@ namespace Study_ActionPlatformer
             if (weaponSlots.Length == 0) return false;
 
             AttackInfo activeWeapon = weaponSlots[ActiveWeaponSlot];
+
+            // 주먹(무제한)은 차감하지 않고 항상 사용 가능합니다.
+            if (activeWeapon.RemainingUses == UNLIMITED_USES) return true;
+
             if (activeWeapon.RemainingUses <= 0)
             {
                 weaponSlots[ActiveWeaponSlot] = CreateDefaultWeaponInfo();
@@ -83,9 +111,11 @@ namespace Study_ActionPlatformer
 
             if (activeWeapon.RemainingUses <= 0)
             {
+                // 소진된 무기는 그 자리에서 기본 무기(주먹)로 되돌립니다.
+                // 여기서 ActiveWeaponSlot을 0으로 바꾸면 "활성 슬롯 번호"와 "실제 사용 중인
+                // 무기"가 서로 다른 슬롯을 가리키게 되므로 인덱스는 건드리지 않습니다.
                 weaponSlots[ActiveWeaponSlot] = CreateDefaultWeaponInfo();
                 attackInfo = weaponSlots[ActiveWeaponSlot];
-                ActiveWeaponSlot = 0;
             }
 
             SyncActiveWeaponInfoToHitBoxes();
@@ -109,8 +139,9 @@ namespace Study_ActionPlatformer
 
             if (activeMagic.RemainingUses <= 0)
             {
+                // 소진된 마법은 슬롯을 비웁니다(기본 마법은 존재하지 않음).
+                // 무기와 같은 이유로 ActiveMagicSlot은 그대로 둡니다.
                 magicSlots[ActiveMagicSlot] = CreateDefaultMagicInfo();
-                ActiveMagicSlot = 0;
             }
 
             SyncActiveMagicInfoToHitBoxes();
@@ -278,23 +309,21 @@ namespace Study_ActionPlatformer
             }
         }
 
+        // 기획서 5-1 : 시작 무기는 주먹(기본 공격력 3). 수치는 WeaponLibrary가 관리합니다.
+        // 주먹은 "무기가 없을 때 돌아오는 자리"이므로 횟수 제한이 없습니다.
         private AttackInfo CreateDefaultWeaponInfo()
         {
-            return new AttackInfo
-            {
-                Category = AttackSlotCategory.Weapon,
-                Key = AttackKey.Combo1,
-                MinDamage = 1,
-                MaxDamage = 2,
-                RemainingUses = DEFAULT_SLOT_USES,
-                damageCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f),
-            };
+            AttackInfo fist = WeaponLibrary.CreateFist();
+            fist.RemainingUses = UNLIMITED_USES;
+            return fist;
         }
 
+        // 마법은 시작 시 보유한 것이 없으므로 "빈 슬롯"을 뜻하는 값을 돌려줍니다.
         private AttackInfo CreateDefaultMagicInfo()
         {
             return new AttackInfo
             {
+                Id = WeaponId.None,
                 Category = AttackSlotCategory.Magic,
                 Key = AttackKey.None,
                 MinDamage = 0,

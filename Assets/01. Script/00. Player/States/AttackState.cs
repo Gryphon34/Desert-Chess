@@ -27,15 +27,20 @@ namespace Study_ActionPlatformer
             {
                 Animator.SetBool(PlayerController.IS_ATTACK, false);
             }
-            // 콤보 입력 구간 (30% ~ 90%)
+            // 콤보 입력 구간 (INPUT_RESET_TIME ~ COMBO_INPUT_END_TIME = 40% ~ 80%)
             else if (INPUT_RESET_TIME < stateInfo.normalizedTime &&
                 stateInfo.normalizedTime < COMBO_INPUT_END_TIME)
             {
                 // 다음 콤보 입력이 없다면 입력을 받아준다
                 if (Animator.GetBool(PlayerController.IS_ATTACK) == false)
                 {
-                    bool input = SimpleInput.GetKeyDown(Key.Z);
-                    Animator.SetBool(PlayerController.IS_ATTACK, input);
+                    // 콤보의 다음 타도 "공격 1회"이므로 사용 횟수를 차감해야 합니다.
+                    // 입력이 있을 때만 호출해야 하는 점에 주의하세요.
+                    // (예전처럼 SetBool(.., false)를 그냥 흘려보내면 소모가 안 일어납니다)
+                    if (SimpleInput.GetKeyDown(Key.Z))
+                    {
+                        Owner.BeginWeaponAttack();
+                    }
                 }
             }
         }
