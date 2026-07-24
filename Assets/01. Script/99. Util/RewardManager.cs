@@ -14,7 +14,24 @@ namespace Study_ActionPlatformer
         // 자동으로 지급하지 않고, 이 이벤트를 UI가 구독해서 선택창을 띄웁니다.
         public event Action<int> RewardChoiceRequested;
 
+        // 플레이어가 보상을 실제로 고른 뒤에 발행됩니다.
+        // GameManager가 이걸 기다렸다가 다음 라운드를 시작합니다.
+        // (이 이벤트가 없던 시절에는 팝업을 띄우자마자 다음 라운드가 스폰됐습니다)
+        public event Action RewardResolved;
+
         private int pendingRoundIndex = -1;
+
+        /// <summary>보상 선택이 진행 중인지 여부.</summary>
+        public bool HasPendingChoice => pendingRoundIndex >= 0;
+
+        // 선택이 끝났을 때 공통으로 거치는 마무리 지점입니다.
+        // 여러 선택지가 각자 pendingRoundIndex를 초기화하고 이벤트를 쏘면
+        // 한쪽만 빠뜨리기 쉬우므로 한곳으로 모읍니다.
+        private void ResolveChoice()
+        {
+            pendingRoundIndex = -1;
+            RewardResolved?.Invoke();
+        }
 
         /// <summary>
         /// 라운드 클리어 시 호출됩니다. 즉시 보상을 주지 않고 선택을 요청합니다.
@@ -23,7 +40,20 @@ namespace Study_ActionPlatformer
         public void GrantRoundReward(int roundIndex)
         {
             pendingRoundIndex = roundIndex;
-            RewardChoiceRequested?.Invoke(roundIndex);
+
+            // 선택 UI(CombatHud)가 씬에 없으면 아무도 이 이벤트를 듣지 않습니다.
+            // 그러면 선택이 영원히 끝나지 않고, GameManager도 RewardResolved를
+            // 기다리느라 다음 라운드를 시작하지 못해 게임이 멈춥니다.
+            // 구독자가 없을 때는 기본 보상(체력 회복)으로 자동 진행합니다.
+            if (RewardChoiceRequested == null)
+            {
+                Debug.LogWarning("RewardManager ::: 보상 선택 UI가 없어 체력 회복으로 자동 진행합니다. " +
+                    "씬에 CombatHud를 추가해주세요.");
+                ChooseHeal();
+                return;
+            }
+
+            RewardChoiceRequested.Invoke(roundIndex);
         }
 
         // 보스 처치 보상은 선택지가 아니라 확정 보상이므로 그대로 즉시 지급합니다.
@@ -46,7 +76,7 @@ namespace Study_ActionPlatformer
                 Player.LocalPlayer.TakeHeal(healAmount);
             }
 
-            pendingRoundIndex = -1;
+            ResolveChoice();
         }
 
         /// <summary>
@@ -64,7 +94,7 @@ namespace Study_ActionPlatformer
                     Player.LocalPlayer.EnhanceMagicSlot(slotIndex, enhanceDamageBoost, enhanceUsesBoost);
             }
 
-            pendingRoundIndex = -1;
+            ResolveChoice();
         }
     }
 }
