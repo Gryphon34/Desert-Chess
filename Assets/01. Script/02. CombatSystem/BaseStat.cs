@@ -17,6 +17,30 @@ namespace Study_ActionPlatformer
         public int Hp { get; private set; }
         public bool isDead => (Hp <= 0);
 
+        public BaseStat() { }
+
+        public BaseStat(int maxHp)
+        {
+            MaxHp = Mathf.Max(1, maxHp);
+            Hp = MaxHp;
+        }
+
+        /// <summary>
+        /// MaxHp가 설정되지 않았을 때(0 이하)만 기본값으로 보정합니다.
+        ///
+        /// 왜 필요한가:
+        /// [field: SerializeField]로 노출한 값은 "프리팹에 저장된 값"이 항상 이깁니다.
+        /// 그런데 이 필드가 추가되기 전에 저장된 프리팹에는 값이 아예 없어서
+        /// MaxHp가 0으로 로드되고, 그러면 ApplyDamage의 Clamp(.., 0, 0) 때문에
+        /// Hp가 영원히 0 = "태어날 때부터 죽어있는" 상태가 됩니다.
+        /// 인스펙터에서 값을 채우면 그 값이 그대로 쓰이고, 비어 있을 때만 이 함수가 구제해 줍니다.
+        /// </summary>
+        public void EnsureMaxHp(int fallbackMaxHp)
+        {
+            if (MaxHp > 0) return;
+            MaxHp = Mathf.Max(1, fallbackMaxHp);
+        }
+
         /// <summary>
         /// 스탯 객체에게 데미지를 적용하고, 죽었는지를 반환하는 함수
         /// </summary>
