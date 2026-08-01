@@ -1,4 +1,4 @@
-ID	Category	WeaponId	AttackKey	MaxDamage	MaxDamage	Speed	Range
+ID	Category	WeaponId	AttackKey	MinDamage	MaxDamage	Speed	Range
 1	Weapon	Fist	Combo1	1	3	5	1
 2	Weapon	Sword	Combo1	3	5	5	2
 3	Weapon	Spear	Combo1	3	4	6	3
