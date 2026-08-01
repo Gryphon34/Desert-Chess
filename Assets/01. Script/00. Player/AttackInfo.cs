@@ -19,10 +19,6 @@ namespace Study_ActionPlatformer
         Axe,        // 도끼
         Dagger,     // 단검
         Hammer,     // 망치
-        Glaive,     // 글레이브
-        Trident,    // 삼지창
-        WarHammer,  // 워해머
-        Gun,        // 총
         Bow,        // 활
 
         // 마법

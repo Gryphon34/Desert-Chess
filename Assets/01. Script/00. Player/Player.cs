@@ -313,8 +313,9 @@ namespace Study_ActionPlatformer
         // 주먹은 "무기가 없을 때 돌아오는 자리"이므로 횟수 제한이 없습니다.
         private AttackInfo CreateDefaultWeaponInfo()
         {
-            AttackInfo fist = WeaponLibrary.CreateFist();
-            fist.RemainingUses = UNLIMITED_USES;
+            // AttackTable에서 주먹 데이터를 가져와 AttackInfo로 변환합니다.
+            // GameManager.Instance.AttackTable.Load()가 게임 시작 시 선행되어야 합니다.
+            AttackInfo fist = GameManager.Instance.AttackTable.Get(WeaponId.Fist).ToAttackInfo(UNLIMITED_USES);
             return fist;
         }
 

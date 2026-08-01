@@ -1,0 +1,12 @@
+ID	Category	WeaponId	AttackKey	MaxDamage	MaxDamage	Speed	Range
+1	Weapon	Fist	Combo1	1	3	5	1
+2	Weapon	Sword	Combo1	3	5	5	2
+3	Weapon	Spear	Combo1	3	4	6	3
+4	Weapon	Axe	Combo1	4	7	3	2
+5	Weapon	Dagger	Combo1	1	3	8	1
+6	Weapon	Hammer	Combo1	7	9	2	1
+7	Weapon	Bow	Combo1	2	5	5	4
+8	Magic	Fire	Magic1	3	6	4	3
+9	Magic	Water	Magic1	4	4	5	4
+10	Magic	Lightning	Magic1	2	5	6	3
+11	Magic	Dark	Magic1	4	7	3	3
