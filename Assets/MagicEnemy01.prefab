@@ -40,10 +40,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1505544448890470869}
-  - component: {fileID: 8070476928231210113}
   - component: {fileID: 7856362977245749103}
+  - component: {fileID: 4109918294942736447}
   m_Layer: 0
-  m_Name: Enemy01
+  m_Name: MagicEnemy01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,29 +67,6 @@ Transform:
   - {fileID: 6750702683079233977}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8070476928231210113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5716549734234348917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3896d2b727c3e344b5f1110e17462b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
-  moveSpeed: 3
-  traceRange: 5
-  attackRange: 1
-  baseUpdateTerm: 0.1
-  target: {fileID: 0}
-  patrolPoint: {fileID: 8042212038379310490}
-  attackMinDamage: 4
-  attackMaxDamage: 7
-  deadEffect: {fileID: 0}
-  deadEffectOffset: {x: 0, y: 0, z: 0}
-  deadEffectLifeTime: 0.5
 --- !u!114 &7856362977245749103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,10 +82,10 @@ MonoBehaviour:
   <HeadUpPivot>k__BackingField: {fileID: 6750702683079233977}
   hitEffectDuration: 0.2
   <Stat>k__BackingField:
-    <MaxHp>k__BackingField: 5
+    <MaxHp>k__BackingField: 10
   droppedWeaponInfo:
     Id: 0
-    Category: 0
+    Category: 1
     Key: 0
     MinDamage: 0
     MaxDamage: 0
@@ -119,6 +96,31 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+--- !u!114 &4109918294942736447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5716549734234348917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6622a08438ef33148b71cb6cc83c2f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.MagicController
+  moveSpeed: 1
+  traceRange: 10
+  attackRange: 3
+  baseUpdateTerm: 0.1
+  target: {fileID: 0}
+  patrolPoint: {fileID: 6750702683079233977}
+  attackMinDamage: 4
+  attackMaxDamage: 7
+  deadEffect: {fileID: 0}
+  deadEffectOffset: {x: 0, y: 0, z: 0}
+  deadEffectLifeTime: 0.5
+  knockbackSpeed: 6
+  knockbackDuration: 0.2
 --- !u!1 &8551996341689564545
 GameObject:
   m_ObjectHideFlags: 0
