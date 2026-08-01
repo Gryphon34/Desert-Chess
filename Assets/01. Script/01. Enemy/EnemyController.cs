@@ -23,6 +23,7 @@ namespace Study_ActionPlatformer
         [SerializeField] private float moveSpeed = 1f;
         [SerializeField] private float traceRange = 10.0f;
         [SerializeField] private float attackRange = 3f;
+        protected float AttackRange => attackRange;
         [SerializeField] private float baseUpdateTerm = 0.1f;
 
 
@@ -312,6 +313,20 @@ namespace Study_ActionPlatformer
         [SerializeField] private Vector3 deadEffectOffset;
         [SerializeField] private float deadEffectLifeTime = 0.5f;
 
+        // 보스 라운드의 잡몹(SpawnMinionsState가 스폰)인지 표시합니다. 0이면 일반 몬스터입니다.
+        // 일반 몬스터는 RoundManager.SpawnEnemy()를 거쳐 스폰되지만, 잡몹은 SpawnMinionsState가
+        // 직접 Instantiate하므로 roundManager 참조가 없습니다 — 그래서 별도 표식이 필요합니다.
+        private int chargeMinionAmount = 0;
+
+        /// <summary>
+        /// 이 몬스터를 "충전용 잡몹"으로 표시합니다. 처치 시 플레이어의 활성 슬롯을
+        /// rechargeAmount만큼 충전합니다(기획서 9번). SpawnMinionsState가 스폰 직후 호출합니다.
+        /// </summary>
+        public void MarkAsChargeMinion(int rechargeAmount)
+        {
+            chargeMinionAmount = rechargeAmount;
+        }
+
         public void Dead()
         {
             Enemy enemy = GetComponent<Enemy>();
@@ -319,6 +334,11 @@ namespace Study_ActionPlatformer
             {
                 // 규칙: 빈 슬롯이 있으면 자동 흡수, 없으면 플레이어의 선택을 기다린다.
                 Player.LocalPlayer.HandleMonsterDrop(enemy.DroppedWeaponInfo);
+
+                if (chargeMinionAmount > 0)
+                {
+                    Player.LocalPlayer.RechargeActiveSlots(chargeMinionAmount);
+                }
             }
 
             roundManager?.NotifyEnemyDefeated(this);
