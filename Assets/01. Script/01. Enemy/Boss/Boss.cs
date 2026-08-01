@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Study_ActionPlatformer
@@ -22,12 +23,57 @@ namespace Study_ActionPlatformer
 
         protected override int DefaultMaxHp => 300;
 
+        // RoundManager가 SeedSkillsFromMonsters()를 이미 호출했는지 표시합니다.
+        // 게임 루프(RoundManager가 스폰)에서는 실제로 등장한 몬스터 목록으로 채우고,
+        // 그게 없는 상황(개발용 씬에 보스를 직접 배치한 경우 등)에서만
+        // 예전 방식(완전 무작위)으로 안전하게 대체합니다.
+        private bool skillsSeeded = false;
+
         protected override void Awake()
         {
             base.Awake();
             BossController = GetComponent<BossController>();
 
+            // 여기서 바로 채우지 않습니다. RoundManager가 Instantiate 직후,
+            // Start()가 호출되기 전에 SeedSkillsFromMonsters()를 부를 기회를 줘야 하기 때문입니다.
+            // (Awake는 Instantiate 호출 중 즉시 실행되지만, Start는 다음 프레임 초입에
+            //  호출되므로 그 사이에 외부에서 값을 주입할 여지가 생깁니다)
+        }
+
+        private void Start()
+        {
+            if (skillsSeeded) return;
             EnsureMonsterSkillLibrary();
+        }
+
+        /// <summary>
+        /// 기획서 6-2 : "보스 스킬 = 몬스터의 모든 스킬들 보유".
+        /// 1~5라운드에서 실제로 등장했던 몬스터들의 드랍 무기 목록을 받아, 그 안에서
+        /// 보스 스킬을 뽑습니다. RoundManager.SpawnBoss()가 Instantiate 직후에 호출합니다.
+        /// 인스펙터에 이미 지정된 슬롯은 그대로 존중하고, 비어 있는 슬롯만 채웁니다.
+        /// </summary>
+        public void SeedSkillsFromMonsters(IReadOnlyList<WeaponId> encounteredWeaponIds)
+        {
+            skillsSeeded = true;
+
+            if (monsterSkillLibrary == null || monsterSkillLibrary.Length == 0)
+                monsterSkillLibrary = new AttackInfo[3];
+
+            if (encounteredWeaponIds == null || encounteredWeaponIds.Count == 0)
+            {
+                // 등장한 몬스터 정보가 없으면(예: 1라운드도 없이 바로 보스만 테스트하는 경우)
+                // 예전처럼 완전 무작위로 대체합니다.
+                EnsureMonsterSkillLibrary();
+                return;
+            }
+
+            for (int i = 0; i < monsterSkillLibrary.Length; ++i)
+            {
+                if (monsterSkillLibrary[i].IsEmpty == false) continue;
+
+                WeaponId id = encounteredWeaponIds[Random.Range(0, encounteredWeaponIds.Count)];
+                monsterSkillLibrary[i] = WeaponLibrary.Create(id);
+            }
         }
 
         private void EnsureMonsterSkillLibrary()
