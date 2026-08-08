@@ -309,7 +309,7 @@ namespace Study_ActionPlatformer
             }
         }
 
-        // 기획서 5-1 : 시작 무기는 주먹(기본 공격력 3). 수치는 WeaponLibrary가 관리합니다.
+        // 기획서 5-1 : 시작 무기는 주먹(기본 공격력 3). 수치는 weapons.tsv(AttackTable)가 관리합니다.
         // 주먹은 "무기가 없을 때 돌아오는 자리"이므로 횟수 제한이 없습니다.
         private AttackInfo CreateDefaultWeaponInfo()
         {
