@@ -53,7 +53,7 @@ namespace Study_ActionPlatformer
         protected virtual void EnsureDroppedWeapon()
         {
             if (droppedWeaponInfo.Key != AttackKey.None) return;
-            droppedWeaponInfo = WeaponLibrary.CreateRandom();
+            droppedWeaponInfo = GameManager.Instance.AttackTable.GetRandomDef().ToAttackInfo(5);
         }
 
         protected virtual void Start()

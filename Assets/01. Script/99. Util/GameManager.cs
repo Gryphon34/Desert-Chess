@@ -10,6 +10,7 @@ namespace Study_ActionPlatformer
         Clear,
     }
 
+    [DefaultExecutionOrder(-100)]
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
@@ -25,6 +26,21 @@ namespace Study_ActionPlatformer
 
         public GameFlowState CurrentState => currentState;
         public int RoundCountToBoss => roundCountToBoss;
+
+        private AttackTable attackTable;
+        
+        public AttackTable AttackTable
+        {
+            get
+            {
+                if (attackTable == null)
+                {
+                    attackTable = new AttackTable();
+                    attackTable.Load();
+                }
+                return attackTable;
+            }
+        }
 
         private void Awake()
         {

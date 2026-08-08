@@ -53,10 +53,6 @@ namespace Study_ActionPlatformer
             new Entry(WeaponId.Axe,       AttackSlotCategory.Weapon, 7, 3, 2),
             new Entry(WeaponId.Dagger,    AttackSlotCategory.Weapon, 3, 8, 1),
             new Entry(WeaponId.Hammer,    AttackSlotCategory.Weapon, 9, 2, 1),
-            new Entry(WeaponId.Glaive,    AttackSlotCategory.Weapon, 6, 4, 3),
-            new Entry(WeaponId.Trident,   AttackSlotCategory.Weapon, 5, 5, 3),
-            new Entry(WeaponId.WarHammer, AttackSlotCategory.Weapon, 8, 2, 2),
-            new Entry(WeaponId.Gun,       AttackSlotCategory.Weapon, 6, 4, 5),
             new Entry(WeaponId.Bow,       AttackSlotCategory.Weapon, 5, 5, 4),
 
             new Entry(WeaponId.Fire,      AttackSlotCategory.Magic,  6, 4, 3),

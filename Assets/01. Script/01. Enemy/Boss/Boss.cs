@@ -38,14 +38,14 @@ namespace Study_ActionPlatformer
             for (int i = 0; i < monsterSkillLibrary.Length; ++i)
             {
                 if (monsterSkillLibrary[i].IsEmpty == false) continue;
-                monsterSkillLibrary[i] = WeaponLibrary.CreateRandom();
+                monsterSkillLibrary[i] = GameManager.Instance.AttackTable.GetRandomDef().ToAttackInfo(5);
             }
         }
 
         public AttackInfo GetMonsterSkill(int index)
         {
             if (monsterSkillLibrary == null || monsterSkillLibrary.Length == 0)
-                return WeaponLibrary.CreateFist();
+                return GameManager.Instance.AttackTable.Get(WeaponId.Fist).ToAttackInfo(Player.UNLIMITED_USES);
 
             if (index < 0 || index >= monsterSkillLibrary.Length)
             {
@@ -55,7 +55,6 @@ namespace Study_ActionPlatformer
 
             AttackInfo skill = monsterSkillLibrary[index];
 
-            // 위력 배율은 "표의 원본 데이터"가 아니라 "보스가 쓸 때의 값"에만 적용합니다.
             skill.MinDamage = Mathf.RoundToInt(skill.MinDamage * bossSkillPowerMultiplier);
             skill.MaxDamage = Mathf.RoundToInt(skill.MaxDamage * bossSkillPowerMultiplier);
             return skill;
