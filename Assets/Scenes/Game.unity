@@ -185,6 +185,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &277904325 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7856362977245749103, guid: 1d62d39584d68d64e89d697ab0afe6d5, type: 3}
+  m_PrefabInstance: {fileID: 1909605054}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd2e379747c5e5c45a2e01bb158b21ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.MeleeEnemy
 --- !u!1 &398858726
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +275,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &800002267 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1897378851809494722, guid: e7efd0afcd141a643a417aa1573adb54, type: 3}
+  m_PrefabInstance: {fileID: 1008476828}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd2e379747c5e5c45a2e01bb158b21ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.MeleeEnemy
 --- !u!1 &860063392
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,7 +1317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af58657ab756534b9efe7fb11b2d774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.CombatHud
-  rewardManager: {fileID: 0}
+  rewardManager: {fileID: 398858728}
 --- !u!1001 &1909605054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1433,8 +1455,10 @@ MonoBehaviour:
   - {fileID: 970930399}
   - {fileID: 1347285319}
   enemyPrefabs:
+  - {fileID: 277904325}
   - {fileID: 2090548723}
-  bossPrefab: {fileID: 0}
+  - {fileID: 800002267}
+  bossPrefab: {fileID: 757093564603685537, guid: 3b95853b7a98d0b4ea1800427aacbdcb, type: 3}
 --- !u!1001 &2090548722
 PrefabInstance:
   m_ObjectHideFlags: 0
