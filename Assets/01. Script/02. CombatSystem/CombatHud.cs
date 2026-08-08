@@ -6,6 +6,14 @@ namespace Study_ActionPlatformer
     {
         [SerializeField] private RewardManager rewardManager;
 
+        // RoundManager는 라운드가 바뀌었다는 이벤트를 발행하지 않으므로,
+        // "마지막으로 본 라운드 번호"를 직접 들고 있다가 값이 달라지는 순간을
+        // 우리가 스스로 감지해서 배너를 띄웁니다.
+        private RoundManager roundManager;
+        private int lastShownRound = -1;
+        private float roundLabelTimer = 0f;
+        private const float ROUND_LABEL_DURATION = 5f;
+
         private bool subscribedToPlayer = false;
         private bool subscribedToReward = false;
 
@@ -31,6 +39,31 @@ namespace Study_ActionPlatformer
                     rewardManager.RewardChoiceRequested += OnRewardChoiceRequested;
                     subscribedToReward = true;
                 }
+            }
+
+            // RoundManager는 씬 로드 타이밍에 따라 이 오브젝트보다 늦게 준비될 수 있으므로
+            // 못 찾았으면 다음 프레임에 다시 시도합니다.
+            if (roundManager == null) roundManager = FindAnyObjectByType<RoundManager>();
+
+            UpdateRoundLabel();
+        }
+
+        /// <summary>
+        /// 라운드 번호가 바뀐 순간을 감지해서 표시 타이머를 리셋합니다.
+        /// lastShownRound의 초기값이 -1이라, 게임 시작 직후 1라운드가 되는 첫 순간에도
+        /// "값이 바뀌었다"고 인식해서 자연스럽게 배너가 뜹니다.
+        /// </summary>
+        private void UpdateRoundLabel()
+        {
+            if (roundManager != null && roundManager.CurrentRound != lastShownRound)
+            {
+                lastShownRound = roundManager.CurrentRound;
+                roundLabelTimer = ROUND_LABEL_DURATION;
+            }
+
+            if (roundLabelTimer > 0f)
+            {
+                roundLabelTimer -= Time.deltaTime;
             }
         }
 
@@ -84,10 +117,32 @@ namespace Study_ActionPlatformer
         {
             DrawHealthBar();
             DrawSlotBar();
+            DrawRoundLabel();
+            DrawGameOverBanner();
 
             // 선택 팝업이 떠 있는 동안은 그것만 그린다(동시에 두 개가 뜨는 상황은 없다고 가정).
             if (pendingAbsorption != null) DrawAbsorptionPopup();
             else if (pendingRewardRound >= 0) DrawRewardPopup();
+        }
+
+        // GameManager가 GameOver 상태가 되면(체력 0) 화면 중앙에 표시합니다.
+        // 이 상태는 되돌아가지 않는 종료 상태이므로, 별도 타이머 없이 CurrentState를
+        // 그대로 반영하면 됩니다 — GameManager가 5초 뒤 Play를 멈추기 전까지 계속 보입니다.
+        private void DrawGameOverBanner()
+        {
+            if (GameManager.Instance == null) return;
+            if (GameManager.Instance.CurrentState != GameFlowState.GameOver) return;
+
+            GUIStyle style = new GUIStyle(GUI.skin.box)
+            {
+                fontSize = 40,
+                fontStyle = FontStyle.Bold,
+                alignment = TextAnchor.MiddleCenter,
+                normal = { textColor = Color.red },
+            };
+
+            Rect area = new Rect(Screen.width / 2 - 200, Screen.height / 2 - 60, 400, 80);
+            GUI.Box(area, "GAME OVER", style);
         }
 
         private void DrawHealthBar()
@@ -101,6 +156,26 @@ namespace Study_ActionPlatformer
 
             GUI.Box(new Rect(20, 20, 220, 26), string.Empty);
             GUI.Box(new Rect(20, 20, 220 * ratio, 26), $"HP {hp}/{maxHp}");
+        }
+
+        // 라운드가 바뀐 직후 화면 중앙에 잠깐 떴다가 사라지는 배너입니다.
+        // 타이머(roundLabelTimer)는 Update()에서 매 프레임 감소합니다.
+        private void DrawRoundLabel()
+        {
+            if (roundManager == null || roundLabelTimer <= 0f) return;
+
+            string label = roundManager.IsBossRound
+                ? $"BOSS ROUND {roundManager.CurrentRound}"
+                : $"Round {roundManager.CurrentRound}";
+
+            GUIStyle style = new GUIStyle(GUI.skin.box)
+            {
+                fontSize = 32,
+                alignment = TextAnchor.MiddleCenter,
+            };
+
+            Rect area = new Rect(Screen.width / 2 - 160, Screen.height / 2 - 100, 320, 60);
+            GUI.Box(area, label, style);
         }
 
         private void DrawSlotBar()

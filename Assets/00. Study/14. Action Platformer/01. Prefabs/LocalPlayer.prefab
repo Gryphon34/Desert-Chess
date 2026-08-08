@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 699357775369440421}
   - component: {fileID: 424288492767725166}
   - component: {fileID: 4251487415932650442}
+  - component: {fileID: 8472996292502748335}
   m_Layer: 0
   m_Name: LocalPlayer
   m_TagString: Untagged
@@ -243,7 +244,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   magicSlots:
   - Id: 0
-    Category: 0
+    Category: 1
     Key: 0
     MinDamage: 0
     MaxDamage: 0
@@ -255,7 +256,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - Id: 0
-    Category: 0
+    Category: 1
     Key: 0
     MinDamage: 0
     MaxDamage: 0
@@ -267,7 +268,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - Id: 0
-    Category: 0
+    Category: 1
     Key: 0
     MinDamage: 0
     MaxDamage: 0
@@ -384,6 +385,19 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &8472996292502748335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685469564077216021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9785d9875a2fffd44bb503a1db2360f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.HurtBox
+  <Owner>k__BackingField: {fileID: 2069002999149861758}
 --- !u!1 &1157011323784509454
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,8 +610,8 @@ Transform:
   m_GameObject: {fileID: 5746684967842351544}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1546, y: 1.0403, z: 0}
-  m_LocalScale: {x: 2.9421735, y: 1.967997, z: 1}
+  m_LocalPosition: {x: 2.971, y: 1.0403, z: 0}
+  m_LocalScale: {x: 4.6005335, y: 1.967997, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8763734680657929385}
@@ -666,7 +680,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: fab06e0be9375cc4d823efa71629885c, type: 3}
-  m_Color: {r: 0.6870601, g: 1, b: 0.5707547, a: 0.3137255}
+  m_Color: {r: 0.1176471, g: 0.5647059, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1062,10 +1076,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7344952555178884606}
-  - {fileID: 6366745805175206732}
   - {fileID: 2376976515010724846}
   - {fileID: 5627111179828412446}
   - {fileID: 2920235129702171958}
+  - {fileID: 6366745805175206732}
   m_Father: {fileID: 6295598818340706407}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1629292776814496622

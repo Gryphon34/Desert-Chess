@@ -15,6 +15,12 @@ namespace Study_ActionPlatformer
         // 5회 제한은 흡수해서 얻은 무기/마법에만 적용됩니다.
         public const int UNLIMITED_USES = -1;
 
+        // 기획서 9번 : 흡수한 무기/마법은 5회를 쓰면 소멸합니다.
+        // 잡몹 처치로 충전할 때도 이 값을 넘지 않습니다.
+        // (예전에는 WeaponLibrary.DEFAULT_USES가 이 역할을 했지만, 스탯이
+        //  weapons.tsv로 옮겨가면서 도감 클래스가 사라져 여기로 옮겼습니다)
+        public const int MAX_USES = 5;
+
         public static Player LocalPlayer { get; set; }
 
         public override BaseStat BaseStat => Stat;
@@ -135,16 +141,23 @@ namespace Study_ActionPlatformer
             }
 
             activeMagic.RemainingUses -= 1;
+
+            // 이번 공격이 실제로 쓸 데미지 값(activeMagic)을 먼저 히트박스에 동기화하고,
+            // 그 다음에야 슬롯을 소진 처리합니다. 예전에는 순서가 반대라 마지막 한 발이
+            // 나가기도 전에 슬롯이 빈 마법(MinDamage=0)으로 바뀌어 버렸고, 그 빈 값이
+            // 히트박스에 들어가 "마지막 발은 애니메이션만 나가고 데미지가 없는" 결과였습니다.
             magicSlots[ActiveMagicSlot] = activeMagic;
+            SyncActiveMagicInfoToHitBoxes();
 
             if (activeMagic.RemainingUses <= 0)
             {
                 // 소진된 마법은 슬롯을 비웁니다(기본 마법은 존재하지 않음).
                 // 무기와 같은 이유로 ActiveMagicSlot은 그대로 둡니다.
+                // 방금 동기화한 값은 이미 히트박스로 넘어갔으므로, 여기서 슬롯을
+                // 비워도 이번 공격에는 영향이 없습니다.
                 magicSlots[ActiveMagicSlot] = CreateDefaultMagicInfo();
             }
 
-            SyncActiveMagicInfoToHitBoxes();
             return true;
         }
 
@@ -309,7 +322,7 @@ namespace Study_ActionPlatformer
             }
         }
 
-        // 기획서 5-1 : 시작 무기는 주먹(기본 공격력 3). 수치는 WeaponLibrary가 관리합니다.
+        // 기획서 5-1 : 시작 무기는 주먹(기본 공격력 3). 수치는 weapons.tsv(AttackTable)가 관리합니다.
         // 주먹은 "무기가 없을 때 돌아오는 자리"이므로 횟수 제한이 없습니다.
         private AttackInfo CreateDefaultWeaponInfo()
         {
@@ -399,6 +412,53 @@ namespace Study_ActionPlatformer
             info.MinDamage = Mathf.Clamp(info.MinDamage + damageBoost, 1, 10);
             info.MaxDamage = Mathf.Clamp(info.MaxDamage + damageBoost, 1, 10);
             info.RemainingUses += usesBoost;
+            magicSlots[slotIndex] = info;
+
+            if (slotIndex == ActiveMagicSlot)
+            {
+                SyncActiveMagicInfoToHitBoxes();
+            }
+        }
+
+        /// <summary>
+        /// 기획서 9번 : "잡몹 등장 시간에 스킬을 충전...할 수 있음".
+        /// 보스 라운드의 잡몹을 처치했을 때, 지금 쓰고 있는 무기/마법 슬롯의 사용
+        /// 횟수를 회복합니다. 활성 슬롯 하나씩만 대상으로 삼아서, "지금 쓰는 무기가
+        /// 자연스럽게 채워진다"는 느낌을 주고 UI 팝업 없이 실시간으로 적용됩니다.
+        /// </summary>
+        public void RechargeActiveSlots(int amount)
+        {
+            RechargeWeaponSlot(ActiveWeaponSlot, amount);
+            RechargeMagicSlot(ActiveMagicSlot, amount);
+        }
+
+        private void RechargeWeaponSlot(int slotIndex, int amount)
+        {
+            if (slotIndex < 0 || slotIndex >= weaponSlots.Length) return;
+
+            AttackInfo info = weaponSlots[slotIndex];
+            if (info.IsEmpty) return;
+            // 주먹처럼 무제한(UNLIMITED_USES)인 무기는 충전할 대상이 아닙니다.
+            if (info.RemainingUses == UNLIMITED_USES) return;
+
+            info.RemainingUses = Mathf.Min(info.RemainingUses + amount, MAX_USES);
+            weaponSlots[slotIndex] = info;
+
+            if (slotIndex == ActiveWeaponSlot)
+            {
+                attackInfo = info;
+                SyncActiveWeaponInfoToHitBoxes();
+            }
+        }
+
+        private void RechargeMagicSlot(int slotIndex, int amount)
+        {
+            if (slotIndex < 0 || slotIndex >= magicSlots.Length) return;
+
+            AttackInfo info = magicSlots[slotIndex];
+            if (info.IsEmpty) return;
+
+            info.RemainingUses = Mathf.Min(info.RemainingUses + amount, MAX_USES);
             magicSlots[slotIndex] = info;
 
             if (slotIndex == ActiveMagicSlot)
