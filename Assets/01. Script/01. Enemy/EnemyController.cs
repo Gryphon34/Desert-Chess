@@ -258,13 +258,31 @@ namespace Study_ActionPlatformer
             return moveDirection;
         }
 
-        [Header("공격력")]
+        [Header("공격력 폴백")]
+        [Tooltip("평소에는 쓰이지 않습니다. weapons.tsv를 읽지 못했거나 몬스터에게 무기가 " +
+            "지정되지 않은 예외 상황에서만 이 값이 사용됩니다.")]
         [SerializeField] private int attackMinDamage = 4;
         [SerializeField] private int attackMaxDamage = 7;
 
-        /// <summary>이번 공격의 데미지를 뽑습니다. (Range.Range의 int 버전은 max가 배타적이라 +1)</summary>
+        /// <summary>
+        /// 이번 공격의 데미지를 뽑습니다.
+        ///
+        /// 몬스터는 "자기가 들고 있는 무기"로 공격합니다. 그 무기는 처치했을 때
+        /// 플레이어가 흡수하는 무기(Enemy.DroppedWeaponInfo)와 같은 것이고,
+        /// 수치는 weapons.tsv(AttackTable)에서 옵니다.
+        /// 덕분에 "화면에 보이는 몬스터의 위력 = 잡았을 때 얻는 무기의 위력"이 되어
+        /// 기획서 4번(라운드별 몬스터 능력 = 랜덤)이 자연스럽게 지켜집니다.
+        /// </summary>
         protected int RollAttackDamage()
         {
+            // 표가 정상이면 항상 이쪽으로 갑니다.
+            if (Enemy != null && Enemy.DroppedWeaponInfo.IsEmpty == false)
+            {
+                return Enemy.DroppedWeaponInfo.RollDamage();
+            }
+
+            // 표를 못 읽은 경우까지 데미지가 0이 되면 "때려도 안 아픈 몬스터"가 되므로,
+            // 인스펙터 값으로 대체합니다. (Random.Range의 int 버전은 max가 배타적이라 +1)
             return Random.Range(attackMinDamage, attackMaxDamage + 1);
         }
 
