@@ -37,6 +37,12 @@ namespace Study_ActionPlatformer
         // HUD가 매 프레임 값을 확인하지 않도록, 체력/슬롯이 바뀔 때마다 알립니다.
         public event Action HpChanged;
         public event Action SlotsChanged;
+        // 발동 중인 계열 시너지가 바뀌었을 때
+        public event Action SynergiesChanged;
+
+        // 지금 발동 중인 시너지(synergies.tsv 행)
+        private readonly List<SynergyDef> activeSynergies = new List<SynergyDef>();
+        public IReadOnlyList<SynergyDef> ActiveSynergies => activeSynergies;
 
         // 흡수 선택을 기다리는 무기들. 한 번에 여러 마리가 죽어도 하나씩 차례로 묻습니다.
         private readonly Queue<AttackInfo> pendingAbsorptions = new Queue<AttackInfo>();
@@ -535,7 +541,57 @@ namespace Study_ActionPlatformer
 
         private void NotifySlotsChanged()
         {
+            UpdateSynergies();
             SlotsChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// 계열 시너지 : 무기 · 마법 슬롯의 계열별 개수를 세어, 조건을 채운 시너지의 보정을 붙이고
+        /// 조건이 깨진 시너지의 보정은 뗍니다. 슬롯이 바뀔 때마다(NotifySlotsChanged) 호출됩니다.
+        /// </summary>
+        private void UpdateSynergies()
+        {
+            if (Stat == null || GameManager.Instance == null) return;
+
+            Dictionary<WeaponFamily, int> counts = new Dictionary<WeaponFamily, int>();
+            CountFamilies(weaponSlots, counts);
+            CountFamilies(magicSlots, counts);
+
+            bool changed = false;
+            foreach (SynergyDef synergy in GameManager.Instance.SynergyTable.Defs)
+            {
+                counts.TryGetValue(synergy.Family, out int count);
+                bool shouldBeActive = count >= synergy.Count;
+                bool isActive = activeSynergies.Contains(synergy);
+
+                if (shouldBeActive && isActive == false)
+                {
+                    Stat.AddModifier(new StatModifier(synergy.StatType, synergy.Op, synergy.Value, synergy.Source));
+                    activeSynergies.Add(synergy);
+                    changed = true;
+                }
+                else if (shouldBeActive == false && isActive)
+                {
+                    Stat.RemoveModifiersFrom(synergy.Source);
+                    activeSynergies.Remove(synergy);
+                    changed = true;
+                }
+            }
+
+            if (changed) SynergiesChanged?.Invoke();
+        }
+
+        private static void CountFamilies(AttackInfo[] slots, Dictionary<WeaponFamily, int> counts)
+        {
+            foreach (AttackInfo info in slots)
+            {
+                if (info.IsEmpty) continue;
+                if (GameManager.Instance.AttackTable.TryGet(info.Id, out AttackDef def) == false) continue;
+                if (def.Family == WeaponFamily.None) continue;
+
+                counts.TryGetValue(def.Family, out int count);
+                counts[def.Family] = count + 1;
+            }
         }
     }
 

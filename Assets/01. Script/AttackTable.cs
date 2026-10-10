@@ -13,6 +13,8 @@ namespace Study_ActionPlatformer
 
         public AttackDef Get(WeaponId id) => defs[id];
 
+        public bool TryGet(WeaponId id, out AttackDef def) => defs.TryGetValue(id, out def);
+
         public IReadOnlyCollection<AttackDef> GetDefs() => defs.Values;
 
         public void Load()
@@ -39,6 +41,8 @@ namespace Study_ActionPlatformer
                     dto.MaxDamage = int.Parse(cells[5]);
                     dto.Speed = int.Parse(cells[6]);
                     dto.Range = int.Parse(cells[7]);
+                    // Family 열이 없던 예전 표도 읽을 수 있도록 비어 있으면 None으로 둡니다.
+                    dto.Family = cells.Length > 8 ? cells[8].Trim() : nameof(WeaponFamily.None);
                     
                     rows.Add(dto);
                 }
@@ -56,6 +60,7 @@ namespace Study_ActionPlatformer
                     MaxDamage = dto.MaxDamage,
                     Speed = dto.Speed,
                     Range = dto.Range,
+                    Family = (WeaponFamily)Enum.Parse(typeof(WeaponFamily), dto.Family),
                 };
             }
         }

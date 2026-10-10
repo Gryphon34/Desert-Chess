@@ -12,6 +12,7 @@ namespace Study_ActionPlatformer
         public int MaxDamage;
         public int Speed;
         public int Range;
+        public string Family;
     }
 
     [System.Serializable]
@@ -25,6 +26,7 @@ namespace Study_ActionPlatformer
         public int MaxDamage;
         public int Speed;
         public int Range;
+        public WeaponFamily Family;
 
         public AttackInfo ToAttackInfo(int remainingUses)
         {

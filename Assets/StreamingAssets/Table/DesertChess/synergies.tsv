@@ -1,0 +1,5 @@
+ID	Family	Count	StatType	Op	Value
+1	Melee	3	AttackSpeed	Add	2
+2	Heavy	3	Attack	Add	2
+3	Ranged	3	Range	Add	1
+4	Magic	3	Attack	Multiply	1.2

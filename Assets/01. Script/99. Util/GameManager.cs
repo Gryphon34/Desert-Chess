@@ -67,6 +67,21 @@ namespace Study_ActionPlatformer
             }
         }
 
+        private SynergyTable synergyTable;
+
+        public SynergyTable SynergyTable
+        {
+            get
+            {
+                if (synergyTable == null)
+                {
+                    synergyTable = new SynergyTable();
+                    synergyTable.Load();
+                }
+                return synergyTable;
+            }
+        }
+
         private RoundTable roundTable;
 
         public RoundTable RoundTable
