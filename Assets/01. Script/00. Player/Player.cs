@@ -25,7 +25,7 @@ namespace Study_ActionPlatformer
 
         public override BaseStat BaseStat => Stat;
 
-        private PlayerStat Stat { get; set; }
+        public PlayerStat Stat { get; private set; }
 
         [SerializeField] private AttackInfo[] weaponSlots = new AttackInfo[3];
         [SerializeField] private AttackInfo[] magicSlots = new AttackInfo[3];

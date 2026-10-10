@@ -29,6 +29,12 @@ namespace Study_ActionPlatformer
         {
             int baseDamage = AttackInfo.RollDamage();
 
+            // 플레이어 공격력 보정(시너지 · 보상 · 보스 스킬)은 여기 한 곳에서만 적용합니다.
+            if (Owner is Player player && player.Stat != null)
+            {
+                baseDamage = player.Stat.GetFinal(StatType.Attack, baseDamage);
+            }
+
             // "맞았는데 0 데미지"는 버그처럼 보이므로 최소 1을 보장합니다.
             return Mathf.Max(1, Mathf.RoundToInt(baseDamage * damageMultiplier));
         }
