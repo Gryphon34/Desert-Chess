@@ -20,6 +20,15 @@ namespace Study_ActionPlatformer
         private AttackInfo? pendingAbsorption;
         private int pendingRewardRound = -1;
 
+        // Canvas HUD(GameHudView)가 씬에 있으면 체력바/슬롯은 그쪽이 그립니다.
+        // 여기서는 아직 옮기지 않은 라운드 배너, 게임 오버 배너, 선택 팝업만 그립니다.
+        private bool hasCanvasHud = false;
+
+        private void Start()
+        {
+            hasCanvasHud = FindAnyObjectByType<GameHudView>() != null;
+        }
+
         private void Update()
         {
             // Player/RewardManager가 이 오브젝트보다 늦게 초기화될 수 있으므로
@@ -115,8 +124,12 @@ namespace Study_ActionPlatformer
 
         private void OnGUI()
         {
-            DrawHealthBar();
-            DrawSlotBar();
+            if (hasCanvasHud == false)
+            {
+                DrawHealthBar();
+                DrawSlotBar();
+            }
+
             DrawRoundLabel();
             DrawGameOverBanner();
 

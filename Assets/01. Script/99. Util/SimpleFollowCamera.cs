@@ -21,6 +21,9 @@ namespace Study.Utilities
         private Camera Cam { get; set; }
         private States State { get; set; }
 
+        private Bounds limitBounds;
+        private bool hasBounds = false;
+
         // 시작할 때 Target이 지정돼 있으면 바로 추적을 시작할지 여부입니다.
         //
         // 왜 필요한가:
@@ -59,11 +62,64 @@ namespace Study.Utilities
                     // ================
                     // 아래의 보간 내용은 (transform.position)을 (Target.position+offset)으로 초당 (lerpSpeed) 속도로
                     // 계속 가깝게 만드는 코드입니다. Target.position이 멀다면 더 빨리, 가깝다면 느리게
-                    Vector3 lerpPos=Vector3.Lerp(transform.position, Target.position+offset, lerpSpeed * Time.deltaTime);
+                    // lerpSpeed가 0 이하이면 보간 없이 바로 붙습니다.
+                    // (Game.unity에 0으로 저장돼 있어서, 보간만 하면 카메라가 전혀 움직이지 않습니다)
+                    Vector3 lerpPos = lerpSpeed > 0f
+                        ? Vector3.Lerp(transform.position, Target.position+offset, lerpSpeed * Time.deltaTime)
+                        : Target.position + offset;
                     lerpPos.z = transform.position.z; // 2D의 경우 z는 바뀌지 않습니다.
-                    transform.position = lerpPos;
+                    transform.position = ClampToBounds(lerpPos);
                     break;
             }
+        }
+
+        /// <summary>
+        /// 카메라가 이 범위 밖을 비추지 않도록 제한합니다(맵 테두리 등).
+        /// </summary>
+        public void SetBounds(Bounds bounds)
+        {
+            limitBounds = bounds;
+            hasBounds = true;
+        }
+
+        public void ClearBounds()
+        {
+            hasBounds = false;
+        }
+
+        /// <summary>
+        /// 맵 전환 직후처럼 보간 없이 바로 Target 위치로 옮길 때 씁니다.
+        /// </summary>
+        public void SnapToTarget()
+        {
+            if (Target == null) return;
+
+            Vector3 pos = Target.position + offset;
+            pos.z = transform.position.z;
+            transform.position = ClampToBounds(pos);
+        }
+
+        // 화면 절반 크기만큼 안쪽으로 줄인 범위에 카메라 중심을 가둡니다.
+        // 맵이 화면보다 작은 축은 맵 가운데에 고정합니다.
+        private Vector3 ClampToBounds(Vector3 pos)
+        {
+            if (hasBounds == false) return pos;
+
+            if (Cam == null) Cam = Camera.main;
+            if (Cam == null || Cam.orthographic == false) return pos;
+
+            float halfHeight = Cam.orthographicSize;
+            float halfWidth = halfHeight * Cam.aspect;
+
+            pos.x = ClampAxis(pos.x, limitBounds.min.x + halfWidth, limitBounds.max.x - halfWidth, limitBounds.center.x);
+            pos.y = ClampAxis(pos.y, limitBounds.min.y + halfHeight, limitBounds.max.y - halfHeight, limitBounds.center.y);
+            return pos;
+        }
+
+        private static float ClampAxis(float value, float min, float max, float center)
+        {
+            if (min > max) return center;
+            return Mathf.Clamp(value, min, max);
         }
 
         public void ChangeState(States state)

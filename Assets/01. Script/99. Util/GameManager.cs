@@ -20,6 +20,7 @@ namespace Study_ActionPlatformer
 
         [SerializeField] private int roundCountToBoss = 6;
         [SerializeField] private RewardManager rewardManager;
+        [SerializeField] private MapManager mapManager;
 
         private RoundManager roundManager;
         private Player player;
@@ -60,7 +61,10 @@ namespace Study_ActionPlatformer
             }
 
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad는 쓰지 않습니다.
+            // - GameManager가 '=====Managers=====' 아래 자식이라 Unity가 경고만 내고 무시하고 있었습니다.
+            // - 게임은 씬 하나에서 맵만 바꿔 진행하므로(MapManager) 씬을 넘길 일이 없습니다.
+            // - 남겨 두면 나중에 씬을 다시 불러올 때 예전 Player/RoundManager를 붙든 채 남아 버그가 됩니다.
         }
 
         private void Start()
@@ -69,6 +73,13 @@ namespace Study_ActionPlatformer
             roundManager = FindAnyObjectByType<RoundManager>();
 
             if (rewardManager == null) rewardManager = FindAnyObjectByType<RewardManager>();
+            if (mapManager == null) mapManager = FindAnyObjectByType<MapManager>();
+
+            if (mapManager != null && mapManager.MapCount > 0 && mapManager.MapCount != roundCountToBoss)
+            {
+                Debug.LogWarning($"GameManager ::: 맵은 {mapManager.MapCount}개인데 라운드는 {roundCountToBoss}개입니다. " +
+                    "맵이 없는 라운드는 이전 맵에서 진행합니다.");
+            }
 
             if (roundManager != null)
             {
@@ -136,9 +147,21 @@ namespace Study_ActionPlatformer
             Time.timeScale = 1f;
 
             currentState = GameFlowState.Playing;
+            StartRound(1);
+        }
+
+        // 맵을 먼저 바꾼 뒤 스폰을 시작합니다. 순서가 반대면 첫 몬스터가 이전 맵의 스폰
+        // 지점에 나오거나, 플레이어가 옮겨지기 전에 몬스터가 먼저 나타납니다.
+        private void StartRound(int roundIndex)
+        {
+            if (mapManager != null)
+            {
+                mapManager.LoadRound(roundIndex);
+            }
+
             if (roundManager != null)
             {
-                roundManager.BeginRound(1);
+                roundManager.BeginRound(roundIndex);
             }
         }
 
@@ -173,10 +196,7 @@ namespace Study_ActionPlatformer
             int next = pendingNextRound;
             pendingNextRound = -1;
 
-            if (roundManager != null)
-            {
-                roundManager.BeginRound(next);
-            }
+            StartRound(next);
         }
 
         public void NotifyBossKilled()

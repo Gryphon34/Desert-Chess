@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,10 @@ namespace Study_ActionPlatformer
         [SerializeField] private Enemy[] enemyPrefabs;
         [SerializeField] private Boss bossPrefab;
 
+        // 현재 라운드 맵의 EnemySpawn/BossSpawn을 씁니다. 맵이 없거나 스폰 지점이 비어 있으면
+        // 위의 spawnPoints로 대신합니다.
+        [SerializeField] private MapManager mapManager;
+
         private GameManager gameManager;
         private readonly List<Enemy> aliveEnemies = new List<Enemy>();
 
@@ -21,6 +26,13 @@ namespace Study_ActionPlatformer
         private int spawnedThisRound = 0;
         private bool isSpawning = false;
         private bool roundCompleted = false;
+        private int defeatedThisRound = 0;
+
+        // HUD가 라운드 번호를 매 프레임 비교하지 않도록 라운드 진행을 이벤트로 알립니다.
+        public event Action<int> RoundStarted;
+        public event Action<int> RoundCleared;
+        // (처치 수, 라운드 목표 수)
+        public event Action<int, int> KillProgressChanged;
 
         // 기획서 6-2 : "보스 스킬 = 몬스터의 모든 스킬들 보유".
         // 1~5라운드에서 실제로 스폰된 몬스터들의 드랍 무기 종류를 모아뒀다가,
@@ -32,16 +44,19 @@ namespace Study_ActionPlatformer
         public int MonstersPerRound => monstersPerRound;
         public bool IsBossRound => currentRound >= bossRound;
         public Boss CurrentBoss => currentBoss;
+        public int DefeatedThisRound => defeatedThisRound;
 
         public void Initialize(GameManager manager)
         {
             gameManager = manager;
+            if (mapManager == null) mapManager = FindAnyObjectByType<MapManager>();
         }
 
         public void BeginRound(int roundIndex)
         {
             currentRound = roundIndex;
             spawnedThisRound = 0;
+            defeatedThisRound = 0;
             roundCompleted = false;
 
             aliveEnemies.Clear();
@@ -54,6 +69,9 @@ namespace Study_ActionPlatformer
             {
                 encounteredWeaponIds.Clear();
             }
+
+            RoundStarted?.Invoke(currentRound);
+            KillProgressChanged?.Invoke(defeatedThisRound, monstersPerRound);
 
             StartCoroutine(SpawnRoundCoroutine());
         }
@@ -77,9 +95,11 @@ namespace Study_ActionPlatformer
         public void NotifyEnemyDefeated(EnemyController controller)
         {
             Enemy enemy = controller.GetComponentInChildren<Enemy>();
-            if (enemy != null)
+            // 목록에 있던 몬스터만 셉니다(보스가 소환한 졸개 등은 라운드 목표 수에 넣지 않습니다).
+            if (enemy != null && aliveEnemies.Remove(enemy))
             {
-                aliveEnemies.Remove(enemy);
+                defeatedThisRound += 1;
+                KillProgressChanged?.Invoke(defeatedThisRound, monstersPerRound);
             }
 
             EvaluateRoundState();
@@ -130,15 +150,14 @@ namespace Study_ActionPlatformer
 
         private void SpawnEnemy()
         {
-            if (spawnPoints == null || spawnPoints.Length == 0)
-                return;
-
             if (enemyPrefabs == null || enemyPrefabs.Length == 0)
                 return;
 
-            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            Enemy prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-            Enemy enemy = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+            if (TryGetEnemySpawnPosition(out Vector3 spawnPosition) == false)
+                return;
+
+            Enemy prefab = enemyPrefabs[UnityEngine.Random.Range(0, enemyPrefabs.Length)];
+            Enemy enemy = Instantiate(prefab, spawnPosition, Quaternion.identity);
 
             EnemyController controller = enemy.GetComponent<EnemyController>();
             if (controller != null)
@@ -159,11 +178,13 @@ namespace Study_ActionPlatformer
 
         private void SpawnBoss()
         {
-            if (spawnPoints == null || spawnPoints.Length == 0 || bossPrefab == null)
+            if (bossPrefab == null)
                 return;
 
-            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            Boss boss = Instantiate(bossPrefab, spawnPoint.position, Quaternion.identity);
+            if (TryGetBossSpawnPosition(out Vector3 spawnPosition) == false)
+                return;
+
+            Boss boss = Instantiate(bossPrefab, spawnPosition, Quaternion.identity);
 
             // Boss.Start()가 실행되기 전에(같은 프레임 안에서) 넘겨줘야 합니다.
             // 그래야 보스가 "완전 무작위" 대신 이 판에서 실제로 만난 몬스터들의
@@ -199,11 +220,53 @@ namespace Study_ActionPlatformer
             if (aliveEnemies.Count == 0 && spawnedThisRound >= monstersPerRound)
             {
                 roundCompleted = true;
+                RoundCleared?.Invoke(currentRound);
+
                 if (gameManager != null)
                 {
                     gameManager.NotifyRoundCleared(currentRound);
                 }
             }
+        }
+
+        private RoundMap CurrentMap => mapManager != null ? mapManager.CurrentMap : null;
+
+        private bool TryGetEnemySpawnPosition(out Vector3 position)
+        {
+            RoundMap map = CurrentMap;
+            if (map != null && map.EnemySpawns.Length > 0)
+            {
+                Transform marker = map.EnemySpawns[UnityEngine.Random.Range(0, map.EnemySpawns.Length)];
+                position = mapManager.ToSpawnPosition(marker);
+                return true;
+            }
+
+            return TryGetFallbackSpawnPosition(out position);
+        }
+
+        private bool TryGetBossSpawnPosition(out Vector3 position)
+        {
+            RoundMap map = CurrentMap;
+            if (map != null && map.BossSpawn != null)
+            {
+                position = mapManager.ToSpawnPosition(map.BossSpawn);
+                return true;
+            }
+
+            return TryGetEnemySpawnPosition(out position);
+        }
+
+        // 맵이 연결되지 않은 씬(예전 테스트 씬 등)에서는 인스펙터의 spawnPoints를 그대로 씁니다.
+        private bool TryGetFallbackSpawnPosition(out Vector3 position)
+        {
+            if (spawnPoints == null || spawnPoints.Length == 0)
+            {
+                position = Vector3.zero;
+                return false;
+            }
+
+            position = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
+            return true;
         }
     }
 }

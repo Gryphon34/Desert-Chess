@@ -91,6 +91,23 @@ namespace Study.Utilities
             return true;
         }
 
+        /// <summary>
+        /// 맵 전환처럼 위치를 순간이동시킬 때 씁니다.
+        /// transform만 바꾸면 Kinematic Rigidbody2D가 다음 FixedUpdate에 예전 위치 기준으로
+        /// MovePosition을 하고, 떨어지던 속도도 그대로 남습니다. 둘 다 함께 초기화합니다.
+        /// </summary>
+        public void Teleport(Vector3 position)
+        {
+            if (rBody != null) rBody.position = position;
+            transform.position = position;
+
+            VerticalVelocity = 0.0f;
+            externalDelta = Vector3.zero;
+            jumpRequested = false;
+
+            Physics2D.SyncTransforms();
+        }
+
         #endregion
 
         #region Private Methods (운동 파이프라인)
