@@ -36,7 +36,9 @@ namespace Study_ActionPlatformer
                 MinDamage = this.MinDamage,
                 MaxDamage = this.MaxDamage,
                 RemainingUses = remainingUses,
-                damageCurve = null 
+                damageCurve = null,
+                Speed = this.Speed,
+                Range = this.Range,
             };
         }
     }

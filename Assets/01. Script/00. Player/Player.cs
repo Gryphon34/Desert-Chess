@@ -388,6 +388,17 @@ namespace Study_ActionPlatformer
         public int MagicSlotCount => magicSlots.Length;
 
         public AttackInfo GetWeaponSlot(int index) => weaponSlots[index];
+
+        /// <summary>
+        /// 무기 공속(Speed)에 플레이어 공속 보정을 적용한 공격 애니메이션 배속.
+        /// </summary>
+        public float GetFinalAnimationSpeed(AttackInfo info)
+        {
+            if (info.Speed <= 0) return 1f;
+
+            float speed = Stat != null ? Stat.GetFinal(StatType.AttackSpeed, (float)info.Speed) : info.Speed;
+            return AttackInfo.ToAnimationSpeed(speed);
+        }
         public AttackInfo GetMagicSlot(int index) => magicSlots[index];
 
         /// <summary>

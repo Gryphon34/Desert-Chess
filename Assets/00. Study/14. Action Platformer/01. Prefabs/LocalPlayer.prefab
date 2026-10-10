@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   <Category>k__BackingField: 0
   damageMultiplier: 1
+  rangeWidthRatio: 1
+  growForward: 1
 --- !u!212 &1978800664407536933
 SpriteRenderer:
   serializedVersion: 2
@@ -477,6 +479,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   <Category>k__BackingField: 0
   damageMultiplier: 1.5
+  rangeWidthRatio: 1.04
+  growForward: 1
 --- !u!212 &2349653001042748794
 SpriteRenderer:
   serializedVersion: 2
@@ -630,6 +634,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   <Category>k__BackingField: 1
   damageMultiplier: 1
+  rangeWidthRatio: 1
+  growForward: 1
 --- !u!212 &6977748702983592316
 SpriteRenderer:
   serializedVersion: 2
@@ -783,6 +789,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   <Category>k__BackingField: 0
   damageMultiplier: 2
+  rangeWidthRatio: 1.1
+  growForward: 1
 --- !u!212 &4639921396559555151
 SpriteRenderer:
   serializedVersion: 2
@@ -936,6 +944,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitBox
   <Category>k__BackingField: 0
   damageMultiplier: 2.5
+  rangeWidthRatio: 0.81
+  growForward: 0
 --- !u!212 &2824703432858376043
 SpriteRenderer:
   serializedVersion: 2

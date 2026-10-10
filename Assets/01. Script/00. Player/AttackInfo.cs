@@ -52,6 +52,18 @@ namespace Study_ActionPlatformer
         public int RemainingUses;
         public AnimationCurve damageCurve;
 
+        // 기획서 5-3 공속 · 범위 (weapons.tsv Speed / Range)
+        public int Speed;
+        public int Range;
+
+        // 공속 기준값 : Speed 5 = 애니메이션 1.0배, 비례 계산 (Speed 8 = 1.6배, Speed 2 = 0.4배)
+        public const int BASE_SPEED = 5;
+
+        // 공격 애니메이션 배속. Speed가 없으면(0) 1배로 둡니다.
+        public float AnimationSpeed => ToAnimationSpeed(Speed);
+
+        public static float ToAnimationSpeed(float speed) => speed > 0f ? speed / BASE_SPEED : 1f;
+
         // 슬롯이 비었는지 판단하는 기준을 한 곳으로 모읍니다.
         // (여기저기서 Key == AttackKey.None을 직접 비교하면 규칙이 바뀔 때 다 고쳐야 합니다)
         public bool IsEmpty => Key == AttackKey.None;
