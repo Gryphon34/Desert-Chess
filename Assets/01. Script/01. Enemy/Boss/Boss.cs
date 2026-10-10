@@ -40,8 +40,10 @@ namespace Study_ActionPlatformer
             //  호출되므로 그 사이에 외부에서 값을 주입할 여지가 생깁니다)
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             if (skillsSeeded) return;
             EnsureMonsterSkillLibrary();
         }

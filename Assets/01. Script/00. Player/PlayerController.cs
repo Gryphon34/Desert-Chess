@@ -33,6 +33,9 @@ namespace Study_ActionPlatformer
         private const string ANIM_TAG_FIRE = "Fire";
         private const string ANIM_TAG_JUMP = "Jump";
 
+        // 마법(Fire)으로 전이할 수 있는 유일한 상태 이름
+        private const string ANIM_STATE_IDLE = "Zero_Idle";
+
         // 애니메이터 파라미터 해시
         // - string을 이용해서 파라미터를 전달하면 가비지가 생기며, 실수(오타)가 많이 일어남
         //  특정 string값을 애니메이터 별로 Hash값으로 치환하여 애니메이션 파라미터로 사용
@@ -161,7 +164,10 @@ namespace Study_ActionPlatformer
                 BeginWeaponAttack();
             }
 
-            if (SimpleInput.GetKeyDown(Key.X))
+            // 마법은 서 있을 때(바닥 + 이동 입력 없음 + Idle 상태)만 나갑니다.
+            // 애니메이터에 Fire로 가는 전이가 Zero_Idle에서만 있어서, 달리기/점프 중에
+            // 누르면 횟수만 깎이고 모션은 나중에 멈춰 섰을 때 뒤늦게 나왔습니다.
+            if (SimpleInput.GetKeyDown(Key.X) && CanCastMagic(inputVector.x))
             {
                 // 마법은 여기서 딱 한 번만 차감됩니다.
                 // (예전에는 여기서 한 번, 명중 시 HitBox에서 또 한 번 차감돼서
@@ -172,6 +178,16 @@ namespace Study_ActionPlatformer
                     Animator.SetBool(IS_FIRE, true);
                 }
             }
+        }
+
+        // 서 있는 상태인지 확인합니다. Zero_Idle이 아니거나 다른 상태로 넘어가는 중이면 false.
+        private bool CanCastMagic(float horizontalInput)
+        {
+            if (Controller2D == null || Controller2D.IsGrounded == false) return false;
+            if (Mathf.Abs(horizontalInput) > 0f) return false;
+            if (Animator.IsInTransition(0)) return false;
+
+            return Animator.GetCurrentAnimatorStateInfo(0).IsName(ANIM_STATE_IDLE);
         }
 
         /// 무기 공격을 시작

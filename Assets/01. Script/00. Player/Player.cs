@@ -33,6 +33,10 @@ namespace Study_ActionPlatformer
         public event Action<AttackInfo> MonsterAbsorbed;
         public event Action<AttackInfo> AbsorptionChoiceRequested;
 
+        // HUD가 매 프레임 값을 확인하지 않도록, 체력/슬롯이 바뀔 때마다 알립니다.
+        public event Action HpChanged;
+        public event Action SlotsChanged;
+
         private AttackInfo? pendingAbsorption;
         private AttackSlotCategory? pendingAbsorptionCategory;
 
@@ -92,6 +96,7 @@ namespace Study_ActionPlatformer
             ActiveWeaponSlot = slotIndex;
             attackInfo = weaponSlots[slotIndex];
             SyncActiveWeaponInfoToHitBoxes();
+            NotifySlotsChanged();
         }
 
         public bool TryConsumeActiveWeaponUse()
@@ -108,6 +113,7 @@ namespace Study_ActionPlatformer
                 weaponSlots[ActiveWeaponSlot] = CreateDefaultWeaponInfo();
                 attackInfo = weaponSlots[ActiveWeaponSlot];
                 SyncActiveWeaponInfoToHitBoxes();
+                NotifySlotsChanged();
                 return false;
             }
 
@@ -125,6 +131,7 @@ namespace Study_ActionPlatformer
             }
 
             SyncActiveWeaponInfoToHitBoxes();
+            NotifySlotsChanged();
             return true;
         }
 
@@ -137,6 +144,7 @@ namespace Study_ActionPlatformer
             {
                 magicSlots[ActiveMagicSlot] = CreateDefaultMagicInfo();
                 SyncActiveMagicInfoToHitBoxes();
+                NotifySlotsChanged();
                 return false;
             }
 
@@ -158,6 +166,7 @@ namespace Study_ActionPlatformer
                 magicSlots[ActiveMagicSlot] = CreateDefaultMagicInfo();
             }
 
+            NotifySlotsChanged();
             return true;
         }
 
@@ -167,6 +176,7 @@ namespace Study_ActionPlatformer
 
             ActiveMagicSlot = slotIndex;
             SyncActiveMagicInfoToHitBoxes();
+            NotifySlotsChanged();
         }
 
         public bool TryFireActiveMagic()
@@ -208,6 +218,7 @@ namespace Study_ActionPlatformer
                     SyncActiveWeaponInfoToHitBoxes();
                 }
 
+                NotifySlotsChanged();
                 MonsterAbsorbed?.Invoke(droppedWeapon);
                 return;
             }
@@ -228,6 +239,7 @@ namespace Study_ActionPlatformer
                     SyncActiveMagicInfoToHitBoxes();
                 }
 
+                NotifySlotsChanged();
                 MonsterAbsorbed?.Invoke(droppedWeapon);
                 return;
             }
@@ -269,6 +281,7 @@ namespace Study_ActionPlatformer
 
             pendingAbsorption = null;
             pendingAbsorptionCategory = null;
+            NotifySlotsChanged();
             MonsterAbsorbed?.Invoke(dropped);
         }
 
@@ -397,6 +410,8 @@ namespace Study_ActionPlatformer
                 attackInfo = info;
                 SyncActiveWeaponInfoToHitBoxes();
             }
+
+            NotifySlotsChanged();
         }
 
         /// <summary>
@@ -418,6 +433,8 @@ namespace Study_ActionPlatformer
             {
                 SyncActiveMagicInfoToHitBoxes();
             }
+
+            NotifySlotsChanged();
         }
 
         /// <summary>
@@ -449,6 +466,8 @@ namespace Study_ActionPlatformer
                 attackInfo = info;
                 SyncActiveWeaponInfoToHitBoxes();
             }
+
+            NotifySlotsChanged();
         }
 
         private void RechargeMagicSlot(int slotIndex, int amount)
@@ -465,6 +484,8 @@ namespace Study_ActionPlatformer
             {
                 SyncActiveMagicInfoToHitBoxes();
             }
+
+            NotifySlotsChanged();
         }
 
         public override void TakeDamage(int damage)
@@ -475,6 +496,7 @@ namespace Study_ActionPlatformer
             }
 
             Stat.ApplyDamage(damage);
+            HpChanged?.Invoke();
         }
 
         public override void TakeHeal(int heal)
@@ -485,6 +507,12 @@ namespace Study_ActionPlatformer
             }
 
             Stat.ApplyHeal(heal);
+            HpChanged?.Invoke();
+        }
+
+        private void NotifySlotsChanged()
+        {
+            SlotsChanged?.Invoke();
         }
     }
 

@@ -26,6 +26,53 @@ namespace Study_ActionPlatformer
         protected float AttackRange => attackRange;
         [SerializeField] private float baseUpdateTerm = 0.1f;
 
+        // 지형 처리
+        // 예전에는 transform.Translate로 좌우만 움직여서 벽을 통과하고, 발판 끝에서도
+        // 허공으로 계속 걸어나가 맵 밖으로 벗어났습니다(중력도 없었습니다).
+        // 이제 벽/낭떠러지 앞에서 멈추고, 발밑이 비면 떨어집니다.
+        [Header("지형")]
+        [Tooltip("비워두면 'Ground' 레이어를 사용합니다.")]
+        [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private float gravity = -20f;
+        [SerializeField] private float maxFallSpeed = 20f;
+        [Tooltip("앞쪽 발밑으로 이 깊이 안에 바닥이 없으면 낭떠러지로 보고 멈춥니다.")]
+        [SerializeField] private float ledgeCheckDepth = 0.6f;
+
+        private const float SKIN_WIDTH = 0.02f;
+
+        // 몸통 충돌 박스(루트 기준 오프셋/크기). 좌우 반전(scale.x)과 무관하게 가운데 정렬이라
+        // Awake에서 한 번만 계산합니다.
+        private Vector2 bodyOffset = new Vector2(0f, 0.72f);
+        private Vector2 bodySize = new Vector2(1.2f, 1.44f);
+        private float verticalVelocity = 0f;
+        private bool isGrounded = false;
+
+        // 다른 층 추적
+        // 플레이어가 아래층이면 발판 끝에서 뛰어내리고, 위층이면 점프해서 따라갑니다.
+        // 길찾기가 아니라 "막히면 점프, 계속 실패하면 반대로 돌아가기" 방식의 단순한 규칙입니다.
+        [Header("다른 층 추적")]
+        [SerializeField] private bool chaseAcrossFloors = true;
+        [Tooltip("점프로 올라갈 수 있는 높이(유닛)")]
+        [SerializeField] private float jumpHeight = 3f;
+        [SerializeField] private float jumpCooldown = 0.6f;
+        [Tooltip("플레이어가 위에 있고 좌우 거리가 이 안이면 바로 점프합니다.")]
+        [SerializeField] private float jumpTriggerDistance = 2.5f;
+        [Tooltip("이 횟수만큼 점프해도 더 올라가지 못하면 반대 방향으로 돌아가 다른 길을 찾습니다.")]
+        [SerializeField] private int failedJumpsBeforeDetour = 2;
+        [Tooltip("이 시간 동안 제자리면 막힌 것으로 보고 반대 방향으로 돌아갑니다.")]
+        [SerializeField] private float stuckTime = 1.0f;
+        [SerializeField] private float detourDuration = 1.5f;
+
+        private const float JUMP_PROGRESS_HEIGHT = 0.5f;
+
+        private float lastJumpTime = float.NegativeInfinity;
+        private bool isJumping = false;
+        private float jumpStartY;
+        private int failedJumps = 0;
+        private float stuckTimer = 0f;
+        private float detourUntil = float.NegativeInfinity;
+        private float detourDirection = 1f;
+
 
 
 
@@ -76,6 +123,122 @@ namespace Study_ActionPlatformer
             pointB.y = transform.position.y;
 
             goalPoint = pointB;
+
+            CacheBody();
+            if (groundLayer.value == 0) groundLayer = LayerMask.GetMask("Ground");
+        }
+
+        private void CacheBody()
+        {
+            Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+            for (int i = 0; i < colliders.Length; ++i)
+            {
+                if (colliders[i].isTrigger) continue;
+
+                Bounds b = colliders[i].bounds;
+                if (b.size.x <= 0f || b.size.y <= 0f) continue;
+
+                bodyOffset = b.center - transform.position;
+                bodySize = b.size;
+                return;
+            }
+        }
+
+        private void Update()
+        {
+            ApplyGravity();
+        }
+
+        // 발밑이 비어 있으면 떨어지고, 바닥에 닿으면 멈춥니다. 점프 중에는 천장에 막힙니다.
+        // (스폰 지점이 바닥보다 살짝 위라서, 이게 없으면 공중에 떠 있게 됩니다)
+        private void ApplyGravity()
+        {
+            verticalVelocity = Mathf.Max(verticalVelocity + gravity * Time.deltaTime, -maxFallSpeed);
+            float delta = verticalVelocity * Time.deltaTime;
+            if (delta == 0f) return;
+
+            Vector2 dir = delta > 0f ? Vector2.up : Vector2.down;
+            float distance = Mathf.Abs(delta);
+
+            RaycastHit2D hit = Physics2D.BoxCast(BodyCenter, CastSize, 0f, dir,
+                distance + SKIN_WIDTH, groundLayer);
+
+            bool wasGrounded = isGrounded;
+            if (hit.collider != null)
+            {
+                distance = Mathf.Max(0f, hit.distance - SKIN_WIDTH);
+                verticalVelocity = 0f;
+                isGrounded = delta < 0f;
+            }
+            else
+            {
+                isGrounded = false;
+            }
+
+            transform.position += (Vector3)(dir * distance);
+
+            if (wasGrounded == false && isGrounded) OnLanded();
+        }
+
+        // 점프로 실제로 더 높은 곳에 올라갔는지 확인합니다. 천장에 부딪혀 제자리에 내려왔다면
+        // 실패로 셉니다.
+        private void OnLanded()
+        {
+            if (isJumping == false) return;
+            isJumping = false;
+
+            if (transform.position.y > jumpStartY + JUMP_PROGRESS_HEIGHT) failedJumps = 0;
+            else failedJumps += 1;
+        }
+
+        private bool TryJump()
+        {
+            if (isGrounded == false) return false;
+            if (Time.time < lastJumpTime + jumpCooldown) return false;
+
+            verticalVelocity = Mathf.Sqrt(2f * Mathf.Abs(gravity) * jumpHeight);
+            isGrounded = false;
+            isJumping = true;
+            jumpStartY = transform.position.y;
+            lastJumpTime = Time.time;
+            return true;
+        }
+
+        private Vector2 BodyCenter => (Vector2)transform.position + bodyOffset;
+        private Vector2 CastSize => new Vector2(bodySize.x - SKIN_WIDTH * 2f, bodySize.y - SKIN_WIDTH * 2f);
+
+        // 이번 프레임에 moveDirection 쪽으로 갈 수 있는 거리를 돌려줍니다.
+        // 벽에 막히면 벽 앞까지만 갑니다. 앞쪽 발밑이 비어 있으면(낭떠러지) allowDrop일 때만
+        // 걸어 나가고, 아니면 0입니다. 공중에서는 벽만 확인합니다(점프 중 좌우 이동).
+        private float ResolveHorizontalMove(float moveDirection, float distance, bool allowDrop,
+            out bool hitWall, out bool atLedge)
+        {
+            hitWall = false;
+            atLedge = false;
+
+            Vector2 dir = new Vector2(moveDirection, 0f);
+            RaycastHit2D wall = Physics2D.BoxCast(BodyCenter, CastSize, 0f, dir,
+                distance + SKIN_WIDTH, groundLayer);
+            if (wall.collider != null)
+            {
+                distance = Mathf.Max(0f, wall.distance - SKIN_WIDTH);
+                hitWall = true;
+            }
+
+            if (isGrounded == false) return distance;
+
+            Vector2 center = BodyCenter;
+            Vector2 frontFoot = new Vector2(
+                center.x + moveDirection * (bodySize.x * 0.5f + distance + SKIN_WIDTH),
+                center.y - bodySize.y * 0.5f + SKIN_WIDTH);
+            RaycastHit2D floor = Physics2D.Raycast(frontFoot, Vector2.down, ledgeCheckDepth, groundLayer);
+            if (floor.collider == null)
+            {
+                atLedge = true;
+                if (allowDrop == false) return 0f;
+            }
+
+            return distance;
         }
 
         private void OnEnable()
@@ -125,8 +288,8 @@ namespace Study_ActionPlatformer
                 // 2. 타깃이 TraceRange안에 있을때 AttackState로 전환
                 if (Target != null && Target.IsInRange(transform.position, traceRange))
                 {
-                    // 플레이어와 내가 같은 층에 있을때 (조건 검사)
-                    if (CompareFloor(transform.position, Target.position) == 0)
+                    // 같은 층에 있을 때, 또는 다른 층 추적이 켜져 있을 때 추적을 시작합니다.
+                    if (chaseAcrossFloors || IsSameFloorAsTarget())
                     {
                         nextStateCoroutine = AttackStateCoroutine();
                         yield break; // 코루틴 자체를 탈출하는 키워드 입니다
@@ -157,8 +320,8 @@ namespace Study_ActionPlatformer
 
                 if (Target != null && Target.IsInRange(transform.position, traceRange))
                 {
-                    // 플레이어와 내가 같은 층에 있을때 (조건 검사)
-                    if (CompareFloor(transform.position, Target.position) == 0)
+                    // 같은 층에 있을 때, 또는 다른 층 추적이 켜져 있을 때 추적을 시작합니다.
+                    if (chaseAcrossFloors || IsSameFloorAsTarget())
                     {
                         nextStateCoroutine = AttackStateCoroutine();
                         yield break; // 코루틴 자체를 탈출하는 키워드 입니다
@@ -210,7 +373,9 @@ namespace Study_ActionPlatformer
                 Vector3 adjustTargetPosition = Target.position;
                 adjustTargetPosition.y = transform.position.y;
 
-                if (transform.IsInRange(adjustTargetPosition, attackRange))
+                // 같은 층일 때만 공격합니다. y를 맞춰 거리를 재기 때문에, 이 조건이 없으면
+                // 바로 위/아래층에 있는 플레이어도 좌우 거리만 가까우면 공격했습니다.
+                if (transform.IsInRange(adjustTargetPosition, attackRange) && IsSameFloorAsTarget())
                 {
                     Animator.SetBool(IS_MOVE, false);
                     Animator.SetTrigger(ATTACK);
@@ -228,7 +393,7 @@ namespace Study_ActionPlatformer
                     // 공격 전체 쿨다운 대기
                     yield return new WaitForSeconds(ATTACK_COOLDOWN - ATTACK_HIT_DELAY);
                 }
-                else Move(Target.position); // 이동 한다(타겟이 사거리 안에 들어올때까지)
+                else ChaseMove(Target.position); // 이동 한다(타겟이 사거리 안에 들어올때까지)
 
                 yield return null;
             }
@@ -244,7 +409,70 @@ namespace Study_ActionPlatformer
             Animator.SetBool(IS_MOVE, true);
             // 1차원 방향(사이드뷰, 플랫포머 이니까)
             float moveDirection = UpdateDirection(goalPosition);
-            transform.Translate(new Vector3(moveDirection, 0, 0) * (moveSpeed * Time.deltaTime));
+            if (isGrounded == false) return; // 순찰 중에는 공중에서 움직이지 않습니다.
+
+            float distance = ResolveHorizontalMove(moveDirection, moveSpeed * Time.deltaTime,
+                false, out _, out _);
+            transform.position += new Vector3(moveDirection * distance, 0f, 0f);
+        }
+
+        /// <summary>
+        /// 플레이어를 쫓아 이동합니다. 같은 층이면 Move와 같고, 다른 층이면
+        /// - 플레이어가 아래: 발판 끝에서 뛰어내립니다.
+        /// - 플레이어가 위: 벽/발판 끝에 막히거나 플레이어 바로 아래에 오면 점프합니다.
+        /// 점프가 계속 실패하거나(천장) 한자리에 막혀 있으면 잠시 반대 방향으로 돌아갑니다.
+        /// </summary>
+        protected void ChaseMove(Vector3 targetPosition)
+        {
+            Animator.SetBool(IS_MOVE, true);
+
+            int floor = chaseAcrossFloors ? CompareFloor(transform.position, targetPosition) : 0;
+            bool targetAbove = floor < 0;
+            bool targetBelow = floor > 0;
+
+            float toTarget = targetPosition.x - transform.position.x;
+            bool detouring = Time.time < detourUntil;
+            float moveDirection = detouring ? detourDirection : Mathf.Sign(toTarget);
+            UpdateDirection(transform.position + Vector3.right * moveDirection);
+
+            float wanted = moveSpeed * Time.deltaTime;
+            float moved = ResolveHorizontalMove(moveDirection, wanted, targetBelow,
+                out bool hitWall, out bool atLedge);
+            transform.position += new Vector3(moveDirection * moved, 0f, 0f);
+
+            if (isGrounded)
+            {
+                bool shouldJump =
+                    (targetAbove && (hitWall || atLedge || Mathf.Abs(toTarget) <= jumpTriggerDistance)) ||
+                    (floor == 0 && hitWall); // 같은 층이어도 낮은 턱은 넘어갑니다.
+
+                if (shouldJump) TryJump();
+            }
+
+            UpdateStuck(moveDirection, wanted, moved, targetAbove);
+        }
+
+        private void UpdateStuck(float moveDirection, float wanted, float moved, bool targetAbove)
+        {
+            if (Time.time < detourUntil) return;
+
+            bool repeatedFailedJumps = targetAbove && failedJumps >= failedJumpsBeforeDetour;
+
+            if (isGrounded && moved < wanted * 0.1f) stuckTimer += Time.deltaTime;
+            else stuckTimer = 0f;
+
+            if (repeatedFailedJumps || stuckTimer >= stuckTime)
+            {
+                detourDirection = -moveDirection;
+                detourUntil = Time.time + detourDuration;
+                failedJumps = 0;
+                stuckTimer = 0f;
+            }
+        }
+
+        private bool IsSameFloorAsTarget()
+        {
+            return Target != null && CompareFloor(transform.position, Target.position) == 0;
         }
 
         protected float UpdateDirection(Vector3 goalPosition)
