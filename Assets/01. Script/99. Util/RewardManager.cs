@@ -5,10 +5,8 @@ namespace Study_ActionPlatformer
 {
     public class RewardManager : MonoBehaviour
     {
-        [SerializeField] private int roundRewardHp = 10;
-        [SerializeField] private int bossRewardHp = 30;
-        [SerializeField] private int enhanceDamageBoost = 1;
-        [SerializeField] private int enhanceUsesBoost = 3;
+        // 보상 수치는 rewards.tsv(GameManager.RewardTable)에서 읽습니다.
+        private static RewardDef GetDef(RewardId id) => GameManager.Instance.RewardTable.Get(id);
 
         // 라운드 클리어 후 "보상 선택지"가 등장합니다.
         public event Action<int> RewardChoiceRequested;
@@ -57,7 +55,7 @@ namespace Study_ActionPlatformer
         public void GrantBossClearReward()
         {
             if (Player.LocalPlayer == null) return;
-            Player.LocalPlayer.TakeHeal(bossRewardHp);
+            Player.LocalPlayer.TakeHeal(GetDef(RewardId.BossClearHeal).BaseAmount);
         }
 
         /// 보상 방향 1 : 피 회복.
@@ -67,7 +65,8 @@ namespace Study_ActionPlatformer
 
             if (Player.LocalPlayer != null)
             {
-                int healAmount = roundRewardHp + (pendingRoundIndex * 2);
+                RewardDef heal = GetDef(RewardId.RoundHeal);
+                int healAmount = heal.BaseAmount + (pendingRoundIndex * heal.AmountPerRound);
                 Player.LocalPlayer.TakeHeal(healAmount);
             }
 
@@ -81,10 +80,11 @@ namespace Study_ActionPlatformer
 
             if (Player.LocalPlayer != null)
             {
+                RewardDef enhance = GetDef(RewardId.Enhance);
                 if (isWeaponSlot)
-                    Player.LocalPlayer.EnhanceWeaponSlot(slotIndex, enhanceDamageBoost, enhanceUsesBoost);
+                    Player.LocalPlayer.EnhanceWeaponSlot(slotIndex, enhance.DamageBoost, enhance.UsesBoost);
                 else
-                    Player.LocalPlayer.EnhanceMagicSlot(slotIndex, enhanceDamageBoost, enhanceUsesBoost);
+                    Player.LocalPlayer.EnhanceMagicSlot(slotIndex, enhance.DamageBoost, enhance.UsesBoost);
             }
 
             ResolveChoice();

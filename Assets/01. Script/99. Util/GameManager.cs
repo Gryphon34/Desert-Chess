@@ -52,6 +52,36 @@ namespace Study_ActionPlatformer
             }
         }
 
+        private RewardTable rewardTable;
+
+        public RewardTable RewardTable
+        {
+            get
+            {
+                if (rewardTable == null)
+                {
+                    rewardTable = new RewardTable();
+                    rewardTable.Load();
+                }
+                return rewardTable;
+            }
+        }
+
+        private RoundTable roundTable;
+
+        public RoundTable RoundTable
+        {
+            get
+            {
+                if (roundTable == null)
+                {
+                    roundTable = new RoundTable();
+                    roundTable.Load();
+                }
+                return roundTable;
+            }
+        }
+
         private void Awake()
         {
             if (Instance != null && Instance != this)

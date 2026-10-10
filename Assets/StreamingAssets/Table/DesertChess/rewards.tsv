@@ -1,0 +1,4 @@
+ID	RewardId	BaseAmount	AmountPerRound	DamageBoost	UsesBoost
+1	RoundHeal	10	2	0	0
+2	Enhance	0	0	1	3
+3	BossClearHeal	30	0	0	0
