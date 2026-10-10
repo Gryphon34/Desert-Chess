@@ -21646,7 +21646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f0748fc7120bf40b24d5580127641d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Study_ActionPlatformer.RoundManager
-  monstersPerRound: 3
+  monstersPerRound: 20
   bossRound: 6
   spawnInterval: 0.4
   spawnPoints:
