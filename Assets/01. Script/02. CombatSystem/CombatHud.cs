@@ -24,16 +24,27 @@ namespace Study_ActionPlatformer
         // 여기서는 아직 옮기지 않은 라운드 배너, 게임 오버 배너, 선택 팝업만 그립니다.
         private bool hasCanvasHud = false;
 
+        // Canvas 흡수 팝업(AbsorptionPopupView)이 있으면 흡수 선택은 그쪽이 맡습니다.
+        private bool hasCanvasAbsorptionPopup = false;
+
         private void Start()
         {
             hasCanvasHud = FindAnyObjectByType<GameHudView>() != null;
+            hasCanvasAbsorptionPopup = FindAnyObjectByType<AbsorptionPopupView>() != null;
+
+            // 이미 구독했다면(Update가 Start보다 먼저 돌 일은 없지만) 해제합니다.
+            if (hasCanvasAbsorptionPopup && subscribedToPlayer && Player.LocalPlayer != null)
+            {
+                Player.LocalPlayer.AbsorptionChoiceRequested -= OnAbsorptionChoiceRequested;
+                subscribedToPlayer = false;
+            }
         }
 
         private void Update()
         {
             // Player/RewardManager가 이 오브젝트보다 늦게 초기화될 수 있으므로
             // 매 프레임 구독 여부를 확인합니다(스크립트 실행 순서 문제 회피).
-            if (subscribedToPlayer == false && Player.LocalPlayer != null)
+            if (subscribedToPlayer == false && hasCanvasAbsorptionPopup == false && Player.LocalPlayer != null)
             {
                 Player.LocalPlayer.AbsorptionChoiceRequested += OnAbsorptionChoiceRequested;
                 subscribedToPlayer = true;
@@ -246,33 +257,58 @@ namespace Study_ActionPlatformer
             AttackInfo dropped = pendingAbsorption.Value;
             bool isMagic = dropped.Category == AttackSlotCategory.Magic;
             string categoryLabel = isMagic ? "마법" : "무기";
+            bool hasEmptySlot = player.HasEmptySlotFor(dropped.Category);
 
             Rect area = new Rect(Screen.width / 2 - 160, Screen.height / 2 - 120, 320, 260);
             GUILayout.BeginArea(area, GUI.skin.box);
 
-            GUILayout.Label($"슬롯이 가득 찼습니다.\n{dropped.Id}({categoryLabel})을(를) 흡수할까요?");
-
-            int slotCount = isMagic ? player.MagicSlotCount : player.WeaponSlotCount;
-            for (int i = 0; i < slotCount; ++i)
+            if (hasEmptySlot)
             {
-                AttackInfo current = isMagic ? player.GetMagicSlot(i) : player.GetWeaponSlot(i);
+                GUILayout.Label($"{dropped.Id}({categoryLabel})을(를) 흡수할까요?");
 
-                if (GUILayout.Button($"{i + 1}번 슬롯 교체 (현재: {current.Id})"))
+                if (GUILayout.Button("흡수"))
                 {
-                    player.ConfirmAbsorption(i);
-                    pendingAbsorption = null;
-                    Time.timeScale = 1f;
+                    player.AcceptAbsorption();
+                    AfterAbsorptionChoice(player);
+                }
+            }
+            else
+            {
+                GUILayout.Label($"슬롯이 가득 찼습니다.\n{dropped.Id}({categoryLabel})을(를) 흡수할까요?");
+
+                int slotCount = isMagic ? player.MagicSlotCount : player.WeaponSlotCount;
+                for (int i = 0; i < slotCount; ++i)
+                {
+                    AttackInfo current = isMagic ? player.GetMagicSlot(i) : player.GetWeaponSlot(i);
+
+                    if (GUILayout.Button($"{i + 1}번 슬롯 교체 (현재: {current.Id})"))
+                    {
+                        player.ConfirmAbsorption(i);
+                        AfterAbsorptionChoice(player);
+                    }
                 }
             }
 
-            if (GUILayout.Button("포기"))
+            if (pendingAbsorption != null && GUILayout.Button("포기"))
             {
                 player.DeclineAbsorption();
-                pendingAbsorption = null;
-                Time.timeScale = 1f;
+                AfterAbsorptionChoice(player);
             }
 
             GUILayout.EndArea();
+        }
+
+        // 한꺼번에 여러 마리가 죽었으면 Player가 다음 선택을 기다리고 있으므로 이어서 보여줍니다.
+        private void AfterAbsorptionChoice(Player player)
+        {
+            if (player.HasPendingAbsorption)
+            {
+                pendingAbsorption = player.PendingAbsorption;
+                return;
+            }
+
+            pendingAbsorption = null;
+            Time.timeScale = 1f;
         }
 
         private void DrawRewardPopup()

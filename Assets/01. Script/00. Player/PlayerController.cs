@@ -47,6 +47,9 @@ namespace Study_ActionPlatformer
         public static readonly int JUMP = Animator.StringToHash("Jump");
         public static readonly int DESCENDING = Animator.StringToHash("Descending");
         public static readonly int IS_FIRE = Animator.StringToHash("IsFire");
+        // 공격 상태의 재생 속도(애니메이터 상태의 Speed Multiplier 파라미터)
+        public static readonly int WEAPON_SPEED = Animator.StringToHash("WeaponSpeed");
+        public static readonly int MAGIC_SPEED = Animator.StringToHash("MagicSpeed");
 
 
         public Animator Animator { get; private set; }
@@ -173,8 +176,11 @@ namespace Study_ActionPlatformer
                 // (예전에는 여기서 한 번, 명중 시 HitBox에서 또 한 번 차감돼서
                 //  5회짜리 마법이 실제로는 2~3회 만에 사라졌습니다)
                 Player player = Player.LocalPlayer;
+                // 발사하면서 횟수가 다 떨어져 슬롯이 비면 Speed가 사라지므로 먼저 읽어 둡니다.
+                float magicSpeed = player != null ? player.GetFinalAnimationSpeed(player.ActiveMagicInfo) : 1f;
                 if (player != null && player.TryFireActiveMagic())
                 {
+                    Animator.SetFloat(MAGIC_SPEED, magicSpeed);
                     Animator.SetBool(IS_FIRE, true);
                 }
             }
@@ -199,7 +205,12 @@ namespace Study_ActionPlatformer
         /// 이 함수는 첫 타와 콤보 입력 양쪽에서 호출되므로 여기 하나만 고치면 됩니다.
         public void BeginWeaponAttack()
         {
-            Player.LocalPlayer?.TryConsumeActiveWeaponUse();
+            Player player = Player.LocalPlayer;
+            player?.TryConsumeActiveWeaponUse();
+
+            // 차감 후의 무기 기준입니다(횟수가 다 떨어졌으면 주먹 속도로 나갑니다).
+            // 콤보 2·3타도 이 함수를 거치므로 단계마다 갱신됩니다.
+            Animator.SetFloat(WEAPON_SPEED, player != null ? player.GetFinalAnimationSpeed(player.ActiveWeaponInfo) : 1f);
             Animator.SetBool(IS_ATTACK, true);
         }
 

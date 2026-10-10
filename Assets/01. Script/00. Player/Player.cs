@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Study_ActionPlatformer
@@ -25,7 +26,7 @@ namespace Study_ActionPlatformer
 
         public override BaseStat BaseStat => Stat;
 
-        private PlayerStat Stat { get; set; }
+        public PlayerStat Stat { get; private set; }
 
         [SerializeField] private AttackInfo[] weaponSlots = new AttackInfo[3];
         [SerializeField] private AttackInfo[] magicSlots = new AttackInfo[3];
@@ -36,9 +37,18 @@ namespace Study_ActionPlatformer
         // HUD가 매 프레임 값을 확인하지 않도록, 체력/슬롯이 바뀔 때마다 알립니다.
         public event Action HpChanged;
         public event Action SlotsChanged;
+        // 발동 중인 계열 시너지가 바뀌었을 때
+        public event Action SynergiesChanged;
 
-        private AttackInfo? pendingAbsorption;
-        private AttackSlotCategory? pendingAbsorptionCategory;
+        // 지금 발동 중인 시너지(synergies.tsv 행)
+        private readonly List<SynergyDef> activeSynergies = new List<SynergyDef>();
+        public IReadOnlyList<SynergyDef> ActiveSynergies => activeSynergies;
+
+        // 흡수 선택을 기다리는 무기들. 한 번에 여러 마리가 죽어도 하나씩 차례로 묻습니다.
+        private readonly Queue<AttackInfo> pendingAbsorptions = new Queue<AttackInfo>();
+
+        public bool HasPendingAbsorption => pendingAbsorptions.Count > 0;
+        public AttackInfo PendingAbsorption => pendingAbsorptions.Peek();
 
         public int ActiveWeaponSlot { get; private set; } = 0;
         public int ActiveMagicSlot { get; private set; } = 0;
@@ -189,109 +199,117 @@ namespace Study_ActionPlatformer
 
         /// <summary>
         /// 몬스터 처치로 무기를 획득했을 때 호출하는 진입점입니다.
-        /// 규칙: 빈 슬롯이 있으면 자동으로 흡수하고, 빈 슬롯이 없으면
-        /// 플레이어의 선택을 기다립니다(AbsorptionChoiceRequested 이벤트 발행).
+        /// 기획서 6-2 : 처치 후 흡수 여부를 선택합니다(빈 슬롯이 있어도 묻습니다).
+        /// 선택은 UI가 AcceptAbsorption / ConfirmAbsorption / DeclineAbsorption으로 알려줍니다.
         /// </summary>
         public void HandleMonsterDrop(AttackInfo droppedWeapon)
         {
             if (droppedWeapon.Key == AttackKey.None) return;
 
-            if (droppedWeapon.Category == AttackSlotCategory.Magic)
+            // 선택 UI가 없으면 선택이 영원히 끝나지 않으므로 예전 규칙(빈 슬롯이면 흡수, 아니면 포기)으로 처리합니다.
+            if (AbsorptionChoiceRequested == null)
             {
-                HandleMagicAbsorption(droppedWeapon);
+                int emptySlot = FindEmptySlot(droppedWeapon.Category);
+                if (emptySlot >= 0) PlaceAbsorbed(droppedWeapon, emptySlot);
                 return;
             }
 
-            HandleWeaponAbsorption(droppedWeapon);
+            pendingAbsorptions.Enqueue(droppedWeapon);
+
+            // 이미 다른 선택을 기다리는 중이면 그 선택이 끝난 뒤 차례로 묻습니다.
+            if (pendingAbsorptions.Count == 1)
+            {
+                AbsorptionChoiceRequested.Invoke(droppedWeapon);
+            }
         }
 
-        private void HandleWeaponAbsorption(AttackInfo droppedWeapon)
+        /// <summary>대기 중인 무기의 카테고리에 빈 슬롯이 있는지(있으면 교체 없이 흡수 가능).</summary>
+        public bool HasEmptySlotFor(AttackSlotCategory category) => FindEmptySlot(category) >= 0;
+
+        /// <summary>
+        /// 흡수 선택 : 빈 슬롯에 넣습니다. 빈 슬롯이 없으면 false(ConfirmAbsorption으로 교체할 슬롯을 골라야 함).
+        /// </summary>
+        public bool AcceptAbsorption()
         {
-            int emptySlotIndex = FindEmptyWeaponSlot();
-            if (emptySlotIndex >= 0)
-            {
-                weaponSlots[emptySlotIndex] = droppedWeapon;
+            if (HasPendingAbsorption == false) return false;
 
-                if (emptySlotIndex == ActiveWeaponSlot)
-                {
-                    attackInfo = droppedWeapon;
-                    SyncActiveWeaponInfoToHitBoxes();
-                }
+            AttackInfo dropped = pendingAbsorptions.Peek();
+            int emptySlot = FindEmptySlot(dropped.Category);
+            if (emptySlot < 0) return false;
 
-                NotifySlotsChanged();
-                MonsterAbsorbed?.Invoke(droppedWeapon);
-                return;
-            }
-
-            pendingAbsorption = droppedWeapon;
-            pendingAbsorptionCategory = AttackSlotCategory.Weapon;
-            AbsorptionChoiceRequested?.Invoke(droppedWeapon);
-        }
-
-        private void HandleMagicAbsorption(AttackInfo droppedWeapon)
-        {
-            int emptySlotIndex = FindEmptyMagicSlot();
-            if (emptySlotIndex >= 0)
-            {
-                magicSlots[emptySlotIndex] = droppedWeapon;
-                if (emptySlotIndex == ActiveMagicSlot)
-                {
-                    SyncActiveMagicInfoToHitBoxes();
-                }
-
-                NotifySlotsChanged();
-                MonsterAbsorbed?.Invoke(droppedWeapon);
-                return;
-            }
-
-            pendingAbsorption = droppedWeapon;
-            pendingAbsorptionCategory = AttackSlotCategory.Magic;
-            AbsorptionChoiceRequested?.Invoke(droppedWeapon);
+            PlaceAbsorbed(dropped, emptySlot);
+            ResolveAbsorption();
+            return true;
         }
 
         /// <summary>
-        /// 빈 슬롯이 없을 때, 플레이어가 교체할 슬롯을 선택하면 UI가 호출합니다.
+        /// 슬롯 가득 참 : 교체할 슬롯을 골랐을 때 UI가 호출합니다.
         /// </summary>
         public void ConfirmAbsorption(int slotIndexToReplace)
         {
-            if (pendingAbsorption == null || pendingAbsorptionCategory == null) return;
+            if (HasPendingAbsorption == false) return;
 
-            AttackInfo dropped = pendingAbsorption.Value;
+            AttackInfo dropped = pendingAbsorptions.Peek();
+            int slotCount = dropped.Category == AttackSlotCategory.Magic ? magicSlots.Length : weaponSlots.Length;
+            if (slotIndexToReplace < 0 || slotIndexToReplace >= slotCount) return;
 
-            if (pendingAbsorptionCategory.Value == AttackSlotCategory.Magic)
+            PlaceAbsorbed(dropped, slotIndexToReplace);
+            ResolveAbsorption();
+        }
+
+        /// <summary>
+        /// 흡수 포기 : 몬스터 처치와 라운드 진행에는 영향이 없습니다.
+        /// </summary>
+        public void DeclineAbsorption()
+        {
+            if (HasPendingAbsorption == false) return;
+            ResolveAbsorption();
+        }
+
+        /// <summary>게임 오버 등으로 대기 중인 흡수 선택을 모두 버립니다.</summary>
+        public void ClearPendingAbsorptions()
+        {
+            pendingAbsorptions.Clear();
+        }
+
+        // 현재 선택을 끝내고, 기다리는 무기가 더 있으면 다음 선택을 요청합니다.
+        private void ResolveAbsorption()
+        {
+            pendingAbsorptions.Dequeue();
+
+            if (pendingAbsorptions.Count > 0)
             {
-                if (slotIndexToReplace < 0 || slotIndexToReplace >= magicSlots.Length) return;
-                magicSlots[slotIndexToReplace] = dropped;
-                if (slotIndexToReplace == ActiveMagicSlot)
+                AbsorptionChoiceRequested?.Invoke(pendingAbsorptions.Peek());
+            }
+        }
+
+        private void PlaceAbsorbed(AttackInfo dropped, int slotIndex)
+        {
+            if (dropped.Category == AttackSlotCategory.Magic)
+            {
+                magicSlots[slotIndex] = dropped;
+                if (slotIndex == ActiveMagicSlot)
                 {
                     SyncActiveMagicInfoToHitBoxes();
                 }
             }
             else
             {
-                if (slotIndexToReplace < 0 || slotIndexToReplace >= weaponSlots.Length) return;
-                weaponSlots[slotIndexToReplace] = dropped;
-
-                if (slotIndexToReplace == ActiveWeaponSlot)
+                weaponSlots[slotIndex] = dropped;
+                if (slotIndex == ActiveWeaponSlot)
                 {
                     attackInfo = dropped;
                     SyncActiveWeaponInfoToHitBoxes();
                 }
             }
 
-            pendingAbsorption = null;
-            pendingAbsorptionCategory = null;
             NotifySlotsChanged();
             MonsterAbsorbed?.Invoke(dropped);
         }
 
-        /// <summary>
-        /// 빈 슬롯이 없을 때, 플레이어가 흡수를 포기하면 UI가 호출합니다.
-        /// </summary>
-        public void DeclineAbsorption()
+        private int FindEmptySlot(AttackSlotCategory category)
         {
-            pendingAbsorption = null;
-            pendingAbsorptionCategory = null;
+            return category == AttackSlotCategory.Magic ? FindEmptyMagicSlot() : FindEmptyWeaponSlot();
         }
 
         private int FindEmptyWeaponSlot()
@@ -388,6 +406,17 @@ namespace Study_ActionPlatformer
         public int MagicSlotCount => magicSlots.Length;
 
         public AttackInfo GetWeaponSlot(int index) => weaponSlots[index];
+
+        /// <summary>
+        /// 무기 공속(Speed)에 플레이어 공속 보정을 적용한 공격 애니메이션 배속.
+        /// </summary>
+        public float GetFinalAnimationSpeed(AttackInfo info)
+        {
+            if (info.Speed <= 0) return 1f;
+
+            float speed = Stat != null ? Stat.GetFinal(StatType.AttackSpeed, (float)info.Speed) : info.Speed;
+            return AttackInfo.ToAnimationSpeed(speed);
+        }
         public AttackInfo GetMagicSlot(int index) => magicSlots[index];
 
         /// <summary>
@@ -512,7 +541,57 @@ namespace Study_ActionPlatformer
 
         private void NotifySlotsChanged()
         {
+            UpdateSynergies();
             SlotsChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// 계열 시너지 : 무기 · 마법 슬롯의 계열별 개수를 세어, 조건을 채운 시너지의 보정을 붙이고
+        /// 조건이 깨진 시너지의 보정은 뗍니다. 슬롯이 바뀔 때마다(NotifySlotsChanged) 호출됩니다.
+        /// </summary>
+        private void UpdateSynergies()
+        {
+            if (Stat == null || GameManager.Instance == null) return;
+
+            Dictionary<WeaponFamily, int> counts = new Dictionary<WeaponFamily, int>();
+            CountFamilies(weaponSlots, counts);
+            CountFamilies(magicSlots, counts);
+
+            bool changed = false;
+            foreach (SynergyDef synergy in GameManager.Instance.SynergyTable.Defs)
+            {
+                counts.TryGetValue(synergy.Family, out int count);
+                bool shouldBeActive = count >= synergy.Count;
+                bool isActive = activeSynergies.Contains(synergy);
+
+                if (shouldBeActive && isActive == false)
+                {
+                    Stat.AddModifier(new StatModifier(synergy.StatType, synergy.Op, synergy.Value, synergy.Source));
+                    activeSynergies.Add(synergy);
+                    changed = true;
+                }
+                else if (shouldBeActive == false && isActive)
+                {
+                    Stat.RemoveModifiersFrom(synergy.Source);
+                    activeSynergies.Remove(synergy);
+                    changed = true;
+                }
+            }
+
+            if (changed) SynergiesChanged?.Invoke();
+        }
+
+        private static void CountFamilies(AttackInfo[] slots, Dictionary<WeaponFamily, int> counts)
+        {
+            foreach (AttackInfo info in slots)
+            {
+                if (info.IsEmpty) continue;
+                if (GameManager.Instance.AttackTable.TryGet(info.Id, out AttackDef def) == false) continue;
+                if (def.Family == WeaponFamily.None) continue;
+
+                counts.TryGetValue(def.Family, out int count);
+                counts[def.Family] = count + 1;
+            }
         }
     }
 

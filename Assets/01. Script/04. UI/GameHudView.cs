@@ -67,6 +67,9 @@ namespace Study_ActionPlatformer
         {
             if (hpFill != null) hpFillFullWidth = hpFill.sizeDelta.x;
             if (mapOverlayPanel != null) mapOverlayPanel.SetActive(false);
+
+            // 흡수 선택 팝업은 이 Canvas 아래에 코드로 만듭니다(프리팹 수정 없이 동작).
+            if (GetComponent<AbsorptionPopupView>() == null) gameObject.AddComponent<AbsorptionPopupView>();
         }
 
         private void OnEnable()

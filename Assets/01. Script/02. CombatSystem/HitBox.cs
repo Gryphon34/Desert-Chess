@@ -20,14 +20,71 @@ namespace Study_ActionPlatformer
 
         [SerializeField] private float damageMultiplier = 1.0f;
 
+        // 기획서 5-3 범위 : Range 1 = 히트박스 가로 1유닛.
+        // 이 히트박스의 가로 = Range × rangeWidthRatio (유닛). 0이면 크기를 바꾸지 않습니다(적 히트박스 등).
+        // 콤보 단계마다 크기 차이를 두려면 비율을 다르게 줍니다(1타 = 1).
+        [SerializeField] private float rangeWidthRatio = 0f;
+        // true : 뒤쪽 끝을 고정하고 앞으로만 늘림 / false : 가운데를 기준으로 양쪽으로 늘림
+        [SerializeField] private bool growForward = true;
+
+        private BoxCollider2D box;
+        private Vector2 originalSize;
+        private Vector2 originalOffset;
+
         public void SetAttackInfo(AttackInfo info)
         {
             AttackInfo = info;
+            ApplyRange();
+        }
+
+        private void ApplyRange()
+        {
+            if (rangeWidthRatio <= 0f) return;
+
+            // 히트박스는 평소 꺼져 있어 Awake 전에 여기로 올 수 있으므로 처음 쓸 때 원래 크기를 기억합니다.
+            if (box == null)
+            {
+                box = GetComponent<BoxCollider2D>();
+                if (box == null) return;
+                originalSize = box.size;
+                originalOffset = box.offset;
+            }
+
+            int range = AttackInfo.Range;
+            if (range <= 0)
+            {
+                box.size = originalSize;
+                box.offset = originalOffset;
+                return;
+            }
+
+            // 플레이어 범위 보정(시너지 · 보상 · 보스 스킬)
+            float finalRange = range;
+            if (GetComponentInParent<Player>() is Player player && player.Stat != null)
+            {
+                finalRange = player.Stat.GetFinal(StatType.Range, (float)range);
+            }
+
+            // 좌우 반전(스케일 -1)과 상관없이 실제 가로 길이로 계산합니다.
+            float scaleX = Mathf.Abs(transform.lossyScale.x);
+            if (scaleX <= 0f) return;
+
+            float width = finalRange * rangeWidthRatio / scaleX;
+            float grow = growForward ? (width - originalSize.x) * 0.5f : 0f;
+
+            box.size = new Vector2(width, originalSize.y);
+            box.offset = new Vector2(originalOffset.x + grow, originalOffset.y);
         }
 
         private int RollFinalDamage()
         {
             int baseDamage = AttackInfo.RollDamage();
+
+            // 플레이어 공격력 보정(시너지 · 보상 · 보스 스킬)은 여기 한 곳에서만 적용합니다.
+            if (Owner is Player player && player.Stat != null)
+            {
+                baseDamage = player.Stat.GetFinal(StatType.Attack, baseDamage);
+            }
 
             // "맞았는데 0 데미지"는 버그처럼 보이므로 최소 1을 보장합니다.
             return Mathf.Max(1, Mathf.RoundToInt(baseDamage * damageMultiplier));
@@ -57,6 +114,9 @@ namespace Study_ActionPlatformer
         {
             // 히트박스가 다시 켜질때 (재사용 될때 checkList를 비워준다)
             checkList.Clear();
+
+            // 휘두를 때마다 다시 맞춰서, 무기 교체 이후에 붙은 범위 보정도 반영합니다.
+            ApplyRange();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

@@ -578,7 +578,7 @@ namespace Study_ActionPlatformer
             Enemy enemy = GetComponent<Enemy>();
             if (Player.LocalPlayer != null && enemy != null)
             {
-                // 규칙: 빈 슬롯이 있으면 자동 흡수, 없으면 플레이어의 선택을 기다린다.
+                // 기획서 6-2 : 처치 후 흡수 여부를 플레이어가 선택한다(Player가 선택 UI에 요청).
                 Player.LocalPlayer.HandleMonsterDrop(enemy.DroppedWeaponInfo);
 
                 if (chargeMinionAmount > 0)

@@ -7,6 +7,9 @@ namespace Study_ActionPlatformer
 {
     public class RoundManager : MonoBehaviour
     {
+        // 라운드별 몬스터 수 · 구성은 rounds.tsv(GameManager.RoundTable)에서 읽습니다.
+        // monstersPerRound는 표에 해당 라운드가 없을 때만 쓰고,
+        // enemyPrefabs는 표의 Enemies 이름을 찾는 목록입니다(표가 없으면 전체에서 랜덤).
         [SerializeField] private int monstersPerRound = 20;
         [SerializeField] private int bossRound = 6;
         [SerializeField] private float spawnInterval = 0.4f;
@@ -28,6 +31,10 @@ namespace Study_ActionPlatformer
         private bool roundCompleted = false;
         private int defeatedThisRound = 0;
 
+        // 현재 라운드에 적용된 몬스터 수와 스폰 후보(BeginRound에서 정해집니다)
+        private int currentMonsterCount;
+        private readonly List<Enemy> currentEnemyPrefabs = new List<Enemy>();
+
         // HUD가 라운드 번호를 매 프레임 비교하지 않도록 라운드 진행을 이벤트로 알립니다.
         public event Action<int> RoundStarted;
         public event Action<int> RoundCleared;
@@ -41,7 +48,7 @@ namespace Study_ActionPlatformer
         private readonly List<WeaponId> encounteredWeaponIds = new List<WeaponId>();
 
         public int CurrentRound => currentRound;
-        public int MonstersPerRound => monstersPerRound;
+        public int MonstersPerRound => currentMonsterCount > 0 ? currentMonsterCount : monstersPerRound;
         public bool IsBossRound => currentRound >= bossRound;
         public Boss CurrentBoss => currentBoss;
         public int DefeatedThisRound => defeatedThisRound;
@@ -62,6 +69,8 @@ namespace Study_ActionPlatformer
             aliveEnemies.Clear();
             currentBoss = null;
 
+            ApplyRoundDef(roundIndex);
+
             // 1라운드(=새 게임 시작)일 때만 초기화합니다. 2~6라운드로 이어질 때는
             // 이전 라운드들의 기록을 계속 누적해야 보스가 "이 판 전체에서 만난 몬스터"를
             // 반영합니다.
@@ -71,7 +80,7 @@ namespace Study_ActionPlatformer
             }
 
             RoundStarted?.Invoke(currentRound);
-            KillProgressChanged?.Invoke(defeatedThisRound, monstersPerRound);
+            KillProgressChanged?.Invoke(defeatedThisRound, MonstersPerRound);
 
             StartCoroutine(SpawnRoundCoroutine());
         }
@@ -99,7 +108,7 @@ namespace Study_ActionPlatformer
             if (enemy != null && aliveEnemies.Remove(enemy))
             {
                 defeatedThisRound += 1;
-                KillProgressChanged?.Invoke(defeatedThisRound, monstersPerRound);
+                KillProgressChanged?.Invoke(defeatedThisRound, MonstersPerRound);
             }
 
             EvaluateRoundState();
@@ -137,7 +146,7 @@ namespace Study_ActionPlatformer
                 yield break;
             }
 
-            while (spawnedThisRound < monstersPerRound)
+            while (spawnedThisRound < MonstersPerRound)
             {
                 SpawnEnemy();
                 spawnedThisRound += 1;
@@ -150,13 +159,13 @@ namespace Study_ActionPlatformer
 
         private void SpawnEnemy()
         {
-            if (enemyPrefabs == null || enemyPrefabs.Length == 0)
+            if (currentEnemyPrefabs.Count == 0)
                 return;
 
             if (TryGetEnemySpawnPosition(out Vector3 spawnPosition) == false)
                 return;
 
-            Enemy prefab = enemyPrefabs[UnityEngine.Random.Range(0, enemyPrefabs.Length)];
+            Enemy prefab = currentEnemyPrefabs[UnityEngine.Random.Range(0, currentEnemyPrefabs.Count)];
             Enemy enemy = Instantiate(prefab, spawnPosition, Quaternion.identity);
 
             EnemyController controller = enemy.GetComponent<EnemyController>();
@@ -174,6 +183,49 @@ namespace Study_ActionPlatformer
             }
 
             aliveEnemies.Add(enemy);
+        }
+
+        // rounds.tsv의 해당 라운드 행으로 몬스터 수와 스폰 후보를 정합니다.
+        // 행이 없거나 이름이 하나도 맞지 않으면 인스펙터 값(monstersPerRound, enemyPrefabs 전체)을 씁니다.
+        private void ApplyRoundDef(int roundIndex)
+        {
+            currentMonsterCount = monstersPerRound;
+            currentEnemyPrefabs.Clear();
+
+            if (enemyPrefabs != null)
+            {
+                currentEnemyPrefabs.AddRange(enemyPrefabs);
+            }
+
+            // 보스 라운드는 보스만 스폰하므로 표를 보지 않습니다.
+            if (roundIndex >= bossRound)
+                return;
+
+            if (GameManager.Instance.RoundTable.TryGet(roundIndex, out RoundDef def) == false)
+            {
+                Debug.LogWarning($"RoundManager ::: rounds.tsv에 {roundIndex}라운드가 없어 인스펙터 값으로 진행합니다.");
+                return;
+            }
+
+            currentMonsterCount = def.MonsterCount;
+
+            List<Enemy> matched = new List<Enemy>();
+            foreach (string enemyName in def.EnemyNames)
+            {
+                Enemy prefab = System.Array.Find(enemyPrefabs ?? new Enemy[0], e => e != null && e.name == enemyName);
+                if (prefab == null)
+                {
+                    Debug.LogWarning($"RoundManager ::: rounds.tsv {roundIndex}라운드의 '{enemyName}'이(가) Enemy Prefabs에 없습니다.");
+                    continue;
+                }
+                matched.Add(prefab);
+            }
+
+            if (matched.Count > 0)
+            {
+                currentEnemyPrefabs.Clear();
+                currentEnemyPrefabs.AddRange(matched);
+            }
         }
 
         private void SpawnBoss()
@@ -217,7 +269,7 @@ namespace Study_ActionPlatformer
 
             aliveEnemies.RemoveAll(enemy => enemy == null);
 
-            if (aliveEnemies.Count == 0 && spawnedThisRound >= monstersPerRound)
+            if (aliveEnemies.Count == 0 && spawnedThisRound >= MonstersPerRound)
             {
                 roundCompleted = true;
                 RoundCleared?.Invoke(currentRound);
